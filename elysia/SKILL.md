@@ -22,6 +22,10 @@ Trigger this skill when the user asks to:
 - Setup WebSocket endpoints for real-time features
 - Create unit tests for Elysia instances
 - Deploy Elysia servers to production
+- Migrate from Express, Fastify, Hono, or tRPC to Elysia
+- Configure advanced server options (TLS, adapters, performance tuning)
+- Extend context with state, decorate, derive, resolve
+- Monitor performance with .trace() lifecycle instrumentation
 
 ## Quick Start
 Quick scaffold:
@@ -402,6 +406,67 @@ The following are technical terms that is use for Elysia:
 - `OpenAPI Type Gen` - function name `fromTypes` from `@elysiajs/openapi` for generating OpenAPI from types, see `plugins/openapi.md`
 - `Eden`, `Eden Treaty` - e2e type safe RPC client for share type from backend to frontend
 
+## Advanced Patterns (from source analysis)
+
+These patterns are derived from analyzing the `elysiajs/elysia` core repository source code.
+
+### Adapter Architecture
+
+Elysia uses an `ElysiaAdapter` interface (`src/adapter/types.ts`) to abstract runtime differences. Each adapter implements `listen`, `stop`, and handler mapping (mapResponse, mapEarlyResponse, mapCompactResponse, createStaticHandler). The three built-in adapters are:
+
+- **BunAdapter** (`src/adapter/bun/`) - Default, optimized for Bun with native static handler support
+- **WebStandardAdapter** (`src/adapter/web-standard/`) - WinterTC-compliant for Deno and Node.js
+- **Cloudflare Worker** (`src/adapter/cloudflare-worker/`) - Edge runtime adapter
+
+Select an adapter via:
+```ts
+import { node } from '@elysiajs/node'
+new Elysia({ adapter: node() })
+```
+
+### Lifecycle Hook Execution Order
+
+The handler compiler (`src/compose.ts`) builds optimized handler functions that execute lifecycle hooks in this exact order:
+
+1. **onRequest** - Before anything, raw request access
+2. **parse** - Body parsing (JSON, text, urlencoded, formdata, arrayBuffer)
+3. **transform** - Mutate context before validation
+4. **beforeHandle** - Pre-handler logic (auth, guards); can short-circuit with early return
+5. **handle** - The main route handler
+6. **afterHandle** - Post-handler processing; can modify the response
+7. **mapResponse** - Transform the final response object
+8. **afterResponse** - Cleanup after response is sent (logging, metrics)
+9. **onError** - Catches errors from any phase above
+
+Each hook can be `async` or a generator. The compiler detects this and wraps appropriately.
+
+### Sucrose: Static Analysis Engine
+
+Elysia's `Sucrose` module (`src/sucrose.ts`) performs static analysis on handler function source code at compile time. It parses the stringified function body to detect which Context properties are actually used (query, headers, body, cookie, set, server, route, url, path). This enables:
+
+- **Dead code elimination** - Only inject what the handler needs
+- **Faster cold starts** - Skip parsing body if handler never accesses `body`
+- **Automatic optimization** - No manual configuration needed
+
+This is why Elysia requires inline handler functions for best performance: it analyzes the function text.
+
+### Compiled Handler Generation
+
+The `composeHandler` function in `src/compose.ts` generates optimized JavaScript code as string literals (`fnLiteral`) then evaluates them. This JIT-style compilation means:
+
+- Each route gets a custom-tailored handler function
+- Validation, parsing, and hooks are inlined where possible
+- No runtime branching for features the route does not use
+
+### Trace System Internals
+
+The trace system (`src/trace.ts`) defines `TraceEvent` types matching every lifecycle phase: `request`, `parse`, `transform`, `beforeHandle`, `handle`, `afterHandle`, `mapResponse`, `afterResponse`, `error`. Each trace event provides:
+
+- `begin` / `end` timestamps (from server start)
+- `elapsed` duration
+- `error` if thrown in that phase
+- Child resolution for nested hooks via `resolveChild`
+
 ## Resources
 Use the following references as needed.
 
@@ -453,6 +518,7 @@ Guide to integrate Elysia with external library/runtime:
 - `react-email.d` - Create and Send Email with React and Elysia
 - `sveltekit.md` - Run Elysia on Svelte Kit API route
 - `tanstack-start.md` - Run Elysia on Tanstack Start / React Query
+- `netlify.md` - Elysia on Netlify Edge Functions
 - `vercel.md` - Deploy Elysia to Vercel
 
 ### examples/ (optional)
@@ -471,5 +537,19 @@ Guide to integrate Elysia with external library/runtime:
 - `upload-file.ts` - File upload with validation
 - `websocket.ts` - Web Socket for realtime communication
 
-### patterns/ (optional)
+### patterns/
 - `patterns/mvc.md` - Detail guideline for using Elysia with MVC patterns
+- `patterns/configuration.md` - Elysia constructor configuration options (25+ options including serve, TLS, adapter)
+- `patterns/extends-context.md` - Core APIs for extending Context: state, decorate, derive, resolve, affix
+- `patterns/error-handling.md` - Advanced error handling: custom error classes, validation messages, production safety
+- `patterns/trace.md` - Performance monitoring with .trace(), lifecycle event injection
+- `patterns/typebox.md` - Complete TypeBox type reference including Elysia-specific types (File, Cookie, Nullable, Form, Numeric)
+- `patterns/typescript.md` - TypeScript performance optimization, type inference, schema-to-type conversion
+- `patterns/mount.md` - WinterTC framework interop, mounting Hono/Next.js/Nuxt/SvelteKit
+
+### migrations/
+Guide to migrate from other frameworks to Elysia:
+- `migrations/from-express.md` - Migrate from Express to Elysia (15+ topic comparisons)
+- `migrations/from-fastify.md` - Migrate from Fastify to Elysia
+- `migrations/from-hono.md` - Migrate from Hono to Elysia
+- `migrations/from-trpc.md` - Migrate from tRPC to Elysia
