@@ -578,7 +578,7 @@ Guide to integrate Elysia with external library/runtime:
 - `nodejs.md` - Run Elysia on Node.js
 - `nuxt.md` - Elysia on API route
 - `prisma.md` - Integrate Elysia with Prisma
-- `react-email.d` - Create and Send Email with React and Elysia
+- `react-email.md` - Create and Send Email with React and Elysia
 - `sveltekit.md` - Run Elysia on Svelte Kit API route
 - `tanstack-start.md` - Run Elysia on Tanstack Start / React Query
 - `netlify.md` - Elysia on Netlify Edge Functions
