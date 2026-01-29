@@ -535,6 +535,26 @@ It's recommended to checkout `route.md` for as it contains the most important fo
 
 `plugin.md` and `validation.md` is important as well but can be check as needed.
 
+### Recommended Reading Order
+
+**Tier 1 - Foundation (start here):**
+1. `references/route.md` - Routing, Handler, Context (core building blocks)
+2. `references/validation.md` - Input/output validation rules
+3. `references/lifecycle.md` - Request lifecycle pipeline
+4. `references/plugin.md` - Plugin system and modularity
+
+**Tier 2 - Core Patterns:**
+5. `patterns/extends-context.md` - Context extension APIs (state, decorate, derive, resolve)
+6. `patterns/error-handling.md` - Error management and custom error classes
+7. `references/eden.md` - End-to-end type-safe client
+8. `patterns/mvc.md` - Project architecture patterns
+
+**Tier 3 - Advanced:**
+9. `references/macro.md` - Composable schema/lifecycle patterns
+10. `patterns/configuration.md` - Server configuration (25+ options)
+11. `patterns/trace.md` - Performance monitoring
+12. `references/cheat-sheet.md` - Quick reference by example
+
 ### references/
 Detailed documentation split by topic:
 - `bun-fullstack-dev-server.md` - Bun Fullstack Dev Server with HMR. React without bundler.
