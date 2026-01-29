@@ -6,7 +6,7 @@ Agent skills for Claude Code by [Sky Flux](https://github.com/sky-flux).
 
 | Skill | Description |
 |-------|-------------|
-| [elysia](./skills/elysia/) | One-stop ElysiaJS skills covering full website, all blog posts, and all GitHub repository insights |
+| [elysiajs](./skills/elysiajs/) | One-stop ElysiaJS skills covering full website, all blog posts, and all GitHub repository insights |
 
 ## Usage
 
