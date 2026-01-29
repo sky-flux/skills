@@ -569,6 +569,7 @@ Detailed documentation split by topic:
 - `validation.md` - Setup input/output validation and list of all custom validation rules
 - `websocket.md` - Real-time features
 - `cheat-sheet.md` - Elysia by example quick reference
+- `references/comparison.md` - Framework comparison overview
 
 ### plugins/
 Detailed documentation, usage and configuration reference for official Elysia plugin:
@@ -584,6 +585,7 @@ Detailed documentation, usage and configuration reference for official Elysia pl
 - `opentelemetry.md` - OpenTelemetry, instrumentation, and record span utilities (`@elysiajs/opentelemetry`)
 - `server-timing.md` - Server Timing metric for debug (`@elysiajs/server-timing`) 
 - `static.md` - Serve static files/folders for Elysia Server (`@elysiajs/static`)
+- `plugins/swagger.md` - Legacy Swagger plugin (deprecated, use OpenAPI)
 
 ### integrations/
 Guide to integrate Elysia with external library/runtime:
@@ -615,6 +617,41 @@ Comprehensive Eden client documentation:
 - `eden/treaty-websocket.md` - WebSocket with Treaty
 - `eden/treaty-config.md` - Configuration, hooks, custom fetch
 - `eden/treaty-unit-test.md` - Zero-overhead testing with Treaty
+- `eden/treaty-legacy.md` - Treaty v1 legacy API and migration guide
+
+### getting-started/
+Framework introduction and onboarding:
+- `getting-started/at-glance.md` - Framework overview with benchmarks and core features
+- `getting-started/quick-start.md` - Installation and first server setup
+- `getting-started/key-concept.md` - Core concepts (encapsulation, chaining, dependencies)
+
+### essential/
+Core framework fundamentals:
+- `essential/handler.md` - Handler patterns and full Context API
+- `essential/best-practice.md` - Project structure, MVC pattern, best practices
+
+### tutorials/
+Step-by-step learning path (consolidated from 20 website pages):
+- `tutorials/introduction.md` - Tutorial overview and learning path
+- `tutorials/getting-started.md` - First route through guards (8 topics)
+- `tutorials/patterns.md` - Cookie, error handling, macros (6 topics)
+- `tutorials/features.md` - Mount, OpenAPI, E2E type safety, testing (4 topics)
+- `tutorials/playground.md` - Interactive playground guide
+
+### blog/
+Version history and feature evolution:
+- `blog/releases-v1.md` - v1.0 through v1.4 release highlights and API changes
+- `blog/releases-v0.md` - v0.2 through v0.8 release highlights
+- `blog/guides.md` - Prisma and Supabase integration guides
+- `blog/benchmarks.md` - Performance benchmarks and OpenAPI Type Gen
+
+### source-insights/
+Architecture and source code analysis from all GitHub repos:
+- `source-insights/core-architecture.md` - Elysia core internals (Sucrose, JIT, adapters)
+- `source-insights/eden-internals.md` - Eden client proxy and type propagation
+- `source-insights/plugin-ecosystem.md` - Plugin development patterns (14 plugins analyzed)
+- `source-insights/tooling.md` - elf, publisher, json-accelerator, exact-mirror, sirine, node adapter
+- `source-insights/community.md` - Curated community resources from awesome-elysia
 
 ### examples/ (optional)
 - `basic.ts` - Basic Elysia example
@@ -642,6 +679,13 @@ Comprehensive Eden client documentation:
 - `patterns/typescript.md` - TypeScript performance optimization, type inference, schema-to-type conversion
 - `patterns/mount.md` - WinterTC framework interop, mounting Hono/Next.js/Nuxt/SvelteKit
 - `patterns/standalone-schema.md` - Standalone schema definition and cross-route reuse
+- `patterns/cookie.md` - Reactive cookie patterns and signed cookies
+- `patterns/deploy.md` - Production deployment with Docker and Bun compile
+- `patterns/fullstack-dev-server.md` - Bun fullstack dev server with HMR
+- `patterns/macro-patterns.md` - Macro usage patterns and composition
+- `patterns/openapi-patterns.md` - OpenAPI generation and documentation patterns
+- `patterns/unit-test.md` - Testing patterns and strategies
+- `patterns/websocket.md` - WebSocket patterns and configuration
 
 ### migrations/
 Guide to migrate from other frameworks to Elysia:
