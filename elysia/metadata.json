@@ -1,7 +1,9 @@
 {
-  "version": "2.0.0",
-  "organization": "ElysiaJS (Enhanced)",
+  "version": "3.0.0",
+  "organization": "Sky Flux",
   "date": "29 Jan 2026",
-  "abstract": "Enhanced ElysiaJS skills with comprehensive patterns, migration guides, and source code insights.",
-  "references": ["https://elysiajs.com/llms.txt"]
+  "abstract": "Sky Flux ElysiaJS skills with comprehensive patterns, migration guides, and source code insights.",
+  "references": ["https://elysiajs.com/llms.txt"],
+  "tags": ["elysiajs", "bun", "typescript", "backend", "api", "type-safe"],
+  "elysiaVersion": ">=1.2"
 }

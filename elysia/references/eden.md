@@ -1,6 +1,17 @@
 # Eden Treaty
 e2e type safe RPC client for share type from backend to frontend.
 
+> **Detailed Documentation:** For comprehensive Eden coverage, see the dedicated `eden/` directory:
+> - `eden/overview.md` - Eden ecosystem overview
+> - `eden/installation.md` - Installation and setup
+> - `eden/fetch.md` - Eden Fetch API
+> - `eden/treaty-overview.md` - Treaty overview
+> - `eden/treaty-parameters.md` - Treaty parameters
+> - `eden/treaty-response.md` - Treaty response handling
+> - `eden/treaty-websocket.md` - Treaty WebSocket
+> - `eden/treaty-config.md` - Treaty configuration
+> - `eden/treaty-unit-test.md` - Treaty unit testing
+
 ## What It Is
 Type-safe object representation for Elysia server. Auto-completion + error handling.
 

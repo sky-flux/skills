@@ -192,6 +192,20 @@ import { z } from 'zod'
 })
 ```
 
+### Valibot
+```typescript
+// Valibot
+import * as v from 'valibot'
+
+.post('/user', ({ body }) => body, {
+  body: v.object({
+    name: v.string(),
+    age: v.pipe(v.number(), v.minValue(0)),
+    email: v.pipe(v.string(), v.email())
+  })
+})
+```
+
 ## Error Handling
 
 ```typescript
@@ -203,6 +217,26 @@ import { z } from 'zod'
   }
   
   return user
+})
+```
+
+## Streaming & Server-Sent Events
+
+### Stream Response
+```typescript
+.get('/stream', function* () {
+  yield 'Hello '
+  yield 'World'
+})
+```
+
+### Server-Sent Events (SSE)
+```typescript
+.get('/sse', async function* () {
+  while (true) {
+    yield { data: JSON.stringify({ time: Date.now() }) }
+    await Bun.sleep(1000)
+  }
 })
 ```
 
@@ -229,6 +263,23 @@ import { z } from 'zod'
 })
 .get('/', () => 'hi', { hi: 'Elysia' })
 ```
+
+### Authentication Macro
+```typescript
+// Authentication macro
+.macro({
+  isAuth: (enabled: boolean) => enabled ? {
+    resolve: async ({ cookie: { token }, status }) => {
+      const user = await verifyToken(token.value)
+      if (!user) return status(401, 'Unauthorized')
+      return { user }
+    }
+  } : {}
+})
+.get('/profile', ({ user }) => user, { isAuth: true })
+```
+
+See `references/macro.md` for complete macro patterns including RBAC and rate-limiting.
 
 ### Project Structure (Recommended)
 Elysia takes an unopinionated approach but based on user request. But without any specific preference, we recommend a feature-based and domain driven folder structure where each feature has its own folder containing controllers, services, and models.
@@ -467,12 +518,42 @@ The trace system (`src/trace.ts`) defines `TraceEvent` types matching every life
 - `error` if thrown in that phase
 - Child resolution for nested hooks via `resolveChild`
 
+## Type Soundness
+
+Elysia provides **sound types** — the TypeScript types accurately reflect all possible runtime outcomes.
+
+A single schema definition serves as **Single Source of Truth** for:
+- **Runtime validation** - request/response data checked at runtime
+- **Data coercion** - automatic type conversion (string to number)
+- **TypeScript types** - compile-time type inference
+- **OpenAPI schema** - auto-generated API documentation
+
 ## Resources
 Use the following references as needed.
 
 It's recommended to checkout `route.md` for as it contains the most important foundation building blocks with examples.
 
 `plugin.md` and `validation.md` is important as well but can be check as needed.
+
+### Recommended Reading Order
+
+**Tier 1 - Foundation (start here):**
+1. `references/route.md` - Routing, Handler, Context (core building blocks)
+2. `references/validation.md` - Input/output validation rules
+3. `references/lifecycle.md` - Request lifecycle pipeline
+4. `references/plugin.md` - Plugin system and modularity
+
+**Tier 2 - Core Patterns:**
+5. `patterns/extends-context.md` - Context extension APIs (state, decorate, derive, resolve)
+6. `patterns/error-handling.md` - Error management and custom error classes
+7. `references/eden.md` - End-to-end type-safe client
+8. `patterns/mvc.md` - Project architecture patterns
+
+**Tier 3 - Advanced:**
+9. `references/macro.md` - Composable schema/lifecycle patterns
+10. `patterns/configuration.md` - Server configuration (25+ options)
+11. `patterns/trace.md` - Performance monitoring
+12. `references/cheat-sheet.md` - Quick reference by example
 
 ### references/
 Detailed documentation split by topic:
@@ -487,9 +568,11 @@ Detailed documentation split by topic:
 - `testing.md` - Unit tests with examples
 - `validation.md` - Setup input/output validation and list of all custom validation rules
 - `websocket.md` - Real-time features
+- `cheat-sheet.md` - Elysia by example quick reference
 
-### plugins/ 
+### plugins/
 Detailed documentation, usage and configuration reference for official Elysia plugin:
+- `overview.md` - Plugin system overview and official plugin list
 - `bearer.md` - Add bearer capability to Elysia (`@elysiajs/bearer`)
 - `cors.md` - Out of box configuration for CORS (`@elysiajs/cors`)
 - `cron.md` - Run cron job with access to Elysia context (`@elysiajs/cron`)
@@ -515,11 +598,23 @@ Guide to integrate Elysia with external library/runtime:
 - `nodejs.md` - Run Elysia on Node.js
 - `nuxt.md` - Elysia on API route
 - `prisma.md` - Integrate Elysia with Prisma
-- `react-email.d` - Create and Send Email with React and Elysia
+- `react-email.md` - Create and Send Email with React and Elysia
 - `sveltekit.md` - Run Elysia on Svelte Kit API route
 - `tanstack-start.md` - Run Elysia on Tanstack Start / React Query
 - `netlify.md` - Elysia on Netlify Edge Functions
 - `vercel.md` - Deploy Elysia to Vercel
+
+### eden/
+Comprehensive Eden client documentation:
+- `eden/overview.md` - Eden ecosystem overview (Treaty vs Fetch)
+- `eden/installation.md` - Installation, type export, gotchas
+- `eden/fetch.md` - Eden Fetch low-level API
+- `eden/treaty-overview.md` - Treaty initialization and syntax
+- `eden/treaty-parameters.md` - Body, headers, query parameters
+- `eden/treaty-response.md` - Response handling and type narrowing
+- `eden/treaty-websocket.md` - WebSocket with Treaty
+- `eden/treaty-config.md` - Configuration, hooks, custom fetch
+- `eden/treaty-unit-test.md` - Zero-overhead testing with Treaty
 
 ### examples/ (optional)
 - `basic.ts` - Basic Elysia example
@@ -546,6 +641,7 @@ Guide to integrate Elysia with external library/runtime:
 - `patterns/typebox.md` - Complete TypeBox type reference including Elysia-specific types (File, Cookie, Nullable, Form, Numeric)
 - `patterns/typescript.md` - TypeScript performance optimization, type inference, schema-to-type conversion
 - `patterns/mount.md` - WinterTC framework interop, mounting Hono/Next.js/Nuxt/SvelteKit
+- `patterns/standalone-schema.md` - Standalone schema definition and cross-route reuse
 
 ### migrations/
 Guide to migrate from other frameworks to Elysia:
