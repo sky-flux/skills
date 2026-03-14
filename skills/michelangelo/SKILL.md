@@ -23,8 +23,70 @@ Two modes, one design philosophy. Master the design principles before writing a 
 | User says | Mode |
 |-----------|------|
 | "make a prototype" / "preview" / "show me" / "quick look" | **Mode B: HTML Prototype** |
-| "generate React project" / "shadcn" / "Tailwind" / "write code" / "real project" | **Mode A: React + Tailwind + shadcn** |
+| "generate React project" / "shadcn" / "Tailwind" / "write code" / "real project" | **Mode A: React + Tailwind + shadcn + Visual Validation** |
 | Ambiguous | Default to **Mode B**, then prompt whether to generate Mode A after completion |
+
+**Mode A and Mode B both include a visual validation loop**: after generating code, use Playwright MCP to screenshot → review → iterate until the result looks right. This is what makes Michelangelo surpass design tools like pencil.dev — direct code output with a visual feedback loop, no intermediate file format.
+
+---
+
+## Step 0.5: Playwright MCP Detection
+
+Before any visual validation, check if Playwright MCP is available.
+
+### Detection
+
+Try calling any Playwright MCP tool (e.g. `browser_navigate`). If it responds → available, proceed normally.
+
+If unavailable, detect the current agent by checking which config files exist:
+
+```bash
+# Claude Code
+claude mcp list 2>/dev/null | grep -i playwright
+
+# Cursor
+cat .cursor/mcp.json 2>/dev/null | grep -i playwright
+
+# Gemini
+cat .gemini/settings.json 2>/dev/null | grep -i playwright
+
+# Generic: check project .mcp.json
+cat .mcp.json 2>/dev/null | grep -i playwright
+```
+
+### Installation
+
+**Universal approach — add to `.mcp.json` in the project root** (works with Claude Code, Cursor, Gemini, Windsurf, most agents):
+
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
+```
+
+**Agent-specific CLI commands:**
+
+| Agent | Command |
+|-------|---------|
+| Claude Code | `claude mcp add playwright -s user -- npx @playwright/mcp@latest` |
+| OpenCode | `opencode mcp add playwright -- npx @playwright/mcp@latest` |
+| Cursor / Gemini / Windsurf | Add the JSON block above to the agent's config file |
+
+### If not installed — ask for authorization
+
+> "Visual validation requires Playwright MCP, which is not currently installed.
+> I can add it now by creating/updating `.mcp.json` in the project root.
+> May I do this?"
+
+- **Yes**: write the `.mcp.json` config block, then proceed with visual validation
+- **No**: skip visual validation, deliver the code only, and note that the user can install Playwright MCP later
+
+**Do not silently skip visual validation** — always inform the user if it's unavailable.
 
 ---
 
@@ -339,20 +401,48 @@ const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }
 Vite + React 19 + TypeScript | Tailwind CSS v4 (@theme) | shadcn/ui (oklch) | Icon library (see Step 1.4)
 ```
 
-Default Lucide (built into shadcn), switch to Phosphor/Tabler/Iconoir for differentiation:
-```bash
-# Default
-pnpm add lucide-react
-# Or alternatives
-pnpm add @phosphor-icons/react    # 6 weights, strongest visual hierarchy
-pnpm add @tabler/icons-react      # 5900+ largest free set
-pnpm add iconoir-react             # Minimal elegance, avoids AI feel
+### Package Manager Detection
+
+Before running any command, detect the local package manager in this order:
+
+```
+bun → pnpm → yarn → npm
 ```
 
+Use `which bun pnpm yarn npm` to detect, then use the first available one throughout. Examples below use `{pm}` as placeholder.
+
+| Manager | Run command | Exec command |
+|---------|------------|--------------|
+| bun | `bun` | `bunx` |
+| pnpm | `pnpm` | `pnpm dlx` |
+| yarn | `yarn` | `yarn dlx` |
+| npm | `npm` | `npx` |
+
+### Project Initialization
+
 ```bash
-pnpm create vite@latest my-app -- --template react-ts && cd my-app && pnpm install
-pnpm dlx shadcn@latest init -t vite
-pnpm dlx shadcn@latest add button card input sidebar
+# 1. Create Vite project
+{pm} create vite@latest my-app -- --template react-ts && cd my-app && {pm} install
+
+# 2. Install Tailwind v4
+{pm} add -D tailwindcss @tailwindcss/vite
+
+# 3. Configure vite.config.ts — add tailwindcss plugin + path alias
+# 4. Configure tsconfig.json — add baseUrl + paths alias for @/*
+# 5. Add @import "tailwindcss"; to src/index.css
+
+# 6. Initialize shadcn (Radix + Nova preset, skip prompts)
+{pmx} shadcn@latest init -y -b radix -p nova
+
+# 7. Add components
+{pmx} shadcn@latest add button card input
+```
+
+Default Lucide (built into shadcn), switch to Phosphor/Tabler/Iconoir for differentiation:
+```bash
+{pm} add @phosphor-icons/react    # 6 weights, strongest visual hierarchy
+{pm} add @tabler/icons-react      # 5900+ largest free set
+{pm} add iconoir-react            # Minimal elegance, avoids AI feel
 ```
 
 ### Tailwind v4
@@ -451,6 +541,37 @@ export function Button({ variant, size, className, ...props }: ButtonProps) {
 </div>
 ```
 
+### Visual Validation Loop (Mode A)
+
+After writing all component files, close the loop visually:
+
+```
+Step 1 — Start dev server (if not already running)
+         {pm} dev --port 5173
+
+Step 2 — Screenshot with Playwright MCP
+         Navigate to http://localhost:5173
+         Take a full-page screenshot
+
+Step 3 — Review the screenshot
+         Check against the design principles from Steps 1–8:
+         - Visual hierarchy clear?
+         - Color 60-30-10 ratio correct?
+         - Spacing on 4px/8px grid?
+         - Typography weights differentiated?
+         - Hover/focus states visible?
+         - Background not plain white?
+
+Step 4 — Iterate if needed
+         Fix issues in the component files → Vite HMR auto-refreshes → re-screenshot
+         Repeat until the result matches design intent
+
+Step 5 — Done
+         Confirm to user with a final screenshot
+```
+
+**This loop is what pencil.dev cannot do** — it outputs a `.pen` file requiring a separate export step. Michelangelo outputs real code and validates it visually in the same session.
+
 ---
 
 ## Mode B: Pure HTML Prototype
@@ -493,6 +614,30 @@ Single `.html` file, zero dependencies, opens directly in browser.
 </head>
 <body><!-- content --><script>lucide.createIcons();</script></body>
 </html>
+```
+
+### Visual Validation Loop (Mode B)
+
+Mode B produces a single `.html` file — no dev server needed. Playwright MCP can open it directly:
+
+```
+Step 1 — Write the .html file to an absolute path
+         e.g. /Users/you/workspace/prototype.html
+
+Step 2 — Screenshot with Playwright MCP
+         Navigate to file:///Users/you/workspace/prototype.html
+         Take a full-page screenshot
+
+Step 3 — Review the screenshot
+         Same checklist as Mode A — visual hierarchy, color ratio,
+         spacing, typography, hover states, background texture
+
+Step 4 — Iterate if needed
+         Edit the .html file → re-navigate → re-screenshot
+         (No server restart needed — Playwright reads the file fresh each time)
+
+Step 5 — Done
+         Confirm to user with a final screenshot
 ```
 
 ---
