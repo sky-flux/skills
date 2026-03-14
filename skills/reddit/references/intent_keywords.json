@@ -1,0 +1,51 @@
+{
+  "$schema": "intent-keywords-v1",
+  "languages": {
+    "en": {
+      "tier_1_purchase_intent": ["willing to pay", "budget for", "what's the pricing", "free trial", "need this ASAP", "urgent", "deadline", "where do I sign up", "take my money"],
+      "tier_2_solution_seeking": ["looking for a tool", "anyone know", "recommend a", "help me find", "switching from", "need alternative", "vs"],
+      "tier_3_pain_expression": ["frustrated with", "struggling with", "doesn't support", "too expensive", "broken", "can't figure out", "spent hours trying"],
+      "tier_4_research": ["what do you use for", "how do you handle", "best practices for", "thinking about", "considering", "evaluating"]
+    },
+    "de": {
+      "pain": ["frustriert", "Problem mit", "Alternative zu", "zu teuer", "suche Tool"],
+      "intent": ["wer kennt", "Empfehlung für", "welches Tool", "Erfahrungen mit"],
+      "business": ["Gründung", "Startup", "Mittelstand", "GmbH", "Existenzgründung", "Digitalisierung"],
+      "compliance": ["Datenschutz", "DSGVO", "Bürokratie", "GoBD"]
+    },
+    "fr": {
+      "pain": ["frustré", "problème avec", "alternative à", "trop cher", "cherche outil"],
+      "intent": ["qui connaît", "recommandation", "quel outil", "retour d'expérience"],
+      "business": ["création entreprise", "startup", "French Tech", "BPI", "SARL", "SAS"],
+      "compliance": ["RGPD", "charges sociales", "comptabilité"]
+    },
+    "pt": {
+      "pain": ["frustrado", "problema com", "alternativa para", "caro demais", "preciso de ferramenta"],
+      "intent": ["alguém conhece", "recomendação", "qual ferramenta", "experiência com"],
+      "business": ["startup", "empreendedor", "faturamento", "negócio"]
+    },
+    "es": {
+      "pain": ["frustrado", "problema con", "alternativa a", "demasiado caro", "busco herramienta"],
+      "intent": ["alguien conoce", "recomendación", "qué herramienta", "experiencia con"],
+      "business": ["emprendedor", "startup", "negocio", "empresa"]
+    },
+    "ja": {
+      "pain": ["困っている", "代替", "高すぎる", "ツール探し"],
+      "intent": ["おすすめ", "使っている人", "比較", "経験"],
+      "business": ["スタートアップ", "起業", "ベンチャー", "SaaS"],
+      "compliance": ["個人情報保護", "電子帳簿保存法"]
+    },
+    "ko": {
+      "pain": ["문제", "대안", "너무 비싼", "도구 찾기"],
+      "intent": ["추천", "사용해본", "비교", "경험"]
+    },
+    "ar": {
+      "pain": ["مشكلة", "بديل", "غالي", "أداة"],
+      "intent": ["توصية", "تجربة", "مقارنة"]
+    },
+    "fi": {
+      "pain": ["ongelma", "vaihtoehto", "liian kallis", "työkalu"],
+      "intent": ["suositus", "kokemus", "vertailu"]
+    }
+  }
+}

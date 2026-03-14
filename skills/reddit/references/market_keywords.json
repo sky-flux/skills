@@ -1,0 +1,40 @@
+{
+  "$schema": "market-keywords-v1",
+  "markets": {
+    "US": {
+      "business": ["LLC", "C-Corp", "S-Corp", "Delaware", "venture", "seed round", "Series A"],
+      "compliance": ["SOC 2", "HIPAA", "CCPA", "SOX", "PCI DSS"],
+      "currency": "USD"
+    },
+    "UK": {
+      "business": ["Ltd", "Companies House", "SEIS", "EIS", "VAT"],
+      "compliance": ["GDPR", "ICO", "FCA"],
+      "currency": "GBP"
+    },
+    "EU": {
+      "business": ["GmbH", "BV", "SAS", "SARL", "AB"],
+      "compliance": ["GDPR", "DSGVO", "RGPD", "eIDAS", "NIS2", "AI Act"],
+      "currency": "EUR"
+    },
+    "DACH": {
+      "business": ["GmbH", "AG", "UG", "Einzelunternehmen", "Mittelstand", "KMU"],
+      "compliance": ["DSGVO", "GoBD", "Datenschutz", "Bürokratie"],
+      "currency": "EUR/CHF"
+    },
+    "AU": {
+      "business": ["Pty Ltd", "ABN", "GST", "ATO"],
+      "compliance": ["Privacy Act", "APRA"],
+      "currency": "AUD"
+    },
+    "CA": {
+      "business": ["Inc", "CRA", "HST", "GST"],
+      "compliance": ["PIPEDA", "CASL"],
+      "currency": "CAD"
+    },
+    "JP": {
+      "business": ["株式会社", "合同会社", "スタートアップ"],
+      "compliance": ["個人情報保護法", "電子帳簿保存法"],
+      "currency": "JPY"
+    }
+  }
+}
