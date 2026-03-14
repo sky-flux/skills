@@ -143,6 +143,78 @@ assert_contains "ger001 title contains 'Alternative zu'" "$ger_title" "Alternati
 assert_contains "ger001 body contains 'frustriert'" "$ger_body" "frustriert"
 assert_contains "ger001 body contains 'Empfehlung'" "$ger_body" "Empfehlung"
 
+# ─── Test group 9: enrich_posts() full pipeline ───────────────────────────────
+echo ""
+echo "=== Test group 9: enrich_posts() full pipeline ==="
+
+REDDIT_SH="$(dirname "$SCRIPT_DIR")/reddit.sh"
+SKILL_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
+
+# Source the enrich_posts function (and its deps) without running main dispatch
+_enrich_test_output=$(
+  SKILL_DIR="$SKILL_DIR" \
+  bash -c "
+    source '$REDDIT_SH' 2>/dev/null || true
+    # Override main dispatch to no-op after sourcing
+    enrich_posts 'test_campaign' 'new' '[\"SaaS\",\"StartupDACH\"]' < '$FIXTURE_DIR/fetch_response.json'
+  "
+)
+
+# 9a: correct post count after filtering (5 raw → 3 clean: abc123, def456, ger001)
+enriched_count=$(echo "$_enrich_test_output" | jq '.posts | length')
+assert_eq "enrich_posts: 3 posts after filtering spam/deleted" "3" "$enriched_count"
+
+# 9b: meta fields present
+meta_mode=$(echo "$_enrich_test_output" | jq -r '.meta.mode')
+assert_eq "enrich_posts: meta.mode is fetch" "fetch" "$meta_mode"
+
+meta_campaign=$(echo "$_enrich_test_output" | jq -r '.meta.campaign')
+assert_eq "enrich_posts: meta.campaign is test_campaign" "test_campaign" "$meta_campaign"
+
+meta_total_raw=$(echo "$_enrich_test_output" | jq '.meta.total_raw')
+assert_eq "enrich_posts: meta.total_raw is 5" "5" "$meta_total_raw"
+
+meta_total_after=$(echo "$_enrich_test_output" | jq '.meta.total_after_filter')
+assert_eq "enrich_posts: meta.total_after_filter is 3" "3" "$meta_total_after"
+
+# 9c: abc123 has all three expected tags: question, pain, request
+abc123_tags=$(echo "$_enrich_test_output" | jq -r '.posts[] | select(.id == "abc123") | ._jq_enriched.tags | sort | join(",")')
+assert_eq "enrich_posts: abc123 has tags question,pain,request" "pain,question,request" "$abc123_tags"
+
+# 9d: _jq_enriched fields exist on abc123
+abc123_has_age=$(echo "$_enrich_test_output" | jq '.posts[] | select(.id == "abc123") | ._jq_enriched | has("age_hours")')
+assert_eq "enrich_posts: abc123 _jq_enriched has age_hours" "true" "$abc123_has_age"
+
+abc123_has_tw=$(echo "$_enrich_test_output" | jq '.posts[] | select(.id == "abc123") | ._jq_enriched | has("time_window")')
+assert_eq "enrich_posts: abc123 _jq_enriched has time_window" "true" "$abc123_has_tw"
+
+abc123_has_tech=$(echo "$_enrich_test_output" | jq '.posts[] | select(.id == "abc123") | ._jq_enriched | has("tech_stack")')
+assert_eq "enrich_posts: abc123 _jq_enriched has tech_stack" "true" "$abc123_has_tech"
+
+abc123_has_eph=$(echo "$_enrich_test_output" | jq '.posts[] | select(.id == "abc123") | ._jq_enriched | has("engagement_per_hour")')
+assert_eq "enrich_posts: abc123 _jq_enriched has engagement_per_hour" "true" "$abc123_has_eph"
+
+# 9e: tech_stack detection on abc123 (supabase, next.js mentioned in body)
+abc123_tech=$(echo "$_enrich_test_output" | jq -r '.posts[] | select(.id == "abc123") | ._jq_enriched.tech_stack | sort | join(",")')
+assert_contains "enrich_posts: abc123 tech_stack contains supabase" "$abc123_tech" "supabase"
+assert_contains "enrich_posts: abc123 tech_stack contains next.js" "$abc123_tech" "next.js"
+
+# 9f: revenue_mentions on abc123
+abc123_revenue=$(echo "$_enrich_test_output" | jq -r '.posts[] | select(.id == "abc123") | ._jq_enriched.revenue_mentions | join(",")')
+assert_contains "enrich_posts: abc123 revenue_mentions contains \$5k MRR" "$abc123_revenue" "5k MRR"
+
+# 9g: ger001 is_question should be true (title ends with ?)
+ger001_is_q=$(echo "$_enrich_test_output" | jq '.posts[] | select(.id == "ger001") | ._jq_enriched.is_question')
+assert_eq "enrich_posts: ger001 is_question is true (ends with ?)" "true" "$ger001_is_q"
+
+# 9h: def456 is_question should be true (title starts with "What's")
+def456_is_q=$(echo "$_enrich_test_output" | jq '.posts[] | select(.id == "def456") | ._jq_enriched.is_question')
+assert_eq "enrich_posts: def456 is_question is true" "true" "$def456_is_q"
+
+# 9i: geo_signals on def456 (body mentions US)
+def456_geo=$(echo "$_enrich_test_output" | jq -r '.posts[] | select(.id == "def456") | ._jq_enriched.geo_signals | join(",")')
+assert_contains "enrich_posts: def456 geo_signals contains US" "$def456_geo" "US"
+
 # ─── Summary ──────────────────────────────────────────────────────────────────
 echo ""
 echo "=================================================="
