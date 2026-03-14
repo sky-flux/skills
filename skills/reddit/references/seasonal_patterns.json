@@ -1,0 +1,44 @@
+{
+  "patterns": [
+    {
+      "name": "US tax season",
+      "regions": ["US"],
+      "start_month": 1,
+      "end_month": 4,
+      "keywords": ["tax", "accounting", "bookkeeping", "CPA", "filing"],
+      "note": "Businesses seeking tax/accounting tools"
+    },
+    {
+      "name": "Q4 budget spend",
+      "regions": ["US", "UK", "EU"],
+      "start_month": 10,
+      "end_month": 11,
+      "keywords": ["budget", "procurement", "annual plan", "renew"],
+      "note": "Use-it-or-lose-it budget → higher purchase willingness"
+    },
+    {
+      "name": "New Year planning",
+      "regions": ["global"],
+      "start_month": 12,
+      "end_month": 1,
+      "keywords": ["2027 tools", "new year", "planning", "goals", "resolution"],
+      "note": "New tools evaluation cycle"
+    },
+    {
+      "name": "Back to school",
+      "regions": ["US", "UK", "AU"],
+      "start_month": 8,
+      "end_month": 9,
+      "keywords": ["education", "student", "school", "LMS", "learning"],
+      "note": "EdTech demand spike"
+    },
+    {
+      "name": "GDPR/privacy awareness",
+      "regions": ["EU", "UK"],
+      "start_month": 5,
+      "end_month": 6,
+      "keywords": ["GDPR", "privacy", "compliance", "data protection"],
+      "note": "Annual GDPR enforcement reports trigger tool searches"
+    }
+  ]
+}
