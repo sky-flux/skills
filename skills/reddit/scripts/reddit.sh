@@ -303,6 +303,69 @@ enrich_posts() {
     '
 }
 
+# ─── Helper functions ─────────────────────────────────────────────────────────
+
+watch_check() {
+  ensure_jq
+  if [ ! -f "$STATE_FILE" ]; then return 0; fi
+  local now; now=$(date +%s)
+  local threads
+  threads=$(jq -r --arg now "$now" '.watched_threads // {} | to_entries[] | select(.value.watch_until > ($now | tonumber)) | [.key, .value.subreddit, .value.last_comment_count] | @tsv' "$STATE_FILE")
+  if [ -z "$threads" ]; then log "No active watched threads"; return 0; fi
+  local updates="[]"
+  while IFS=$'\t' read -r post_id subreddit last_count; do
+    local response
+    response=$(reddit_curl "${BASE_URL}/r/${subreddit}/comments/${post_id}.json?limit=1" 2>/dev/null) || continue
+    local current_count
+    current_count=$(echo "$response" | jq '.[0].data.children[0].data.num_comments // 0')
+    if [ "$current_count" -gt "$last_count" ]; then
+      local new_comments=$((current_count - last_count))
+      log "Thread $post_id: $new_comments new comments"
+      update_state ".watched_threads[\"$post_id\"].last_comment_count = $current_count | .watched_threads[\"$post_id\"].last_checked = $now"
+      updates=$(echo "$updates" | jq --arg id "$post_id" --arg sub "$subreddit" --argjson new "$new_comments" --argjson total "$current_count" '. + [{post_id: $id, subreddit: $sub, new_comments: $new, total_comments: $total}]')
+    fi
+  done <<< "$threads"
+  echo "$updates" | jq '{watched_updates: .}'
+}
+
+competitor_search() {
+  local campaign="${1:?Usage: competitor_search <campaign>}"
+  ensure_jq
+  local config_file="$SKILL_DIR/references/subreddits.json"
+  if [ ! -f "$config_file" ]; then log "No config"; return 1; fi
+  local competitors
+  competitors=$(jq -r --arg c "$campaign" '.campaigns[$c].competitors // [] | .[]' "$config_file")
+  local queries
+  queries=$(jq -r --arg c "$campaign" '.campaigns[$c].competitor_queries // [] | .[]' "$config_file")
+  if [ -z "$competitors" ]; then log "No competitors for $campaign"; return 0; fi
+  local all_results="[]"
+  for comp in $competitors; do
+    while IFS= read -r query_template; do
+      local query
+      query=$(echo "$query_template" | sed "s/{competitor}/$comp/g")
+      log "Searching: $query"
+      local result
+      result=$(mode_search "$query" --global --sort new --time week 2>/dev/null) || continue
+      all_results=$(echo "$all_results" "$result" | jq -s '.[0] + [.[1] | {query: .query, results: .results[:5]}]')
+    done <<< "$queries"
+  done
+  echo "$all_results" | jq '{competitor_results: .}'
+}
+
+update_subreddit_quality() {
+  local subreddit="$1" scanned_count="$2" opportunity_count="${3:-0}"
+  if [ ! -f "$STATE_FILE" ]; then return 0; fi
+  update_state "
+    .subreddit_quality[\"$subreddit\"].scanned = ((.subreddit_quality[\"$subreddit\"].scanned // 0) + $scanned_count)
+    | .subreddit_quality[\"$subreddit\"].opportunities = ((.subreddit_quality[\"$subreddit\"].opportunities // 0) + $opportunity_count)
+    | .subreddit_quality[\"$subreddit\"].hit_rate = (
+        ((.subreddit_quality[\"$subreddit\"].opportunities // 0) + $opportunity_count)
+        / ([(.subreddit_quality[\"$subreddit\"].scanned // 0) + $scanned_count, 1] | max)
+        * 100 | . * 100 | floor / 100
+      )
+  "
+}
+
 # ─── Mode stubs ───────────────────────────────────────────────────────────────
 
 mode_fetch() {
@@ -680,11 +743,120 @@ mode_profile() {
     echo "$user_info"
   fi
 }
-mode_crosspost()  { log "TODO: crosspost"; }
-mode_stickied()   { log "TODO: stickied"; }
-mode_firehose()   { log "TODO: firehose"; }
-mode_export()     { log "TODO: export"; }
-mode_cleanup()    { log "TODO: cleanup"; }
+mode_crosspost() {
+  local campaign=""
+  while [ $# -gt 0 ]; do
+    case "$1" in --campaign) campaign="$2"; shift 2 ;; *) shift ;; esac
+  done
+  ensure_jq; ensure_data_dir
+  log "Fetching posts for crosspost analysis..."
+  local fetch_output
+  if [ -n "$campaign" ]; then
+    fetch_output=$(mode_fetch --campaign "$campaign" --pages 1 2>/dev/null)
+  else
+    fetch_output=$(mode_fetch --campaign global_english --pages 1 2>/dev/null)
+  fi
+  if [ -z "$fetch_output" ]; then log "No fetch data"; return 1; fi
+  echo "$fetch_output" | jq '{
+    multi_posters: [
+      [.posts[]] | group_by(.author) | map(select(length > 1)) | .[]
+      | {author: .[0].author, post_count: length, subreddits: [.[].subreddit] | unique, titles: [.[].title]}
+      | select(.subreddits | length > 1)
+    ]
+  }'
+}
+
+mode_stickied() {
+  local subreddit="${1:-}"
+  ensure_jq
+  if [ -z "$subreddit" ]; then
+    local config_file="$SKILL_DIR/references/subreddits.json"
+    if [ ! -f "$config_file" ]; then log "Specify a subreddit"; return 1; fi
+    local subs
+    subs=$(jq -r '[.campaigns[].subreddits[].name] | .[0:5] | .[]' "$config_file")
+    for sub in $subs; do
+      log "Fetching stickied from r/$sub..."
+      local response
+      response=$(reddit_curl "${BASE_URL}/r/${sub}/hot.json?limit=5") || continue
+      echo "$response" | jq --arg sub "$sub" '[.data.children[].data | select(.stickied == true) | {id, subreddit: $sub, title, num_comments, permalink}]'
+    done | jq -s 'flatten'
+  else
+    local response
+    response=$(reddit_curl "${BASE_URL}/r/${subreddit}/hot.json?limit=5") || return 1
+    local stickied_ids
+    stickied_ids=$(echo "$response" | jq -r '[.data.children[].data | select(.stickied == true) | .id] | .[]')
+    for post_id in $stickied_ids; do
+      log "Fetching comments for stickied $post_id..."
+      mode_comments "$post_id" "$subreddit"
+    done
+  fi
+}
+
+mode_firehose() {
+  local subreddits="${1:-}"
+  ensure_jq
+  if [ -z "$subreddits" ]; then
+    local config_file="$SKILL_DIR/references/subreddits.json"
+    if [ ! -f "$config_file" ]; then log "Specify subreddits: reddit.sh firehose sub1+sub2"; return 1; fi
+    subreddits=$(jq -r '[.campaigns[].subreddits[].name] | .[0:8] | join("+")' "$config_file")
+  fi
+  local response
+  response=$(reddit_curl "${BASE_URL}/r/${subreddits}/comments.json?limit=100") || return 1
+  echo "$response" | jq '{
+    subreddits: (.data.children | [.[].data.subreddit] | unique),
+    comments: [.data.children[].data | {id, author, body, subreddit, link_title, link_permalink, score, created_utc, urls: ([.body | scan("https?://[^\\s)\"]+")]? // [])}]
+  }'
+  # Update last comment ID in state
+  local newest_id
+  newest_id=$(echo "$response" | jq -r '.data.children[0].data.id // empty')
+  if [ -n "$newest_id" ] && [ -f "$STATE_FILE" ]; then
+    update_state ".last_firehose_comment_id = \"$newest_id\""
+  fi
+}
+
+mode_export() {
+  local format="json"
+  while [ $# -gt 0 ]; do
+    case "$1" in --format) format="$2"; shift 2 ;; *) shift ;; esac
+  done
+  ensure_jq
+  if [ ! -f "$STATE_FILE" ]; then log "Nothing to export"; return 1; fi
+  case "$format" in
+    json) jq '.opportunities // {}' "$STATE_FILE" ;;
+    csv)
+      echo "name,score,status,first_seen,pain_frequency,source_post_count"
+      jq -r '.opportunities // {} | to_entries[] | [.key, .value.score, .value.status, .value.first_seen, .value.pain_frequency, (.value.source_posts | length)] | @csv' "$STATE_FILE"
+      ;;
+    *) log "Unknown format: $format"; return 1 ;;
+  esac
+}
+
+mode_cleanup() {
+  ensure_jq
+  if [ ! -f "$STATE_FILE" ]; then log "Nothing to clean"; return 0; fi
+  local now thirty_days_ago sixty_days_ago
+  now=$(date +%s)
+  thirty_days_ago=$((now - 30 * 86400))
+  sixty_days_ago=$((now - 60 * 86400))
+  local before_seen before_watched before_products
+  before_seen=$(jq '.seen_posts // {} | keys | length' "$STATE_FILE")
+  before_watched=$(jq '.watched_threads // {} | keys | length' "$STATE_FILE")
+  before_products=$(jq '.products_seen // {} | keys | length' "$STATE_FILE")
+  local tmp_file
+  tmp_file=$(mktemp)
+  jq --arg cutoff30 "$thirty_days_ago" '
+    .seen_posts = (.seen_posts // {} | to_entries | map(select(.value > ($cutoff30 | tonumber))) | from_entries)
+    | .watched_threads = (.watched_threads // {} | to_entries | map(select(.value.watch_until > now)) | from_entries)
+  ' "$STATE_FILE" > "$tmp_file" && mv "$tmp_file" "$STATE_FILE"
+  local after_seen after_watched after_products
+  after_seen=$(jq '.seen_posts // {} | keys | length' "$STATE_FILE")
+  after_watched=$(jq '.watched_threads // {} | keys | length' "$STATE_FILE")
+  after_products=$(jq '.products_seen // {} | keys | length' "$STATE_FILE")
+  jq -n --arg bs "$before_seen" --arg as "$after_seen" --arg bw "$before_watched" --arg aw "$after_watched" --arg bp "$before_products" --arg ap "$after_products" '{
+    cleaned: {seen_posts: (($bs|tonumber)-($as|tonumber)), watched_threads: (($bw|tonumber)-($aw|tonumber)), products_seen: (($bp|tonumber)-($ap|tonumber))},
+    remaining: {seen_posts: ($as|tonumber), watched_threads: ($aw|tonumber), products_seen: ($ap|tonumber)}
+  }'
+}
 mode_diagnose() {
   local results="{}"
 
@@ -742,9 +914,44 @@ mode_diagnose() {
 
   echo "$results" | jq .
 }
-mode_duplicates() { log "TODO: duplicates"; }
-mode_wiki()       { log "TODO: wiki"; }
-mode_stats()      { log "TODO: stats"; }
+mode_duplicates() {
+  local post_id="${1:?Usage: reddit.sh duplicates <post_id>}"
+  ensure_jq
+  local response
+  response=$(reddit_curl "${BASE_URL}/duplicates/${post_id}.json") || return 1
+  echo "$response" | jq --arg id "$post_id" '{post_id: $id, duplicates: [.[1].data.children[].data | {subreddit, title, score, num_comments, permalink, created_utc}]}'
+}
+
+mode_wiki() {
+  local subreddit="${1:?Usage: reddit.sh wiki <subreddit> [page]}"
+  local page="${2:-}"
+  ensure_jq
+  if [ -z "$page" ]; then
+    local response
+    response=$(reddit_curl "${BASE_URL}/r/${subreddit}/wiki/pages.json") || { echo '{"error": "Wiki not available"}'; return 1; }
+    echo "$response" | jq --arg sub "$subreddit" '{subreddit: $sub, pages: .data}'
+  else
+    local response
+    response=$(reddit_curl "${BASE_URL}/r/${subreddit}/wiki/${page}.json") || { echo '{"error": "Wiki page not found"}'; return 1; }
+    echo "$response" | jq --arg sub "$subreddit" --arg p "$page" '{subreddit: $sub, page: $p, content_md: .data.content_md, revision_date: .data.revision_date}'
+  fi
+}
+
+mode_stats() {
+  ensure_jq
+  if [ ! -f "$STATE_FILE" ]; then echo '{"error": "No state file"}'; return 1; fi
+  local size_kb
+  size_kb=$(du -sk "$DATA_DIR" 2>/dev/null | awk '{print $1}')
+  jq --arg size "$size_kb" '{
+    total_seen: (.seen_posts // {} | keys | length),
+    total_opportunities: (.opportunities // {} | keys | length),
+    total_watched: (.watched_threads // {} | keys | length),
+    data_size_kb: ($size | tonumber),
+    opportunity_breakdown: (.opportunities // {} | to_entries | group_by(.value.status) | map({(.[0].value.status): length}) | add // {}),
+    influencers_tracked: (.influencers // {} | keys | length),
+    products_seen: (.products_seen // {} | keys | length)
+  }' "$STATE_FILE"
+}
 
 # ─── Main dispatch ────────────────────────────────────────────────────────────
 
