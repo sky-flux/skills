@@ -579,8 +579,107 @@ mode_search() {
     end]
   }'
 }
-mode_discover()   { log "TODO: discover"; }
-mode_profile()    { log "TODO: profile"; }
+mode_discover() {
+  local keyword=""
+  local method="keyword"
+
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --method) method="$2"; shift 2 ;;
+      *) keyword="$1"; shift ;;
+    esac
+  done
+
+  if [ -z "$keyword" ]; then
+    log "Usage: reddit.sh discover <keyword> [--method keyword|autocomplete|footprint|overlap]"
+    return 1
+  fi
+
+  ensure_jq
+
+  case "$method" in
+    keyword)
+      local encoded
+      encoded=$(printf '%s' "$keyword" | jq -sRr @uri)
+      local response
+      response=$(reddit_curl "${BASE_URL}/subreddits/search.json?q=${encoded}&limit=25") || return 1
+      echo "$response" | jq --arg q "$keyword" '{
+        query: $q, method: "keyword",
+        results: [.data.children[].data | {
+          name: .display_name, subscribers: .subscribers,
+          description: .public_description, created_utc: .created_utc,
+          subreddit_type: .subreddit_type,
+          health_score: (if .subscribers > 10000 then "potentially_high" elif .subscribers > 1000 then "potentially_medium" else "potentially_low" end)
+        }] | sort_by(-.subscribers)
+      }'
+      ;;
+    autocomplete)
+      local encoded
+      encoded=$(printf '%s' "$keyword" | jq -sRr @uri)
+      local response
+      response=$(reddit_curl "${BASE_URL}/api/subreddit_autocomplete_v2.json?query=${encoded}&include_over_18=false") || return 1
+      echo "$response" | jq --arg q "$keyword" '{
+        query: $q, method: "autocomplete",
+        results: [.data.children[].data | {name: .display_name, subscribers: .subscribers, description: .public_description}]
+      }'
+      ;;
+    footprint|overlap)
+      if [ -f "$STATE_FILE" ]; then
+        jq --arg q "$keyword" '{query: $q, method: "overlap", community_overlap: .community_overlap, suggestion: "High overlap communities may be worth monitoring"}' "$STATE_FILE"
+      else
+        echo '{"error": "No state file — run fetch first to build overlap data"}'
+      fi
+      ;;
+  esac
+}
+mode_profile() {
+  local username=""
+  local enrich=false
+
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --enrich) enrich=true; shift ;;
+      *) username="$1"; shift ;;
+    esac
+  done
+
+  if [ -z "$username" ]; then
+    log "Usage: reddit.sh profile <username> [--enrich]"
+    return 1
+  fi
+
+  ensure_jq
+
+  local about
+  about=$(reddit_curl "${BASE_URL}/user/${username}/about.json") || {
+    echo "{\"error\": \"User not found or suspended: $username\"}"
+    return 1
+  }
+
+  local user_info
+  user_info=$(echo "$about" | jq '{
+    name: .data.name, link_karma: .data.link_karma,
+    comment_karma: .data.comment_karma, created_utc: .data.created_utc,
+    is_gold: .data.is_gold, verified: .data.verified
+  }')
+
+  if [ "$enrich" = true ]; then
+    local posts
+    posts=$(reddit_curl "${BASE_URL}/user/${username}/submitted.json?limit=25&sort=new") || posts='{"data":{"children":[]}}'
+    local comments
+    comments=$(reddit_curl "${BASE_URL}/user/${username}/comments.json?limit=25&sort=new") || comments='{"data":{"children":[]}}'
+
+    echo "$user_info" "$posts" "$comments" | jq -s '{
+      user: .[0],
+      posts: [.[1].data.children[].data | {id, subreddit, title, score, num_comments, created_utc, permalink}],
+      comments: [.[2].data.children[].data | {id, subreddit, body: (.body | .[0:200]), score, created_utc, link_title}],
+      subreddits_active: (([.[1].data.children[].data.subreddit] + [.[2].data.children[].data.subreddit]) | unique),
+      urls_found: ([.[1].data.children[].data.selftext, .[2].data.children[].data.body] | map(select(. != null) | scan("https?://[^\\s)\"]+")) | flatten | unique)
+    }'
+  else
+    echo "$user_info"
+  fi
+}
 mode_crosspost()  { log "TODO: crosspost"; }
 mode_stickied()   { log "TODO: stickied"; }
 mode_firehose()   { log "TODO: firehose"; }
