@@ -1,12 +1,12 @@
-# CSS 效果食谱 & 组件模式
+# CSS Effects Recipes & Component Patterns
 
-> Claude 生成 UI 代码时可直接复制的 CSS 片段、字体配对和页面 Section 模式。
+> Ready-to-copy CSS snippets, font pairings, and page section patterns for Claude when generating UI code.
 
 ---
 
-## 1. 背景效果 (Background Effects)
+## 1. Background Effects
 
-### 1.1 渐变网格 (Mesh Gradient)
+### 1.1 Mesh Gradient
 
 ```css
 .mesh-gradient {
@@ -16,7 +16,7 @@
     radial-gradient(at 80% 100%, oklch(0.70 0.12 180 / 0.15) 0, transparent 50%),
     var(--color-bg);
 }
-/* 暗色版 */
+/* Dark version */
 .mesh-gradient-dark {
   background:
     radial-gradient(at 20% 80%, oklch(0.35 0.15 250 / 0.4) 0, transparent 50%),
@@ -25,7 +25,7 @@
 }
 ```
 
-### 1.2 噪点纹理 (Grain Texture)
+### 1.2 Grain Texture
 
 ```css
 .grain {
@@ -40,7 +40,7 @@
 }
 ```
 
-### 1.3 毛玻璃 (Glassmorphism)
+### 1.3 Glassmorphism
 
 ```css
 .glass {
@@ -51,13 +51,13 @@
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 30px rgba(0,0,0,0.08);
 }
-/* 暗色版 */
+/* Dark version */
 .glass-dark {
   background: rgba(15,23,42,0.6);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255,255,255,0.08);
 }
-/* 导航栏毛玻璃 */
+/* Navbar glassmorphism */
 .nav-glass {
   background: rgba(255,255,255,0.8);
   backdrop-filter: blur(12px) saturate(180%);
@@ -65,7 +65,7 @@
 }
 ```
 
-### 1.4 斑点/圆形装饰 (Blob)
+### 1.4 Blob
 
 ```css
 .blob-bg {
@@ -93,7 +93,7 @@
 }
 ```
 
-### 1.5 网格点阵 (Dot Grid)
+### 1.5 Dot Grid
 
 ```css
 .dot-grid {
@@ -102,14 +102,14 @@
 }
 ```
 
-### 1.6 倾斜分割 (Slant Divider)
+### 1.6 Slant Divider
 
 ```css
 .slant { clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); }
 .slant-reverse { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 85%); }
 ```
 
-### 1.7 动画渐变 (Animated Gradient)
+### 1.7 Animated Gradient
 
 ```css
 .animated-gradient {
@@ -124,7 +124,7 @@
 }
 ```
 
-### 1.8 光晕效果 (Glow)
+### 1.8 Glow
 
 ```css
 .glow-primary {
@@ -139,9 +139,9 @@
 
 ---
 
-## 2. 微交互 (Micro-Interactions)
+## 2. Micro-Interactions
 
-### 2.1 按钮 hover 升起
+### 2.1 Button hover lift
 
 ```css
 .btn-lift {
@@ -157,7 +157,7 @@
 }
 ```
 
-### 2.2 卡片 hover 浮起
+### 2.2 Card hover float
 
 ```css
 .card-hover {
@@ -169,7 +169,7 @@
 }
 ```
 
-### 2.3 入场动画 (Fade Up + Stagger)
+### 2.3 Entrance Animation (Fade Up + Stagger)
 
 ```css
 .fade-up {
@@ -212,72 +212,72 @@
 
 ---
 
-## 3. 字体配对 (Font Pairings)
+## 3. Font Pairings
 
-根据项目个性选择。每对都标注了 Google Fonts import URL。
+Choose based on the project's personality. Each pair includes its Google Fonts import URL.
 
-### 3.1 现代/SaaS (最常用)
+### 3.1 Modern / SaaS (Most Common)
 
-| 标题 | 正文 | 感觉 |
-|------|------|------|
-| **Inter** (600) | **Inter** (400) | 中性、专业、安全 |
-| **Manrope** (700) | **Inter** (400) | 稍有个性的现代 |
-| **DM Sans** (700) | **DM Sans** (400) | 圆润友好 |
-| **Plus Jakarta Sans** (700) | **Inter** (400) | 几何但温暖 |
+| Heading | Body | Feel |
+|---------|------|------|
+| **Inter** (600) | **Inter** (400) | Neutral, professional, safe |
+| **Manrope** (700) | **Inter** (400) | Modern with a touch of personality |
+| **DM Sans** (700) | **DM Sans** (400) | Rounded and friendly |
+| **Plus Jakarta Sans** (700) | **Inter** (400) | Geometric yet warm |
 
 ```html
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 ```
 
-### 3.2 大胆/创意
+### 3.2 Bold / Creative
 
-| 标题 | 正文 | 感觉 |
-|------|------|------|
-| **Space Grotesk** (700) | **Inter** (400) | 科技大胆 |
-| **Sora** (700) | **DM Sans** (400) | 未来感 |
-| **Outfit** (800) | **Source Sans 3** (400) | 几何力量 |
+| Heading | Body | Feel |
+|---------|------|------|
+| **Space Grotesk** (700) | **Inter** (400) | Tech-bold |
+| **Sora** (700) | **DM Sans** (400) | Futuristic |
+| **Outfit** (800) | **Source Sans 3** (400) | Geometric power |
 
 ```html
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 ```
 
-### 3.3 优雅/editorial
+### 3.3 Elegant / Editorial
 
-| 标题 | 正文 | 感觉 |
-|------|------|------|
-| **Playfair Display** (700) | **Lato** (400) | 经典优雅 |
-| **Cormorant Garamond** (600) | **Raleway** (400) | 文艺高端 |
-| **DM Serif Display** (400) | **Nunito** (400) | 现代衬线 |
+| Heading | Body | Feel |
+|---------|------|------|
+| **Playfair Display** (700) | **Lato** (400) | Classic elegance |
+| **Cormorant Garamond** (600) | **Raleway** (400) | Literary and high-end |
+| **DM Serif Display** (400) | **Nunito** (400) | Modern serif |
 
 ```html
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 ```
 
-### 3.4 企业/严肃
+### 3.4 Corporate / Serious
 
-| 标题 | 正文 | 感觉 |
-|------|------|------|
-| **IBM Plex Sans** (600) | **IBM Plex Sans** (400) | 企业级 |
-| **Montserrat** (700) | **Source Sans 3** (400) | 经典商务 |
+| Heading | Body | Feel |
+|---------|------|------|
+| **IBM Plex Sans** (600) | **IBM Plex Sans** (400) | Enterprise-grade |
+| **Montserrat** (700) | **Source Sans 3** (400) | Classic business |
 
 ```html
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 ```
 
-### 3.5 活泼/年轻
+### 3.5 Lively / Youthful
 
-| 标题 | 正文 | 感觉 |
-|------|------|------|
-| **Poppins** (700) | **Poppins** (400) | 圆润几何 |
-| **Quicksand** (700) | **Nunito** (400) | 柔软亲切 |
+| Heading | Body | Feel |
+|---------|------|------|
+| **Poppins** (700) | **Poppins** (400) | Rounded geometric |
+| **Quicksand** (700) | **Nunito** (400) | Soft and approachable |
 
 ```html
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 ```
 
-### 3.6 CJK (中文) 配对
+### 3.6 CJK (Chinese) Pairing
 
-标题和正文都用 Noto Sans SC，用字重区分层次。英文部分用拉丁 display 字体。
+Use Noto Sans SC for both headings and body, differentiated by font weight. Use a Latin display font for English portions.
 
 ```html
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -289,80 +289,80 @@ h1, h2, .heading-en { font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif; 
 
 ---
 
-## 4. Landing Page Section 食谱
+## 4. Landing Page Section Recipes
 
-一个完整 Landing Page 的标准 section 组合及关键 CSS 结构。
+Standard section composition and key CSS structure for a complete Landing Page.
 
-### 4.1 标准 Section 顺序
+### 4.1 Standard Section Order
 
 ```
-1. Nav (毛玻璃 sticky)
-2. Hero (大标题 + 副标题 + CTA + 背景装饰)
-3. Logo Cloud (合作客户/信任标识)
-4. Feature Grid (3-4 列图标+标题+描述)
-5. Bento Grid (大小不一的功能卡片)
-6. Stats (大数字统计)
-7. Testimonials (用户评价)
-8. Pricing (价格方案对比)
-9. FAQ (折叠问答)
-10. CTA Section (行动号召)
-11. Footer (链接+版权)
+1. Nav (glassmorphism sticky)
+2. Hero (large heading + subtitle + CTA + background decoration)
+3. Logo Cloud (partner/trust logos)
+4. Feature Grid (3-4 column icon + heading + description)
+5. Bento Grid (feature cards of varying sizes)
+6. Stats (large number statistics)
+7. Testimonials (user reviews)
+8. Pricing (plan comparison)
+9. FAQ (collapsible Q&A)
+10. CTA Section (call to action)
+11. Footer (links + copyright)
 ```
 
-### 4.2 Pricing Section 结构
+### 4.2 Pricing Section Structure
 
 ```html
-<!-- 三列定价，中间突出 -->
+<!-- Three-column pricing, center highlighted -->
 <div class="pricing-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:center;">
-  <!-- 普通方案 -->
+  <!-- Basic plan -->
   <div class="card" style="padding:32px; border:1px solid var(--color-border); border-radius:var(--radius-lg);">
     <p class="overline">Basic</p>
-    <p style="font-size:var(--text-4xl); font-weight:700;">¥29<span style="font-size:var(--text-sm); color:var(--color-muted);">/月</span></p>
+    <p style="font-size:var(--text-4xl); font-weight:700;">¥29<span style="font-size:var(--text-sm); color:var(--color-muted);">/mo</span></p>
     <ul><!-- features --></ul>
-    <button class="btn-secondary">选择方案</button>
+    <button class="btn-secondary">Choose Plan</button>
   </div>
-  <!-- 推荐方案 (突出) -->
+  <!-- Recommended plan (highlighted) -->
   <div class="card" style="padding:40px 32px; background:var(--color-primary); color:white; border-radius:var(--radius-lg); transform:scale(1.05); box-shadow:var(--shadow-xl);">
-    <span class="badge">最受欢迎</span>
+    <span class="badge">Most Popular</span>
     <p class="overline" style="color:rgba(255,255,255,0.7);">Pro</p>
-    <p style="font-size:var(--text-4xl); font-weight:700;">¥79<span style="font-size:var(--text-sm); opacity:0.7;">/月</span></p>
+    <p style="font-size:var(--text-4xl); font-weight:700;">¥79<span style="font-size:var(--text-sm); opacity:0.7;">/mo</span></p>
     <ul><!-- features --></ul>
-    <button style="background:white; color:var(--color-primary);">选择方案</button>
+    <button style="background:white; color:var(--color-primary);">Choose Plan</button>
   </div>
-  <!-- 高级方案 -->
-  <div class="card"><!-- 同 Basic 结构 --></div>
+  <!-- Enterprise plan -->
+  <div class="card"><!-- Same structure as Basic --></div>
 </div>
 ```
 
-### 4.3 Testimonial Section 结构
+### 4.3 Testimonial Section Structure
 
 ```html
 <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
   <div class="card" style="padding:24px;">
     <p style="color:var(--color-muted); font-style:italic; line-height:1.6;">
-      "产品体验非常流畅，团队效率提升了 40%。"
+      "The product experience is incredibly smooth — our team's efficiency improved by 40%."
     </p>
     <div style="display:flex; align-items:center; gap:12px; margin-top:16px;">
       <div style="width:40px; height:40px; border-radius:50%; background:var(--color-primary-light);"></div>
       <div>
-        <p style="font-weight:600; font-size:14px;">张明</p>
-        <p style="color:var(--color-muted); font-size:13px;">CTO, 某科技公司</p>
+        <p style="font-weight:600; font-size:14px;">Zhang Ming</p>
+        <p style="color:var(--color-muted); font-size:13px;">CTO, Some Tech Company</p>
       </div>
     </div>
   </div>
 </div>
 ```
 
-### 4.4 FAQ Section (折叠)
+### 4.4 FAQ Section (Collapsible)
 
 ```html
 <details style="border-bottom:1px solid var(--color-border); padding:16px 0;">
   <summary style="font-weight:600; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center;">
-    你们支持退款吗？
+    Do you offer refunds?
     <i data-lucide="chevron-down" style="width:20px;"></i>
   </summary>
   <p style="margin-top:12px; color:var(--color-muted); line-height:1.6;">
-    购买后 14 天内可无条件退款。
+    We offer a no-questions-asked refund within 14 days of purchase.
   </p>
 </details>
 ```
@@ -373,66 +373,66 @@ h1, h2, .heading-en { font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif; 
 <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:32px; text-align:center;">
   <div>
     <p style="font-size:var(--text-4xl); font-weight:700; color:var(--color-text);">12,847</p>
-    <p style="font-size:var(--text-sm); color:var(--color-muted);">活跃用户</p>
+    <p style="font-size:var(--text-sm); color:var(--color-muted);">Active Users</p>
   </div>
   <div>
     <p style="font-size:var(--text-4xl); font-weight:700;">99.9%</p>
-    <p style="font-size:var(--text-sm); color:var(--color-muted);">正常运行时间</p>
+    <p style="font-size:var(--text-sm); color:var(--color-muted);">Uptime</p>
   </div>
   <!-- ... -->
 </div>
 ```
 
-### 4.6 Footer 结构
+### 4.6 Footer Structure
 
 ```
 ┌─────────────────────────────────────────┐
-│  Logo + 一句品牌描述                      │
+│  Logo + one-line brand description        │
 │                                         │
-│  产品      公司      资源      法律       │
-│  功能1     关于      博客      隐私       │
-│  功能2     团队      文档      条款       │
-│  定价      招聘      帮助      Cookie    │
+│  Product   Company   Resources   Legal  │
+│  Feature1  About     Blog        Privacy│
+│  Feature2  Team      Docs        Terms  │
+│  Pricing   Careers   Help        Cookie │
 │                                         │
 │  ─────────────────────────────────────  │
-│  © 2026 品牌名         社交图标 row       │
+│  © 2026 Brand Name        Social icons  │
 └─────────────────────────────────────────┘
 ```
 
-4 列链接网格 + 底部版权行 + 社交图标。背景用 surface-2 或深色。
+4-column link grid + bottom copyright row + social icons. Use surface-2 or dark background.
 
 ---
 
-## 5. Tailwind CSS 速写模式
+## 5. Tailwind CSS Shorthand Patterns
 
-常用 Tailwind 类组合（给 Mode A 参考）：
+Common Tailwind class combinations (reference for Mode A):
 
 ```
-/* 卡片 */
+/* Card */
 rounded-xl border bg-card p-6 shadow-sm hover:shadow-lg transition-shadow
 
-/* 按钮 primary */
+/* Button primary */
 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90
 
-/* 按钮 secondary */
+/* Button secondary */
 inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent
 
-/* 按钮 ghost */
+/* Button ghost */
 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground
 
-/* 输入框 */
+/* Input */
 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
 
 /* Badge */
 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold
 
-/* 导航栏 */
+/* Navbar */
 sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm
 
-/* Section 容器 */
+/* Section container */
 mx-auto max-w-7xl px-6 py-24 lg:px-8
 
-/* 标题组 */
+/* Heading group */
 mx-auto max-w-2xl text-center
 text-4xl font-bold tracking-tight sm:text-5xl
 mt-4 text-lg text-muted-foreground
@@ -440,23 +440,23 @@ mt-4 text-lg text-muted-foreground
 
 ---
 
-## 6. SVG 内联 Pattern (Hero Patterns 替代)
+## 6. SVG Inline Patterns (Hero Patterns Alternative)
 
-可直接内联到 CSS background-image 的 SVG pattern：
+SVG patterns that can be inlined directly into CSS background-image:
 
-### 6.1 微点
+### 6.1 Micro Dots
 
 ```css
 background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='%23e2e8f0'/%3E%3C/svg%3E");
 ```
 
-### 6.2 十字
+### 6.2 Cross
 
 ```css
 background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 18v4M18 20h4' stroke='%23e2e8f0' stroke-width='1' fill='none'/%3E%3C/svg%3E");
 ```
 
-### 6.3 对角线
+### 6.3 Diagonal Lines
 
 ```css
 background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6L6 0' stroke='%23e2e8f0' stroke-width='0.5' fill='none'/%3E%3C/svg%3E");

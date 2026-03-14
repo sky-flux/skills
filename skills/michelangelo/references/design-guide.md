@@ -1,244 +1,244 @@
-# 设计指南 (Design Guide)
+# Design Guide
 
-> 融合 Material Design 3 · Apple HIG · Ant Design · Refactoring UI 的设计思维与质量标准。
-> 本文件回答"为什么"和"怎么想"。具体数值查 design-sizes.md，色彩查 color-system.md，图标查 icon-libraries.md。
-
----
-
-## 1. 设计哲学速查
-
-| 体系 | 核心哲学 | 学到的 |
-|------|---------|--------|
-| **Material Design 3** | 动态色彩 + 表达性，用户个性化 | 色彩角色系统、形状作为品牌表达 |
-| **Apple HIG** | Clarity + Deference + Depth，内容优先 | 极简但有深度、44pt 触控区、语义色 |
-| **Microsoft Fluent** | 包容性设计，跨平台统一 | alpha 透明色系统、有目的的动效 |
-| **Ant Design** | 动态秩序之美，自然对数推导 | 8px 间距、14px 基准字号、克制原则 |
-| **Refactoring UI** | 战术代替天赋，开发者视角 | 视觉层次三维度、边框替代、双层阴影 |
+> Synthesizing design thinking and quality standards from Material Design 3 · Apple HIG · Ant Design · Refactoring UI.
+> This file answers "why" and "how to think". For specific values see design-sizes.md, for colors see color-system.md, for icons see icon-libraries.md.
 
 ---
 
-## 2. 视觉层次（最核心的设计能力）
+## 1. Design Philosophy Quick Reference
 
-### 2.1 语义层次 ≠ 视觉层次
-
-HTML 标签层级 (h1/h2/h3) 和视觉层级应分开。sidebar 标题可能语义 h2，但视觉应比主内容 h3 更小更轻。
-
-### 2.2 三把武器协同
-
-不要只靠字号！同时用字号 + 字重 + 颜色明度。
-**关键：弱化次要信息比强化主要信息更有效。**
-
-### 2.3 不让语义绑架视觉
-
-删除按钮不是页面主操作时用灰色/次要样式。只在确认弹窗中变红色 primary。
-
-### 2.4 渐进式披露 (Progressive Disclosure)
-
-信息分块呈现，不要一次展示全部。长表单分步骤，复杂内容用折叠/Tab。
+| System | Core Philosophy | Key Takeaways |
+|--------|----------------|---------------|
+| **Material Design 3** | Dynamic color + expressiveness, user personalization | Color role system, shape as brand expression |
+| **Apple HIG** | Clarity + Deference + Depth, content-first | Minimal but deep, 44pt touch targets, semantic colors |
+| **Microsoft Fluent** | Inclusive design, cross-platform consistency | Alpha transparency color system, purposeful motion |
+| **Ant Design** | Beauty of dynamic order, natural logarithm derivation | 8px spacing, 14px base font size, restraint principle |
+| **Refactoring UI** | Tactics over talent, developer perspective | Three dimensions of visual hierarchy, border alternatives, dual-layer shadows |
 
 ---
 
-## 3. 排版原则
+## 2. Visual Hierarchy (The Most Critical Design Skill)
 
-### 3.1 字体选择
+### 2.1 Semantic Hierarchy ≠ Visual Hierarchy
 
-- 字重 ≥ 5 的字体通常更精良
-- 系统字体栈优先（Ant Design 推荐）：-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif
-- CJK 不用拉丁 display 字体 (Space Grotesk 等只用于英文标题)
+HTML tag hierarchy (h1/h2/h3) and visual hierarchy should be separate. A sidebar heading may be semantic h2, but visually should be smaller and lighter than the main content h3.
 
-### 3.2 字阶系统
+### 2.2 Three Weapons Working Together
 
-- Ant Design 推导：12 / 14 / 16 / 20 / 24 / 30 / 38 / 46 / 56 / 68 (基于自然对数+音律)
+Don't rely on font size alone! Use font size + font weight + color brightness together.
+**Key: Weakening secondary information is more effective than emphasizing primary information.**
+
+### 2.3 Don't Let Semantics Hijack Visuals
+
+A delete button uses gray/secondary style when it's not the page's primary action. It only becomes a red primary button in a confirmation dialog.
+
+### 2.4 Progressive Disclosure
+
+Present information in chunks, don't show everything at once. Use steps for long forms, use collapse/tabs for complex content.
+
+---
+
+## 3. Typography Principles
+
+### 3.1 Font Selection
+
+- Fonts with ≥ 5 weights are generally more refined
+- System font stack first (Ant Design recommended): -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif
+- Don't use Latin display fonts for CJK (Space Grotesk etc. only for English headings)
+
+### 3.2 Type Scale System
+
+- Ant Design scale: 12 / 14 / 16 / 20 / 24 / 30 / 38 / 46 / 56 / 68 (based on natural logarithm + musical intervals)
 - M3 Type Scale: Display / Headline / Title / Body / Label × Large/Medium/Small
-- 一个系统中字阶控制在 3-5 种（展示页除外）
+- Keep 3-5 type sizes in a single system (except showcase pages)
 
-### 3.3 行高规则
+### 3.3 Line Height Rules
 
-大标题 1.1-1.2 · 中标题 1.2-1.3 · 正文 1.5-1.6 · CJK 标题 1.3-1.4 · CJK 正文 1.6-1.8
-Ant Design: 行高 = 字号 × 1.5 (14px → 22px)
+Large headings 1.1-1.2 · Medium headings 1.2-1.3 · Body text 1.5-1.6 · CJK headings 1.3-1.4 · CJK body 1.6-1.8
+Ant Design: line height = font size × 1.5 (14px → 22px)
 
-### 3.4 字间距
+### 3.4 Letter Spacing
 
-大标题 -0.5px · 全大写 +0.05-0.1em 且字号缩 15% · CJK 绝不用负值
+Large headings -0.5px · All-caps +0.05-0.1em with font size reduced 15% · Never use negative values for CJK
 
-### 3.5 行宽
+### 3.5 Line Length
 
-英文 45-75 字符 (≈65ch) · CJK 25-35 汉字 · 不要填满屏幕
+English 45-75 characters (≈65ch) · CJK 25-35 characters · Don't fill the full screen width
 
-### 3.6 字重克制
+### 3.6 Font Weight Restraint
 
-Ant Design: 正文 400 + 500，英文加粗 600。多数情况只用两种字重。
-
----
-
-## 4. 间距原则
-
-### 4.1 Ant Design 亲密性
-
-信息关联性越高 → 距离越近。目的：实现组织性，让用户一目了然。
-- 8px 小号间距：同组紧密关联
-- 16px 中号间距：组内松散
-- 24px 大号间距：组与组之间
-
-### 4.2 从"太多留白"开始
-
-留白不够比太多更难看。先给充裕空间，再逐步减少。
-
-### 4.3 间距表达归属
-
-相关元素靠近 (8-12px)，不相关元素拉远 (32-64px)。标题紧跟下方内容，与上方段落拉开距离。
-
-### 4.4 所有间距从系统中选
-
-4 8 12 16 20 24 32 40 48 64 80 96 128 — 不要拍脑袋。
+Ant Design: body 400 + 500, English bold 600. In most cases use only two weights.
 
 ---
 
-## 5. 色彩原则
+## 4. Spacing Principles
 
-### 5.1 M3 色彩角色
+### 4.1 Ant Design Proximity
 
-按功能命名 (Primary/Secondary/Tertiary + On-*/Container)，不按颜色命名。每色 13 级 tonal palette。
+Higher information relatedness → closer distance. Goal: create organization so users can understand at a glance.
+- 8px small spacing: tightly related within a group
+- 16px medium spacing: loosely related within a group
+- 24px large spacing: between groups
 
-### 5.2 Ant Design 双层体系
+### 4.2 Start with "Too Much Whitespace"
 
-系统级 (12 基色 × 10 级) + 产品级 (品牌+功能+中性)。WCAG AAA 7:1 对比度。
+Too little whitespace looks worse than too much. Start with generous space, then gradually reduce.
 
-### 5.3 Apple HIG 语义色
+### 4.3 Spacing Expresses Belonging
 
-用语义色而非硬编码。选一个 accent color 贯穿表示"可交互"。Label 四级层次 + Background 三级层次。
+Related elements close together (8-12px), unrelated elements far apart (32-64px). Headings sit close to content below, with more distance from the paragraph above.
 
-### 5.4 实战规则
+### 4.4 Always Choose Spacing from the System
 
-- 60-30-10 色彩比例
-- 灰色带色温 (冷蓝/暖棕)
-- 不在彩色背景上用灰色文字
-- 不只靠颜色传达信息
-- 暗色下 border 用 alpha 透明色
-- 暗色品牌色需提亮，不用纯黑 #000
+4 8 12 16 20 24 32 40 48 64 80 96 128 — Don't make up values.
 
 ---
 
-## 6. 深度与形状
+## 5. Color Principles
 
-### 6.1 M3 形状系统
+### 5.1 M3 Color Roles
 
-35+ 种形状，shape morphing。圆角 token 化：None(0) / XS(4) / S(8) / M(12) / L(16) / XL(28) / Full。
-更圆 = 更友好，更方 = 更严肃。
+Named by function (Primary/Secondary/Tertiary + On-*/Container), not by color name. Each color has a 13-level tonal palette.
 
-### 6.2 边框替代
+### 5.2 Ant Design Dual-Layer System
 
-边框太多 = 拥挤。优先用：背景色差 · 阴影 · 间距 · accent border。
+System level (12 base colors × 10 levels) + Product level (brand + functional + neutral). WCAG AAA 7:1 contrast ratio.
+
+### 5.3 Apple HIG Semantic Colors
+
+Use semantic colors, not hardcoded values. Choose one accent color throughout to indicate "interactive". Label four-level hierarchy + Background three-level hierarchy.
+
+### 5.4 Practical Rules
+
+- 60-30-10 color ratio
+- Gray with color temperature (cool blue / warm brown)
+- Don't use gray text on colorful backgrounds
+- Don't rely on color alone to convey information
+- Use alpha transparent borders in dark mode
+- Brighten brand colors for dark mode, don't use pure black #000
+
+---
+
+## 6. Depth and Shape
+
+### 6.1 M3 Shape System
+
+35+ shapes, shape morphing. Tokenized border radius: None(0) / XS(4) / S(8) / M(12) / L(16) / XL(28) / Full.
+Rounder = friendlier, squarer = more serious.
+
+### 6.2 Border Alternatives
+
+Too many borders = cluttered. Prefer: background color contrast · shadow · spacing · accent border.
 
 ### 6.3 Apple Liquid Glass
 
-半透明折射模拟深度，UI 漂浮在内容上方。同心圆设计 (UI 圆角与硬件对齐)。
+Translucent refraction simulates depth, UI floats above content. Concentric design (UI corner radius aligned with hardware).
 
 ---
 
-## 7. 动效原则
+## 7. Motion Principles
 
-| 场景 | 时长 | 曲线 |
-|------|------|------|
+| Context | Duration | Curve |
+|---------|----------|-------|
 | Hover | 150ms | ease |
-| 展开/收起 | 200-300ms | ease-out |
-| 页面切换 | 300-400ms | cubic-bezier(.4,0,.2,1) |
-| 入场 stagger | 400-600ms + 100ms delay | cubic-bezier(.4,0,.2,1) |
+| Expand/Collapse | 200-300ms | ease-out |
+| Page Transition | 300-400ms | cubic-bezier(.4,0,.2,1) |
+| Entrance stagger | 400-600ms + 100ms delay | cubic-bezier(.4,0,.2,1) |
 
-一个精心编排的入场 > 十个散乱微交互。所有动效必须可禁用 (prefers-reduced-motion)。
+One well-choreographed entrance > ten scattered micro-interactions. All motion must be disableable (prefers-reduced-motion).
 
 ---
 
-## 8. 组件设计模式
+## 8. Component Design Patterns
 
-### 卡片
-内边距 24-32px · shadow-sm hover→shadow-lg · 有阴影不需边框 · 圆角 8-12px
+### Cards
+Padding 24-32px · shadow-sm hover→shadow-lg · if shadow, no border needed · border radius 8-12px
 
 ### Hero Section
-Overline(品牌色 uppercase) + 大标题(48-56px Bold tracking-tight) + 副标题(18-20px muted)
-间距：标题→副标题 16px · 副标题→按钮 32px · 背景用渐变/pattern
+Overline (brand color uppercase) + Large heading (48-56px Bold tracking-tight) + Subtitle (18-20px muted)
+Spacing: heading→subtitle 16px · subtitle→button 32px · background uses gradient/pattern
 
-### Feature Grid (3-4列)
-图标用品牌色浅底圆(48px圆+24px图标) · 标题 semibold 16-18px · 描述 14-15px muted ≤20 词
+### Feature Grid (3-4 columns)
+Icon with brand color light circle (48px circle + 24px icon) · Title semibold 16-18px · Description 14-15px muted ≤20 words
 
-### 表单
-label 在 input 上方 · semibold 13-14px · input ≥40px · 一次 ≤5-7 字段 · focus: border→品牌色+ring
+### Forms
+Label above input · semibold 13-14px · input ≥40px · ≤5-7 fields at a time · focus: border→brand color+ring
 
-### 导航栏
-高度 64px(desktop)/56px(mobile) · 当前页 primary+底部指示线 · 滚动加 shadow-sm+backdrop-blur
+### Navigation Bar
+Height 64px (desktop) / 56px (mobile) · Current page primary + bottom indicator line · On scroll add shadow-sm + backdrop-blur
 
-### 数据展示
-数字最大最重(text-3xl bold) · 标签最小最轻(text-sm muted) · 趋势用语义色 · 间距分隔
+### Data Display
+Numbers largest and boldest (text-3xl bold) · Labels smallest and lightest (text-sm muted) · Trends use semantic colors · Spacing as separator
 
-### 表格
-表头 uppercase 小号 semibold 浅灰背景 · 行间 border-bottom · 数字右对齐 · 操作用 tertiary
+### Tables
+Header uppercase small semibold light gray background · Row border-bottom · Numbers right-aligned · Actions use tertiary
 
 ---
 
-## 9. 暗色模式
+## 9. Dark Mode
 
-| 元素 | 亮色 | 暗色 |
-|------|------|------|
-| 背景 | #F8FAFC | #0F172A |
+| Element | Light | Dark |
+|---------|-------|------|
+| Background | #F8FAFC | #0F172A |
 | Surface | #FFFFFF | #1E293B |
-| 边框 | #E2E8F0 | rgba(255,255,255,0.1) |
-| 主文字 | #0F172A | #F8FAFC |
+| Border | #E2E8F0 | rgba(255,255,255,0.1) |
+| Primary Text | #0F172A | #F8FAFC |
 
-暗色下阴影不可见→用边框或更亮 surface。不用纯黑 #000。Fluent 用 alpha 透明色跨背景一致。
-
----
-
-## 10. 无障碍
-
-| 规则 | 标准 |
-|------|------|
-| 正文对比度 | ≥ 4.5:1 (AA) / ≥ 7:1 (AAA) |
-| 大标题对比度 | ≥ 3:1 |
-| 最小触控区 | 44×44pt (Apple) / 48×48dp (Material) |
-| 不只用颜色传达信息 | 配图标/形状/文字 |
-| 动效可禁用 | prefers-reduced-motion |
-| focus-visible 而非 focus | 避免鼠标点击显示 outline |
-| 语义 HTML | header/nav/main/footer/article |
+Shadows are invisible in dark mode → use borders or lighter surfaces. Don't use pure black #000. Fluent uses alpha transparent colors for consistency across backgrounds.
 
 ---
 
-## 11. 反模式自检清单
+## 10. Accessibility
 
-生成代码后按以下顺序检查（详见 SKILL.md Step 1.3）：
-
-1. **眯眼测试**: 模糊页面能看出层次和焦点吗？→ 不能 = #1 无视觉层次
-2. **数边框**: 超过必要了吗？→ 是 = #2 边框泛滥（用背景色差/阴影/间距替代）
-3. **数颜色**: 接近 60-30-10 吗？→ 不是 = #3 色彩均布
-4. **查品牌色**: 又是蓝色？→ 是 = #4 千篇一律（根据行业选色）
-5. **查底色**: 纯白#FFF + 纯黑#000？→ 是 = #5（用 #F8FAFC + #0F172A）
-6. **查间距**: 有大有小吗？表达归属？→ 没有 = #6 间距随机
-7. **读文案**: 像真产品还是 lorem ipsum？→ 假的 = #7
-8. **数按钮**: 有层级区分吗？→ 没有 = #8 按钮单一
-9. **看卡片**: 全一样？→ 是 = #9 复制粘贴
-10. **查细节**: hover 状态？背景装饰？accent border？→ 没有 = #10 缺精修
-11. **查彩色背景文字**: 用了灰色文字？→ 是 = #11（用同色系浅色）
-12. **查大写**: 加了 letter-spacing？→ 没有 = #12
+| Rule | Standard |
+|------|----------|
+| Body text contrast | ≥ 4.5:1 (AA) / ≥ 7:1 (AAA) |
+| Large heading contrast | ≥ 3:1 |
+| Minimum touch target | 44×44pt (Apple) / 48×48dp (Material) |
+| Don't convey info by color alone | Pair with icon/shape/text |
+| Motion can be disabled | prefers-reduced-motion |
+| focus-visible not focus | Avoid showing outline on mouse click |
+| Semantic HTML | header/nav/main/footer/article |
 
 ---
 
-## 12. 中国大厂设计系统
+## 11. Anti-Pattern Self-Check List
 
-| 系统 | 公司 | 特色 |
-|------|------|------|
-| Ant Design | 蚂蚁 | 中后台标杆，8px间距，14px基准 |
-| Arco Design | 字节 | 现代感强，内置暗色 |
-| TDesign | 腾讯 | 跨端统一 |
-| Semi Design | 抖音 | Design2Code |
-| Element Plus | 饿了么 | Vue 最流行 |
-| Vant | 有赞 | 移动端电商 |
-| NutUI | 京东 | 移动端 |
+Check generated code in the following order (see SKILL.md Step 1.3 for details):
+
+1. **Squint test**: Can you make out hierarchy and focal points with the page blurred? → No = #1 No visual hierarchy
+2. **Count borders**: More than necessary? → Yes = #2 Border overload (replace with background contrast/shadow/spacing)
+3. **Count colors**: Close to 60-30-10? → No = #3 Evenly distributed colors
+4. **Check brand color**: Blue again? → Yes = #4 Generic look (choose color based on industry)
+5. **Check background**: Pure white #FFF + pure black #000? → Yes = #5 (use #F8FAFC + #0F172A)
+6. **Check spacing**: Is there variety? Does it express belonging? → No = #6 Random spacing
+7. **Read the copy**: Does it read like a real product or lorem ipsum? → Fake = #7
+8. **Count buttons**: Is there a hierarchy? → No = #8 Uniform buttons
+9. **Look at cards**: All identical? → Yes = #9 Copy-paste
+10. **Check details**: Hover states? Background decoration? Accent border? → None = #10 Lacking polish
+11. **Check text on colorful backgrounds**: Using gray text? → Yes = #11 (use a lighter shade of the same hue)
+12. **Check uppercase**: Added letter-spacing? → No = #12
 
 ---
 
-## 13. Figma 资源库精选
+## 12. Chinese Tech Company Design Systems
 
-| 资源 | URL |
-|------|-----|
+| System | Company | Highlights |
+|--------|---------|------------|
+| Ant Design | Ant Group | Standard for mid/back-end, 8px spacing, 14px base |
+| Arco Design | ByteDance | Strong modern feel, built-in dark mode |
+| TDesign | Tencent | Cross-platform consistency |
+| Semi Design | Douyin | Design2Code |
+| Element Plus | Ele.me | Most popular for Vue |
+| Vant | Youzan | Mobile e-commerce |
+| NutUI | JD.com | Mobile |
+
+---
+
+## 13. Figma Resource Library Picks
+
+| Resource | URL |
+|----------|-----|
 | 100 Color Combinations | figma.com/resource-library/color-combinations |
 | Typography Guide | figma.com/resource-library/typography-in-design |
 | Visual Hierarchy | figma.com/resource-library/what-is-visual-hierarchy |
@@ -249,14 +249,14 @@ label 在 input 上方 · semibold 13-14px · input ≥40px · 一次 ≤5-7 字
 
 ---
 
-## 14. 响应式断点
+## 14. Responsive Breakpoints
 
-| 断点 | Tailwind | Bootstrap | 设备 |
-|------|----------|-----------|------|
-| sm | 640px | 576px | 大手机横屏 |
-| md | 768px | 768px | 平板竖屏 |
-| lg | 1024px | 992px | 平板横屏 |
-| xl | 1280px | 1200px | 桌面 |
-| 2xl | 1536px | 1400px | 大屏 |
+| Breakpoint | Tailwind | Bootstrap | Device |
+|------------|----------|-----------|--------|
+| sm | 640px | 576px | Large phone landscape |
+| md | 768px | 768px | Tablet portrait |
+| lg | 1024px | 992px | Tablet landscape |
+| xl | 1280px | 1200px | Desktop |
+| 2xl | 1536px | 1400px | Large screen |
 
-移动优先。3列→2列→1列 · sidebar→hamburger · 标题56→36px · padding 64→24px
+Mobile-first. 3 columns→2 columns→1 column · sidebar→hamburger · heading 56→36px · padding 64→24px

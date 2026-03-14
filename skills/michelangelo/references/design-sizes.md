@@ -1,62 +1,62 @@
-# 设计尺寸速查手册
+# Design Sizes Quick Reference
 
-> 按项目类型查尺寸。所有值为 CSS 像素 (逻辑像素)，非物理像素。
+> Look up sizes by project type. All values are CSS pixels (logical pixels), not physical pixels.
 
 ---
 
-## 1. Web 页面设计
+## 1. Web Page Design
 
-### 1.1 设计画布尺寸 (Figma/设计稿)
+### 1.1 Design Canvas Sizes (Figma / Design Files)
 
-| 类型 | 推荐画布宽度 | 内容区 max-width | 备注 |
-|------|------------|-----------------|------|
-| **桌面端** | 1440px | 1200px (居中) | 最常用设计稿宽度 |
-| **桌面端 (大屏)** | 1920px | 1200-1280px | 侧边留白更多 |
-| **笔记本** | 1366px | 1140px | 全球第二常用分辨率 |
-| **平板横屏** | 1024px | 960px | iPad Pro |
-| **平板竖屏** | 768px | 720px | iPad |
-| **手机** | 375px | 375px (全宽) | iPhone SE/旧型号基准 |
-| **手机 (主流)** | 390px | 390px | iPhone 15 / 主流 Android |
-| **手机 (大屏)** | 430px | 430px | iPhone 15 Pro Max |
+| Type | Recommended Canvas Width | Content Area max-width | Notes |
+|------|--------------------------|------------------------|-------|
+| **Desktop** | 1440px | 1200px (centered) | Most common design file width |
+| **Desktop (Large Screen)** | 1920px | 1200-1280px | More side margins |
+| **Laptop** | 1366px | 1140px | World's second most common resolution |
+| **Tablet Landscape** | 1024px | 960px | iPad Pro |
+| **Tablet Portrait** | 768px | 720px | iPad |
+| **Mobile** | 375px | 375px (full width) | iPhone SE / older model baseline |
+| **Mobile (Mainstream)** | 390px | 390px | iPhone 15 / mainstream Android |
+| **Mobile (Large Screen)** | 430px | 430px | iPhone 15 Pro Max |
 
-**实战建议：** 设计稿用 1440px 宽，内容区 1200px 居中，两侧各留 120px。这样一份稿覆盖绝大多数桌面屏幕。
+**Practical Tip:** Design at 1440px wide, content area 1200px centered, 120px on each side. One file covers the vast majority of desktop screens.
 
-### 1.2 响应式断点
+### 1.2 Responsive Breakpoints
 
-| 断点 | Tailwind | Bootstrap | 覆盖设备 |
-|------|----------|-----------|---------|
-| **sm** | 640px | 576px | 大手机横屏 |
-| **md** | 768px | 768px | 平板竖屏 |
-| **lg** | 1024px | 992px | 平板横屏/小笔记本 |
-| **xl** | 1280px | 1200px | 标准桌面 |
-| **2xl** | 1536px | 1400px | 大屏桌面 |
+| Breakpoint | Tailwind | Bootstrap | Devices Covered |
+|------------|----------|-----------|-----------------|
+| **sm** | 640px | 576px | Large phone landscape |
+| **md** | 768px | 768px | Tablet portrait |
+| **lg** | 1024px | 992px | Tablet landscape / small laptop |
+| **xl** | 1280px | 1200px | Standard desktop |
+| **2xl** | 1536px | 1400px | Large desktop |
 
-**移动优先：** 先写小屏样式，用 `@media (min-width)` 向上扩展。
+**Mobile-first:** Write small-screen styles first, scale up with `@media (min-width)`.
 
-### 1.3 常见设备 CSS 视口
+### 1.3 Common Device CSS Viewports
 
-**手机 (竖屏)**
-| 设备 | 视口 (CSS px) |
-|------|-------------|
+**Mobile (Portrait)**
+| Device | Viewport (CSS px) |
+|--------|-------------------|
 | iPhone SE | 375 × 667 |
 | iPhone 14/15 | 393 × 852 |
 | iPhone 15 Pro Max | 430 × 932 |
 | Samsung Galaxy S24 | 360 × 780 |
 | Pixel 8 | 412 × 915 |
-| 小米/OPPO 主流 | 360-412 × 800-915 |
+| Xiaomi/OPPO Mainstream | 360-412 × 800-915 |
 
-**平板**
-| 设备 | 视口 |
-|------|------|
-| iPad (10代) | 810 × 1080 |
+**Tablet**
+| Device | Viewport |
+|--------|----------|
+| iPad (10th gen) | 810 × 1080 |
 | iPad Air | 820 × 1180 |
 | iPad Pro 11" | 834 × 1194 |
 | iPad Pro 12.9" | 1024 × 1366 |
-| Android 平板 | 800 × 1280 |
+| Android Tablet | 800 × 1280 |
 
-**桌面 (常用分辨率)**
-| 分辨率 | 全球市占 |
-|--------|---------|
+**Desktop (Common Resolutions)**
+| Resolution | Global Market Share |
+|------------|---------------------|
 | 1920 × 1080 | ~22% |
 | 1366 × 768 | ~12% |
 | 1536 × 864 | ~9% |
@@ -65,206 +65,206 @@
 
 ---
 
-## 2. 按项目类型的尺寸指南
+## 2. Size Guide by Project Type
 
-### 2.1 Landing Page / 营销页
-
-```
-设计画布:       1440 × 长页面 (不限高)
-内容区:         max-width 1200px，居中
-Hero 区域:      全宽，高度 600-800px (视口 80-100vh)
-Section 间距:   80-120px
-侧边安全区:     内容距画布边 ≥ 120px (桌面)，24px (手机)
-```
-
-### 2.2 Dashboard / 管理后台
+### 2.1 Landing Page / Marketing Page
 
 ```
-设计画布:       1440 × 900 (或 1920 × 1080)
-Sidebar 宽度:   240-280px (展开) / 64-80px (收起)
-Topbar 高度:    56-64px
-内容区:         100% - sidebar 宽度
-卡片间距:       16-24px (gap)
-表格行高:       48-56px
-最小列宽:       120px
+Design canvas:      1440 × tall page (no height limit)
+Content area:       max-width 1200px, centered
+Hero area:          full width, height 600-800px (80-100vh)
+Section spacing:    80-120px
+Side safe zone:     content ≥ 120px from canvas edge (desktop), 24px (mobile)
 ```
 
-### 2.3 单屏页面 (登录/注册/404)
+### 2.2 Dashboard / Admin Panel
 
 ```
-桌面:           居中卡片 400-480px 宽，垂直居中
-手机:           全宽，padding 24px
-表单输入框高:   40-48px
-按钮高:         40-48px
-表单项间距:     16-20px
+Design canvas:      1440 × 900 (or 1920 × 1080)
+Sidebar width:      240-280px (expanded) / 64-80px (collapsed)
+Topbar height:      56-64px
+Content area:       100% - sidebar width
+Card spacing:       16-24px (gap)
+Table row height:   48-56px
+Minimum column width: 120px
 ```
 
-### 2.4 移动端 App 页面
+### 2.3 Single-Screen Pages (Login / Register / 404)
 
 ```
-设计画布:       390 × 844 (iPhone 15 基准)
-或:             375 × 812 (兼容旧设备)
-状态栏高:       iOS 59px / Android 24dp
-导航栏高:       44-56px
-底部 Tab 栏高:  49-83px (含安全区)
-安全区底部:     iOS 34px (有 Home Indicator)
-最小触控区:     44 × 44pt (Apple) / 48 × 48dp (Material)
-内容 padding:   16px 左右
+Desktop:            centered card 400-480px wide, vertically centered
+Mobile:             full width, padding 24px
+Form input height:  40-48px
+Button height:      40-48px
+Form item spacing:  16-20px
 ```
 
-### 2.5 微信小程序
+### 2.4 Mobile App Pages
 
 ```
-设计画布:       375 × 812 (iPhone X 基准)
-或:             750 × 1624 (@2x)
-导航栏:         系统自定义 88rpx (含状态栏)
-Tabbar 高度:    98rpx
-安全区底部:     68rpx
-字号基准:       28rpx (≈14px)
+Design canvas:      390 × 844 (iPhone 15 baseline)
+Or:                 375 × 812 (compatible with older devices)
+Status bar height:  iOS 59px / Android 24dp
+Navigation bar height: 44-56px
+Bottom tab bar height: 49-83px (including safe area)
+Bottom safe area:   iOS 34px (with Home Indicator)
+Minimum touch target: 44 × 44pt (Apple) / 48 × 48dp (Material)
+Content padding:    16px left/right
 ```
 
-### 2.6 邮件模板 (Email)
+### 2.5 WeChat Mini Program
 
 ```
-邮件宽度:       600px (标准) / 最大 700-800px
-Banner 高度:    200-350px
-移动端宽度:     自适应，最小 320px
-图片:           JPG (照片) / PNG (logo/透明)
-总邮件长度:     1500-2000px (不宜过长)
-CTA 按钮:       最小 44px 高，120px 宽
+Design canvas:      375 × 812 (iPhone X baseline)
+Or:                 750 × 1624 (@2x)
+Navigation bar:     system custom 88rpx (including status bar)
+Tabbar height:      98rpx
+Bottom safe area:   68rpx
+Base font size:     28rpx (≈14px)
 ```
 
-### 2.7 海报/平面设计
+### 2.6 Email Template
 
 ```
-A4 (打印):      210 × 297mm → 2480 × 3508px @300dpi
-A3:             297 × 420mm → 3508 × 4961px @300dpi
-名片:           90 × 54mm → 1063 × 638px @300dpi
-Banner (展会):  根据物理尺寸，至少 150dpi
-Web 海报:       1200 × 1600px 或 1080 × 1920px (竖版)
+Email width:        600px (standard) / max 700-800px
+Banner height:      200-350px
+Mobile width:       adaptive, minimum 320px
+Images:             JPG (photos) / PNG (logo/transparent)
+Total email length: 1500-2000px (avoid being too long)
+CTA button:         minimum 44px tall, 120px wide
 ```
 
-### 2.8 社交媒体图片
+### 2.7 Poster / Print Design
 
-**通用比例**
-| 比例 | 用途 |
-|------|------|
-| 1:1 (正方形) | Feed 帖子、头像 |
-| 4:5 (竖版) | Instagram/小红书 Feed 最佳 |
-| 16:9 (横版) | YouTube 封面/缩略图、网站 Banner |
-| 9:16 (竖屏) | Stories / Reels / 短视频 |
+```
+A4 (print):         210 × 297mm → 2480 × 3508px @300dpi
+A3:                 297 × 420mm → 3508 × 4961px @300dpi
+Business card:      90 × 54mm → 1063 × 638px @300dpi
+Banner (exhibition): based on physical size, at least 150dpi
+Web poster:         1200 × 1600px or 1080 × 1920px (portrait)
+```
 
-**平台具体尺寸**
-| 平台 | 类型 | 尺寸 (px) |
-|------|------|----------|
-| **微信公众号** | 封面图 (大图) | 900 × 383 (2.35:1) |
-| | 封面图 (小图) | 500 × 500 (1:1) |
-| | 文章配图 | 宽 ≥ 900 |
-| **小红书** | Feed 图 | 1080 × 1440 (3:4) |
-| | 封面图 | 1080 × 1440 |
-| **抖音/TikTok** | 视频/封面 | 1080 × 1920 (9:16) |
-| **Instagram** | 方形帖子 | 1080 × 1080 |
-| | 竖版帖子 | 1080 × 1350 (4:5) |
-| | Stories/Reels | 1080 × 1920 (9:16) |
-| **Twitter/X** | 帖子图 | 1200 × 675 (16:9) |
+### 2.8 Social Media Images
+
+**Common Ratios**
+| Ratio | Use Case |
+|-------|----------|
+| 1:1 (Square) | Feed posts, avatars |
+| 4:5 (Portrait) | Best for Instagram / Xiaohongshu Feed |
+| 16:9 (Landscape) | YouTube cover / thumbnails, website banners |
+| 9:16 (Vertical) | Stories / Reels / short video |
+
+**Platform-Specific Sizes**
+| Platform | Type | Size (px) |
+|----------|------|-----------|
+| **WeChat Official Account** | Cover image (large) | 900 × 383 (2.35:1) |
+| | Cover image (small) | 500 × 500 (1:1) |
+| | Article image | Width ≥ 900 |
+| **Xiaohongshu** | Feed image | 1080 × 1440 (3:4) |
+| | Cover image | 1080 × 1440 |
+| **Douyin / TikTok** | Video / Cover | 1080 × 1920 (9:16) |
+| **Instagram** | Square post | 1080 × 1080 |
+| | Portrait post | 1080 × 1350 (4:5) |
+| | Stories / Reels | 1080 × 1920 (9:16) |
+| **Twitter / X** | Post image | 1200 × 675 (16:9) |
 | | Banner | 1500 × 500 |
-| **LinkedIn** | 帖子图 | 1200 × 627 |
+| **LinkedIn** | Post image | 1200 × 627 |
 | | Banner | 1584 × 396 |
-| **YouTube** | 缩略图 | 1280 × 720 (16:9) |
+| **YouTube** | Thumbnail | 1280 × 720 (16:9) |
 | | Channel Banner | 2560 × 1440 |
-| **Facebook** | 帖子图 | 1200 × 630 |
-| | 封面 | 820 × 312 |
+| **Facebook** | Post image | 1200 × 630 |
+| | Cover | 820 × 312 |
 
 ### 2.9 App Icon
 
-| 平台 | 尺寸 | 备注 |
-|------|------|------|
-| iOS App Icon | 1024 × 1024px | 提交后系统自动缩放 |
-| Android (Adaptive) | 108 × 108dp (432×432px @4x) | 前景 72dp，背景 108dp |
+| Platform | Size | Notes |
+|----------|------|-------|
+| iOS App Icon | 1024 × 1024px | System auto-scales after submission |
+| Android (Adaptive) | 108 × 108dp (432×432px @4x) | Foreground 72dp, background 108dp |
 | macOS | 1024 × 1024px | |
-| Favicon | 32 × 32 + 16 × 16 | 还需 180×180 (apple-touch-icon) |
+| Favicon | 32 × 32 + 16 × 16 | Also need 180×180 (apple-touch-icon) |
 | PWA Icon | 512 × 512 | manifest.json |
 
-### 2.10 OG 分享图 (Open Graph)
+### 2.10 OG Share Image (Open Graph)
 
 ```
-推荐:           1200 × 630px (1.91:1)
-最小:           600 × 315px
-Twitter Card:   1200 × 600px (2:1)
-微信分享:       500 × 500 (1:1) 或 900 × 500
+Recommended:        1200 × 630px (1.91:1)
+Minimum:            600 × 315px
+Twitter Card:       1200 × 600px (2:1)
+WeChat Share:       500 × 500 (1:1) or 900 × 500
 ```
 
 ---
 
-## 3. 排版尺寸速查
+## 3. Typography Size Quick Reference
 
-### 3.1 Web 字号
+### 3.1 Web Font Sizes
 
-| 元素 | 桌面 | 手机 | 行高 |
-|------|------|------|------|
+| Element | Desktop | Mobile | Line Height |
+|---------|---------|--------|-------------|
 | H1 | 48-64px | 32-40px | 1.1-1.2 |
 | H2 | 32-40px | 24-30px | 1.2-1.3 |
 | H3 | 24-28px | 20-24px | 1.2-1.3 |
-| 正文 | 16px | 16px (不缩小!) | 1.5-1.6 |
-| 辅助文字 | 14px | 14px | 1.4-1.5 |
+| Body text | 16px | 16px (don't shrink!) | 1.5-1.6 |
+| Secondary text | 14px | 14px | 1.4-1.5 |
 | Caption | 12-13px | 12px | 1.4 |
-| 按钮 | 14-16px | 14-16px | 1 |
+| Button | 14-16px | 14-16px | 1 |
 
-**CJK 正文行高 1.6-1.8，标题 1.3-1.4。**
+**CJK body line height 1.6-1.8, headings 1.3-1.4.**
 
-### 3.2 间距系统
+### 3.2 Spacing System
 
 ```
-4px  — 图标与文字
-8px  — 紧密元素 (label↔input)
-12px — 列表项之间
-16px — 段落间、卡片内
-24px — 模块之间
-32px — 大区块
-48px — Section 内 padding
-64px — Section 之间 (手机)
-80-96px — Section 之间 (桌面)
-120px — Hero/Footer 大留白
+4px  — icon and text
+8px  — tight elements (label↔input)
+12px — between list items
+16px — between paragraphs, inside cards
+24px — between modules
+32px — large blocks
+48px — section internal padding
+64px — between sections (mobile)
+80-96px — between sections (desktop)
+120px — hero / footer generous whitespace
 ```
 
-### 3.3 组件尺寸参考
+### 3.3 Component Size Reference
 
-| 组件 | 高度 | 备注 |
-|------|------|------|
-| 导航栏 (Desktop) | 56-64px | |
-| 导航栏 (Mobile) | 48-56px | |
-| 输入框 | 40-48px | Apple 最小 44pt |
-| 按钮 (大) | 44-48px | |
-| 按钮 (中) | 36-40px | |
-| 按钮 (小) | 28-32px | |
-| 头像 (小) | 32px | |
-| 头像 (中) | 40-48px | |
-| 头像 (大) | 64-96px | |
+| Component | Height | Notes |
+|-----------|--------|-------|
+| Navigation bar (Desktop) | 56-64px | |
+| Navigation bar (Mobile) | 48-56px | |
+| Input field | 40-48px | Apple minimum 44pt |
+| Button (Large) | 44-48px | |
+| Button (Medium) | 36-40px | |
+| Button (Small) | 28-32px | |
+| Avatar (Small) | 32px | |
+| Avatar (Medium) | 40-48px | |
+| Avatar (Large) | 64-96px | |
 | Badge | 20-24px | |
-| 表格行 | 48-56px | |
-| 侧边栏 (展开) | 240-280px 宽 | |
-| 侧边栏 (收起) | 64-80px 宽 | |
-| Modal (小) | 400px 宽 | |
-| Modal (中) | 600px 宽 | |
-| Modal (大) | 800px 宽 | |
-| Toast | 360px 宽, 48-64px 高 | |
+| Table row | 48-56px | |
+| Sidebar (Expanded) | 240-280px wide | |
+| Sidebar (Collapsed) | 64-80px wide | |
+| Modal (Small) | 400px wide | |
+| Modal (Medium) | 600px wide | |
+| Modal (Large) | 800px wide | |
+| Toast | 360px wide, 48-64px tall | |
 
-### 3.4 最小触控区域
+### 3.4 Minimum Touch Target
 
-| 平台 | 最小尺寸 | 备注 |
-|------|---------|------|
-| Apple (iOS) | 44 × 44pt | HIG 强制 |
-| Material (Android) | 48 × 48dp | 推荐，最小 24dp 图标+padding |
-| Web (WCAG) | 24 × 24px (最小) / 44 × 44px (推荐) | WCAG 2.5.8 |
+| Platform | Minimum Size | Notes |
+|----------|--------------|-------|
+| Apple (iOS) | 44 × 44pt | HIG required |
+| Material (Android) | 48 × 48dp | Recommended, minimum 24dp icon + padding |
+| Web (WCAG) | 24 × 24px (minimum) / 44 × 44px (recommended) | WCAG 2.5.8 |
 
 ---
 
-## 4. 内容宽度与可读性
+## 4. Content Width and Readability
 
-| 规则 | 值 |
-|------|---|
-| 英文正文最佳行宽 | 45-75 字符 (≈ 65ch) |
-| CJK 正文最佳行宽 | 25-35 个汉字 |
-| max-width 推荐 | `65ch` 或 `680px` |
-| 大屏内容容器 | max-width 1200px，margin: 0 auto |
-| 超大屏 (>1600px) | 考虑多列布局或限宽 1400px |
+| Rule | Value |
+|------|-------|
+| Optimal English body line length | 45-75 characters (≈ 65ch) |
+| Optimal CJK body line length | 25-35 characters |
+| Recommended max-width | `65ch` or `680px` |
+| Large screen content container | max-width 1200px, margin: 0 auto |
+| Extra-large screen (>1600px) | Consider multi-column layout or limit to 1400px |
