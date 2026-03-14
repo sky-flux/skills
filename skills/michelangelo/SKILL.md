@@ -26,7 +26,34 @@ Two modes, one design philosophy. Master the design principles before writing a 
 | "generate React project" / "shadcn" / "Tailwind" / "write code" / "real project" | **Mode A: React + Tailwind + shadcn + Visual Validation** |
 | Ambiguous | Default to **Mode B**, then prompt whether to generate Mode A after completion |
 
-**Mode A includes a visual validation loop**: after generating code, start the dev server and use Playwright MCP to screenshot → review → iterate until the result looks right. This is what makes Michelangelo surpass design tools like pencil.dev — direct code output with a visual feedback loop, no intermediate file format.
+**Mode A and Mode B both include a visual validation loop**: after generating code, use Playwright MCP to screenshot → review → iterate until the result looks right. This is what makes Michelangelo surpass design tools like pencil.dev — direct code output with a visual feedback loop, no intermediate file format.
+
+---
+
+## Step 0.5: Playwright MCP Detection
+
+Before any visual validation, check if Playwright MCP is available.
+
+**Detection — run this command:**
+```bash
+claude mcp list | grep -i playwright
+```
+
+**If found** (output contains `playwright`): proceed to visual validation normally.
+
+**If not found**: inform the user and ask for authorization:
+
+> "Visual validation requires Playwright MCP, which is not currently installed.
+> Install it with:
+> ```bash
+> claude mcp add playwright -s user -- npx @playwright/mcp@latest
+> ```
+> May I run this command now?"
+
+- If user says **yes**: run the install command, then proceed with visual validation
+- If user says **no**: skip visual validation, deliver the code only, and note that the user can install Playwright MCP later to enable visual iteration
+
+**Do not silently skip visual validation** — always inform the user if it's unavailable.
 
 ---
 
