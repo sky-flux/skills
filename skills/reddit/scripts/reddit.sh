@@ -474,8 +474,111 @@ mode_fetch() {
     top_posts: [.posts | sort_by(-.score) | .[0:5] | .[] | {id, title: .title[0:60], score, tags: ._jq_enriched.tags}]
   }'
 }
-mode_comments()   { log "TODO: comments"; }
-mode_search()     { log "TODO: search"; }
+mode_comments() {
+  local post_id="${1:?Usage: reddit.sh comments <post_id> <subreddit>}"
+  local subreddit="${2:?Usage: reddit.sh comments <post_id> <subreddit>}"
+  local limit="${3:-200}"
+  local depth="${4:-10}"
+
+  ensure_jq
+
+  local url="${BASE_URL}/r/${subreddit}/comments/${post_id}.json?limit=${limit}&depth=${depth}"
+  local response
+  response=$(reddit_curl "$url") || return 1
+
+  # Parse the 2-element array [post, comments]
+  # Recursively flatten comment tree
+  echo "$response" | jq '
+    def flatten_comments:
+      . as $items
+      | [ $items[]
+          | select(.kind == "t1")
+          | .data
+          | {
+              id,
+              author,
+              body,
+              score,
+              created_utc,
+              depth: (.depth // 0),
+              replies: (
+                if .replies == "" or .replies == null then []
+                else [.replies.data.children | flatten_comments]
+                end
+              )
+            }
+        ];
+    {
+      post: .[0].data.children[0].data | {id, subreddit, title, selftext, author, score, num_comments, permalink},
+      comments: [.[1].data.children | flatten_comments] | flatten
+    }
+  '
+}
+mode_search() {
+  local query=""
+  local type="post"
+  local global=false
+  local subreddit=""
+  local sort="new"
+  local time_filter="week"
+
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --type) type="$2"; shift 2 ;;
+      --global) global=true; shift ;;
+      --subreddit) subreddit="$2"; shift 2 ;;
+      --sort) sort="$2"; shift 2 ;;
+      --time) time_filter="$2"; shift 2 ;;
+      *) query="$1"; shift ;;
+    esac
+  done
+
+  if [ -z "$query" ]; then
+    log "Usage: reddit.sh search <query> [--type post|user|subreddit] [--global] [--subreddit X]"
+    return 1
+  fi
+
+  ensure_jq
+
+  local encoded_query
+  encoded_query=$(printf '%s' "$query" | jq -sRr @uri)
+
+  local url
+  case "$type" in
+    post)
+      if [ "$global" = true ] || [ -z "$subreddit" ]; then
+        url="${BASE_URL}/search.json?q=${encoded_query}&sort=${sort}&t=${time_filter}&limit=100"
+      else
+        url="${BASE_URL}/r/${subreddit}/search.json?q=${encoded_query}&restrict_sr=on&sort=${sort}&t=${time_filter}&limit=100"
+      fi
+      ;;
+    user)
+      url="${BASE_URL}/search.json?q=${encoded_query}&type=user&limit=100"
+      ;;
+    subreddit)
+      url="${BASE_URL}/subreddits/search.json?q=${encoded_query}&limit=100"
+      ;;
+    *)
+      log "Unknown type: $type (use post, user, or subreddit)"
+      return 1
+      ;;
+  esac
+
+  local response
+  response=$(reddit_curl "$url") || return 1
+
+  echo "$response" | jq --arg q "$query" --arg t "$type" '{
+    query: $q,
+    type: $t,
+    results: [.data.children[].data | if $t == "subreddit" then
+      {name: .display_name, subscribers: .subscribers, description: .public_description, subreddit_type: .subreddit_type}
+    elif $t == "user" then
+      {name, link_karma, comment_karma, created_utc}
+    else
+      {id, subreddit, title, selftext, author, score, num_comments, permalink, created_utc}
+    end]
+  }'
+}
 mode_discover()   { log "TODO: discover"; }
 mode_profile()    { log "TODO: profile"; }
 mode_crosspost()  { log "TODO: crosspost"; }
