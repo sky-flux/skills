@@ -1,0 +1,118 @@
+{
+  "kind": "Listing",
+  "data": {
+    "after": "t3_ger001",
+    "children": [
+      {
+        "kind": "t3",
+        "data": {
+          "id": "abc123",
+          "subreddit": "SaaS",
+          "title": "Anyone struggling to orchestrate multiple AI agents?",
+          "selftext": "I'm really frustrated with the current tooling. We're running a $5k MRR product built on supabase and next.js and our AI workflow is a mess. Looking for a tool that can coordinate agents without writing tons of glue code. Anyone found something that works?",
+          "author": "founder_mike",
+          "score": 12,
+          "num_comments": 8,
+          "upvote_ratio": 0.89,
+          "created_utc": 1710499000,
+          "permalink": "/r/SaaS/comments/abc123/anyone_struggling_to_orchestrate_multiple_ai_agents/",
+          "link_flair_text": "B2B SaaS",
+          "is_self": true,
+          "edited": false,
+          "removed_by_category": null,
+          "num_crossposts": 0,
+          "subreddit_subscribers": 85000,
+          "crosspost_parent": null
+        }
+      },
+      {
+        "kind": "t3",
+        "data": {
+          "id": "def456",
+          "subreddit": "SaaS",
+          "title": "What's the best CRM for small teams?",
+          "selftext": "We're a 5 person team based in the US looking for a simple CRM. Budget is around $20/month. Don't need anything fancy, just contact management and basic pipelines.",
+          "author": "startup_sarah",
+          "score": 25,
+          "num_comments": 15,
+          "upvote_ratio": 0.95,
+          "created_utc": 1710490000,
+          "permalink": "/r/SaaS/comments/def456/whats_the_best_crm_for_small_teams/",
+          "link_flair_text": null,
+          "is_self": true,
+          "edited": false,
+          "removed_by_category": null,
+          "num_crossposts": 2,
+          "subreddit_subscribers": 85000,
+          "crosspost_parent": null
+        }
+      },
+      {
+        "kind": "t3",
+        "data": {
+          "id": "spam01",
+          "subreddit": "SaaS",
+          "title": "Check out my amazing new tool!!!",
+          "selftext": "",
+          "author": "Bright-Funny1234",
+          "score": -2,
+          "num_comments": 0,
+          "upvote_ratio": 0.2,
+          "created_utc": 1710498000,
+          "permalink": "/r/SaaS/comments/spam01/check_out_my_amazing_new_tool/",
+          "link_flair_text": null,
+          "is_self": true,
+          "edited": false,
+          "removed_by_category": null,
+          "num_crossposts": 0,
+          "subreddit_subscribers": 85000,
+          "crosspost_parent": null
+        }
+      },
+      {
+        "kind": "t3",
+        "data": {
+          "id": "del789",
+          "subreddit": "SaaS",
+          "title": "Deleted post about productivity",
+          "selftext": "[removed]",
+          "author": "[deleted]",
+          "score": 5,
+          "num_comments": 3,
+          "upvote_ratio": null,
+          "created_utc": 1710480000,
+          "permalink": "/r/SaaS/comments/del789/deleted_post_about_productivity/",
+          "link_flair_text": null,
+          "is_self": true,
+          "edited": false,
+          "removed_by_category": "moderator",
+          "num_crossposts": 0,
+          "subreddit_subscribers": 85000,
+          "crosspost_parent": null
+        }
+      },
+      {
+        "kind": "t3",
+        "data": {
+          "id": "ger001",
+          "subreddit": "StartupDACH",
+          "title": "Alternative zu Notion für kleine Teams?",
+          "selftext": "Ich bin frustriert mit Notion - zu komplex für unser kleines Team. Habt ihr eine Empfehlung für eine einfachere Alternative? Wir brauchen hauptsächlich Dokumente und Aufgabenverwaltung.",
+          "author": "berlin_founder",
+          "score": 8,
+          "num_comments": 5,
+          "upvote_ratio": 0.88,
+          "created_utc": 1710496000,
+          "permalink": "/r/StartupDACH/comments/ger001/alternative_zu_notion_fuer_kleine_teams/",
+          "link_flair_text": null,
+          "is_self": true,
+          "edited": false,
+          "removed_by_category": null,
+          "num_crossposts": 0,
+          "subreddit_subscribers": 14900,
+          "crosspost_parent": null
+        }
+      }
+    ]
+  }
+}
