@@ -5,7 +5,8 @@
       "source": "./",
       "skills": [
         "./skills/elysiajs",
-        "./skills/michelangelo"
+        "./skills/michelangelo",
+        "./skills/reddit"
       ]
     }
   ]

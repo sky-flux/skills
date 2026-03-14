@@ -1,93 +1,84 @@
 # Reddit Opportunity Hunter
 
-Discover niche product opportunities by monitoring global Reddit communities. Identifies emerging needs, pain points, and market gaps from thousands of subreddits across developed markets.
+Monitor global Reddit communities to discover niche product opportunities — unmet pain points, frustrated users, tool-seeking posts — from high-purchasing-power markets.
+
+## Installation
+
+```bash
+npx skills add sky-flux/skills --skill reddit
+```
+
+Or install globally (available across all projects):
+
+```bash
+npx skills add sky-flux/skills --skill reddit -g
+```
 
 ## Prerequisites
 
-- `bash` (included on macOS/Linux)
-- `curl` (included on macOS/Linux)
-- `jq` — JSON query tool
+Install required dependencies:
 
-Install jq with: `brew install jq`
+```bash
+brew install curl jq
+```
+
+- `curl` — HTTP client (macOS ships with an older version, `brew install curl` gets the latest)
+- `jq` — JSON processor, required for parsing Reddit API responses
 
 ## Quick Start
 
 ```bash
-# Diagnose the environment
-reddit.sh diagnose
+# Check environment
+bash skills/reddit/scripts/reddit.sh diagnose
 
-# Fetch opportunities from global English-speaking communities
-reddit.sh fetch --campaign global_english --sort new --pages 1
+# First scan — global English SaaS/startup communities
+bash skills/reddit/scripts/reddit.sh fetch --campaign global_english --sort new --pages 1
 
-# View generated opportunities
-cat .reddit-leads/scan_report.json
+# Use as a skill — just tell Claude:
+# "scan Reddit for product opportunities"
+# or use /reddit
 ```
 
 ## Modes
 
-| Mode | Purpose |
-|------|---------|
-| `fetch` | Scan subreddits and extract opportunities |
-| `comments` | Mine comment threads for deeper insights |
-| `search` | Search for specific keywords across Reddit |
-| `discover` | Auto-discover high-potential subreddits |
-| `profile` | Analyze user profiles and activity patterns |
-| `crosspost` | Find cross-subreddit discussions |
-| `stickied` | Extract pinned/stickied posts (moderator priorities) |
-| `firehose` | Monitor real-time Reddit activity stream |
-| `duplicates` | Detect duplicate opportunities across runs |
-| `wiki` | Extract knowledge from subreddit wikis |
-| `stats` | Generate statistics on findings |
-| `export` | Export opportunities to external formats |
-| `cleanup` | Archive old leads and reset state |
-| `diagnose` | Verify environment and dependencies |
+| Mode | Usage | Purpose |
+|------|-------|---------|
+| `fetch` | `reddit.sh fetch --campaign X --sort new --pages 2` | Fetch & enrich posts from configured subreddits |
+| `comments` | `reddit.sh comments <post_id> <subreddit>` | Fetch comment tree with nested replies |
+| `search` | `reddit.sh search "query" [--global] [--type post\|user\|subreddit]` | Search Reddit |
+| `discover` | `reddit.sh discover <keyword> [--method keyword\|autocomplete]` | Find new subreddits |
+| `profile` | `reddit.sh profile <username> [--enrich]` | User analysis |
+| `crosspost` | `reddit.sh crosspost [--campaign X]` | Cross-poster detection |
+| `stickied` | `reddit.sh stickied [subreddit]` | Mine stickied/pinned posts |
+| `firehose` | `reddit.sh firehose [sub1+sub2]` | Real-time comment stream |
+| `duplicates` | `reddit.sh duplicates <post_id>` | Link propagation tracking |
+| `wiki` | `reddit.sh wiki <subreddit> [page]` | Community wiki content |
+| `stats` | `reddit.sh stats` | Database statistics |
+| `export` | `reddit.sh export [--format csv\|json]` | Export opportunities |
+| `cleanup` | `reddit.sh cleanup` | Purge expired data |
+| `diagnose` | `reddit.sh diagnose` | Health check |
 
 ## Configuration
 
-**Campaigns** — Edit `references/subreddits.json` to define subreddit lists:
-```json
-{
-  "global_english": ["r/entrepreneur", "r/ProductManagement", ...],
-  "niche_tech": ["r/webdev", "r/golang", ...]
-}
-```
+**Campaigns** — `references/subreddits.json` defines 17 campaigns across 50+ countries:
+- Tier S (every loop): global_english, english_developed, dach, france, nordics, east_asia, etc.
+- Tier A (daily): india, brazil, southeast_asia, latam_es, eastern_europe, etc.
+- Tier B (weekly): africa, south_asia, turkey
 
-**Intent Keywords** — Edit `references/intent_keywords.json` to customize opportunity signals:
-```json
-{
-  "pain_points": ["struggling with", "frustrated by", "wish there was"],
-  "needs": ["looking for", "need help with", "anyone know"]
-}
-```
+**Intent Keywords** — `references/intent_keywords.json` covers 9 languages (EN, DE, FR, PT, ES, JA, KO, AR, FI) with 5 intent tiers.
 
 ## Output
 
-Results are saved to `.reddit-leads/`:
-- `scan_report.json` — Raw opportunities with metadata
-- `opportunity_cards.json` — Formatted cards for review
-- `state.json` — Timestamp and progress tracking
+Results are saved to `.reddit-leads/` in your project:
+- `.reddit.json` — State file (dedup, watched threads, opportunity tracking)
+- `YYYY-MM-DD-scan.md` — Daily scan reports
+- `reports/` — Weekly and monthly reports
+- `opportunities/` — Individual product opportunity cards
 
 ## Scheduled Scanning
 
-Run scans on a timer:
-```bash
-/loop 30m /reddit fetch --campaign global_english --sort new --pages 1
+```
+/loop 30m /reddit
 ```
 
-This runs every 30 minutes with automatic conflict resolution and deduplication.
-
-## Examples
-
-```bash
-# Fetch from specific subreddit campaign
-reddit.sh fetch --campaign niche_tech --pages 2
-
-# Search for "SaaS pricing" across Reddit
-reddit.sh search --query "SaaS pricing" --limit 50
-
-# Auto-discover subreddits matching keywords
-reddit.sh discover --keywords "ecommerce,dropshipping" --min-subscribers 5000
-
-# Export opportunities as CSV
-reddit.sh export --format csv --output opportunities.csv
-```
+Scans every 30 minutes with automatic deduplication and tiered scanning.

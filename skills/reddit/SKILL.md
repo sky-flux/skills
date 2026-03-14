@@ -24,16 +24,17 @@ Product Opportunity Hunting, NOT Lead Hunting.
 
 ## Quick Start / First Run
 
-1. Run health check: `reddit.sh diagnose`
-2. The script auto-creates `.reddit-leads/` with `reports/`, `opportunities/`, `archive/`
-3. Verify `.gitignore` includes `.reddit-leads/` — the script warns if missing
-4. Review `references/subreddits.json` — confirm subreddits match the user's domain
-5. Review `references/intent_keywords.json` — adjust if the user targets a specific niche
-6. First scan:
+1. Install dependencies: `brew install curl jq`
+2. Run health check: `reddit.sh diagnose` — verifies curl, jq, network connectivity
+3. The script auto-creates `.reddit-leads/` with `reports/`, `opportunities/`, `archive/`
+4. Verify `.gitignore` includes `.reddit-leads/` — the script warns if missing
+5. Review `references/subreddits.json` — confirm subreddits match the user's domain
+6. Review `references/intent_keywords.json` — adjust if the user targets a specific niche
+7. First scan:
    ```bash
    reddit.sh fetch --campaign global_english --sort new --pages 1
    ```
-7. Inspect the enriched JSON output, then proceed to Phase 2 (Analysis)
+8. Inspect the enriched JSON output, then proceed to Phase 2 (Analysis)
 
 ## Core Workflow
 
