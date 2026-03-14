@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "organization": "Sky Flux",
+  "date": "14 Mar 2026",
+  "abstract": "Generate beautiful UI prototypes and production-ready React projects from natural language. Supports HTML prototypes and React + Tailwind v4 + shadcn/ui project scaffolding.",
+  "tags": ["ui", "design", "react", "tailwind", "shadcn", "prototype", "frontend", "html"]
+}
