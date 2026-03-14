@@ -1,0 +1,352 @@
+{
+  "$schema": "subreddits-config-v1",
+  "campaigns": {
+    "global_english": {
+      "tier": "S",
+      "language": "en",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "SaaS", "subscribers": 620000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "startups", "subscribers": 2000000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "Entrepreneur", "subscribers": 5100000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "smallbusiness", "subscribers": 2400000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "SideProject", "subscribers": 651000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "microsaas", "subscribers": 169000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "indiehackers", "subscribers": 156000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "buildinpublic", "subscribers": 69000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "growmybusiness", "subscribers": 90000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "NoCodeSaaS", "subscribers": 39000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "SaasDevelopers", "subscribers": 24000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "SaaSSales", "subscribers": 28000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "SaaSMarketing", "subscribers": 25000, "sort_modes": ["new", "hot"], "pages": 2},
+        {"name": "saasbuild", "subscribers": 17000, "sort_modes": ["new", "hot"], "pages": 2}
+      ],
+      "search_keywords": [
+        "looking for a tool",
+        "need alternative",
+        "frustrated with",
+        "switching from",
+        "anyone know",
+        "recommend a"
+      ],
+      "competitors": ["Notion", "Airtable", "Monday.com"],
+      "competitor_queries": [
+        "{competitor} alternative",
+        "{competitor} frustrated",
+        "switching from {competitor}",
+        "{competitor} vs",
+        "{competitor} too expensive"
+      ]
+    },
+    "english_developed": {
+      "tier": "S",
+      "language": "en",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "unitedkingdom", "subscribers": 5400000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "BusinessBritain", "subscribers": 2600, "sort_modes": ["new"], "pages": 1},
+        {"name": "canada", "subscribers": 4300000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "canadianbusiness", "subscribers": 5100, "sort_modes": ["new"], "pages": 1},
+        {"name": "australia", "subscribers": 2800000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "newzealand", "subscribers": 836000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "nz_sme", "subscribers": 326, "sort_modes": ["new"], "pages": 1},
+        {"name": "ireland", "subscribers": 1250000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "looking for a tool",
+        "need alternative",
+        "frustrated with",
+        "switching from",
+        "anyone know",
+        "recommend a"
+      ]
+    },
+    "dach": {
+      "tier": "S",
+      "language": "de",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "StartupDACH", "subscribers": 14900, "sort_modes": ["new", "hot"], "pages": 1},
+        {"name": "de", "subscribers": 3170000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Switzerland", "subscribers": 584000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Austria", "subscribers": 655000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "Startup",
+        "SaaS",
+        "Gründung",
+        "Alternative zu",
+        "Tool gesucht",
+        "frustriert"
+      ]
+    },
+    "france": {
+      "tier": "S",
+      "language": "fr",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "FrenchTech", "subscribers": 3900, "sort_modes": ["new", "hot"], "pages": 1},
+        {"name": "entrepreneurfrance", "subscribers": 1300, "sort_modes": ["new", "hot"], "pages": 1},
+        {"name": "france", "subscribers": 2540000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative à",
+        "cherche outil",
+        "frustré"
+      ]
+    },
+    "nordics": {
+      "tier": "S",
+      "language": "en",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "sweden", "subscribers": 1020000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Norway", "subscribers": 574000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Denmark", "subscribers": 847000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Finland", "subscribers": 298000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Suomi", "subscribers": 635000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Iceland", "subscribers": 100000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative",
+        "looking for tool",
+        "recommend",
+        "frustrated"
+      ]
+    },
+    "benelux_south_eu": {
+      "tier": "S",
+      "language": "en",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "Netherlands", "subscribers": 479000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "belgium", "subscribers": 391000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "italy", "subscribers": 1120000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "spain", "subscribers": 1050000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "portugal", "subscribers": 767000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "greece", "subscribers": 270000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative",
+        "looking for tool",
+        "recommend",
+        "frustrated"
+      ]
+    },
+    "east_asia": {
+      "tier": "S",
+      "language": "en",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "japan", "subscribers": 1770000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "JapanBusiness", "subscribers": 552, "sort_modes": ["new"], "pages": 1},
+        {"name": "korea", "subscribers": 1400000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "taiwan", "subscribers": 756000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "HongKong", "subscribers": 700000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "smeSingapore", "subscribers": 2200, "sort_modes": ["new"], "pages": 1}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative",
+        "looking for tool",
+        "recommend",
+        "frustrated"
+      ]
+    },
+    "middle_east_premium": {
+      "tier": "S",
+      "language": "en",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "dubai", "subscribers": 527000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "UAE", "subscribers": 268000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "BusinessownersUAE", "subscribers": 654, "sort_modes": ["new"], "pages": 1}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative",
+        "looking for tool",
+        "recommend",
+        "frustrated"
+      ]
+    },
+    "india": {
+      "tier": "A",
+      "language": "en",
+      "scan_frequency": "daily",
+      "subreddits": [
+        {"name": "IndianEntrepreneur", "subscribers": 25400, "sort_modes": ["new"], "pages": 1},
+        {"name": "StartUpIndia", "subscribers": 404000, "sort_modes": ["new"], "pages": 1},
+        {"name": "india", "subscribers": 3400000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative",
+        "looking for tool",
+        "recommend"
+      ]
+    },
+    "brazil": {
+      "tier": "A",
+      "language": "pt",
+      "scan_frequency": "daily",
+      "subreddits": [
+        {"name": "empreendedorismo", "subscribers": 133000, "sort_modes": ["new"], "pages": 1},
+        {"name": "brasil", "subscribers": 3290000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternativa",
+        "procurando ferramenta",
+        "recomendar"
+      ]
+    },
+    "southeast_asia": {
+      "tier": "A",
+      "language": "en",
+      "scan_frequency": "daily",
+      "subreddits": [
+        {"name": "Philippines", "subscribers": 3540000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "PhStartups", "subscribers": 26500, "sort_modes": ["new"], "pages": 1},
+        {"name": "indonesia", "subscribers": 944000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "VietNam", "subscribers": 1480000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Thailand", "subscribers": 926000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "StartupsThailand", "subscribers": 780, "sort_modes": ["new"], "pages": 1},
+        {"name": "malaysia", "subscribers": 1320000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative",
+        "looking for tool",
+        "recommend"
+      ]
+    },
+    "latam_es": {
+      "tier": "A",
+      "language": "es",
+      "scan_frequency": "daily",
+      "subreddits": [
+        {"name": "mexico", "subscribers": 3160000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "argentina", "subscribers": 1510000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Colombia", "subscribers": 931000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "chile", "subscribers": 895000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "startupsmexico", "subscribers": 152, "sort_modes": ["new"], "pages": 1}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternativa",
+        "busco herramienta",
+        "recomendar"
+      ]
+    },
+    "eastern_europe": {
+      "tier": "A",
+      "language": "en",
+      "scan_frequency": "daily",
+      "subreddits": [
+        {"name": "poland", "subscribers": 1170000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Romania", "subscribers": 1120000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "ukraine", "subscribers": 937000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "hungary", "subscribers": 689000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "croatia", "subscribers": 428000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "serbia", "subscribers": 460000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative",
+        "looking for tool",
+        "recommend"
+      ]
+    },
+    "baltics": {
+      "tier": "A",
+      "language": "en",
+      "scan_frequency": "daily",
+      "subreddits": [
+        {"name": "estonia", "subscribers": 3800, "sort_modes": ["new"], "pages": 1},
+        {"name": "latvia", "subscribers": 77000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "lithuania", "subscribers": 134000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative",
+        "looking for tool",
+        "recommend"
+      ]
+    },
+    "africa": {
+      "tier": "B",
+      "language": "en",
+      "scan_frequency": "weekly",
+      "subreddits": [
+        {"name": "Kenya", "subscribers": 272000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "KenyaStartups", "subscribers": 4100, "sort_modes": ["new"], "pages": 1},
+        {"name": "Nigeria", "subscribers": 236000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "southafrica", "subscribers": 395000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Egypt", "subscribers": 350000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Morocco", "subscribers": 394000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "ghana", "subscribers": 110000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Rwanda", "subscribers": 23000, "sort_modes": ["new"], "pages": 1},
+        {"name": "Ethiopia", "subscribers": 54000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative",
+        "looking for tool",
+        "recommend"
+      ]
+    },
+    "south_asia": {
+      "tier": "B",
+      "language": "en",
+      "scan_frequency": "weekly",
+      "subreddits": [
+        {"name": "pakistan", "subscribers": 657000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "bangladesh", "subscribers": 97000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "srilanka", "subscribers": 162000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternative",
+        "looking for tool",
+        "recommend"
+      ]
+    },
+    "turkey": {
+      "tier": "B",
+      "language": "tr",
+      "scan_frequency": "weekly",
+      "subreddits": [
+        {"name": "Turkey", "subscribers": 1700000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "startup",
+        "SaaS",
+        "alternatif",
+        "araç arıyorum",
+        "öneri"
+      ]
+    }
+  },
+  "scan_priority": {
+    "every_loop": {"tiers": ["S"], "depth": "full", "comment_fetch": true},
+    "daily": {"tiers": ["A"], "depth": "standard", "comment_fetch": "high_score_only"},
+    "weekly": {"tiers": ["B"], "depth": "light", "comment_fetch": false}
+  }
+}
