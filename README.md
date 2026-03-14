@@ -8,6 +8,7 @@ Agent skills for Claude Code by [Sky Flux](https://github.com/sky-flux).
 |-------|-------------|
 | [elysiajs](./skills/elysiajs/) | One-stop ElysiaJS skills covering full website, all blog posts, and all GitHub repository insights |
 | [michelangelo](./skills/michelangelo/) | Generate beautiful UI prototypes and production-ready React projects from natural language |
+| [reddit](./skills/reddit/) | Monitor global Reddit communities to discover niche product opportunities — pain points, unmet needs, market gaps |
 
 ## Installation
 
@@ -22,6 +23,7 @@ Install a single skill:
 ```bash
 npx skills add sky-flux/skills --skill elysiajs
 npx skills add sky-flux/skills --skill michelangelo
+npx skills add sky-flux/skills --skill reddit
 ```
 
 Install globally (available across all projects):
