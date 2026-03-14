@@ -34,24 +34,57 @@ Two modes, one design philosophy. Master the design principles before writing a 
 
 Before any visual validation, check if Playwright MCP is available.
 
-**Detection — run this command:**
+### Detection
+
+Try calling any Playwright MCP tool (e.g. `browser_navigate`). If it responds → available, proceed normally.
+
+If unavailable, detect the current agent by checking which config files exist:
+
 ```bash
-claude mcp list | grep -i playwright
+# Claude Code
+claude mcp list 2>/dev/null | grep -i playwright
+
+# Cursor
+cat .cursor/mcp.json 2>/dev/null | grep -i playwright
+
+# Gemini
+cat .gemini/settings.json 2>/dev/null | grep -i playwright
+
+# Generic: check project .mcp.json
+cat .mcp.json 2>/dev/null | grep -i playwright
 ```
 
-**If found** (output contains `playwright`): proceed to visual validation normally.
+### Installation
 
-**If not found**: inform the user and ask for authorization:
+**Universal approach — add to `.mcp.json` in the project root** (works with Claude Code, Cursor, Gemini, Windsurf, most agents):
+
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
+```
+
+**Agent-specific CLI commands:**
+
+| Agent | Command |
+|-------|---------|
+| Claude Code | `claude mcp add playwright -s user -- npx @playwright/mcp@latest` |
+| OpenCode | `opencode mcp add playwright -- npx @playwright/mcp@latest` |
+| Cursor / Gemini / Windsurf | Add the JSON block above to the agent's config file |
+
+### If not installed — ask for authorization
 
 > "Visual validation requires Playwright MCP, which is not currently installed.
-> Install it with:
-> ```bash
-> claude mcp add playwright -s user -- npx @playwright/mcp@latest
-> ```
-> May I run this command now?"
+> I can add it now by creating/updating `.mcp.json` in the project root.
+> May I do this?"
 
-- If user says **yes**: run the install command, then proceed with visual validation
-- If user says **no**: skip visual validation, deliver the code only, and note that the user can install Playwright MCP later to enable visual iteration
+- **Yes**: write the `.mcp.json` config block, then proceed with visual validation
+- **No**: skip visual validation, deliver the code only, and note that the user can install Playwright MCP later
 
 **Do not silently skip visual validation** — always inform the user if it's unavailable.
 
