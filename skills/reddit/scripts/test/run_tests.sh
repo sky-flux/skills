@@ -215,6 +215,41 @@ assert_eq "enrich_posts: def456 is_question is true" "true" "$def456_is_q"
 def456_geo=$(echo "$_enrich_test_output" | jq -r '.posts[] | select(.id == "def456") | ._jq_enriched.geo_signals | join(",")')
 assert_contains "enrich_posts: def456 geo_signals contains US" "$def456_geo" "US"
 
+# ─── Test group 10: Integration — diagnose mode ───────────────────────────────
+echo ""
+echo "=== Test group 10: Integration — diagnose mode ==="
+DIAG=$(bash "$SCRIPT_DIR/../reddit.sh" diagnose 2>/dev/null)
+DIAG_JQ=$(echo "$DIAG" | jq -r '.jq.status')
+assert_eq "diagnose: jq detected" "ok" "$DIAG_JQ"
+
+DIAG_CURL=$(echo "$DIAG" | jq -r '.curl.status')
+assert_eq "diagnose: curl detected" "ok" "$DIAG_CURL"
+
+# Config should be found (subreddits.json exists)
+DIAG_CONFIG=$(echo "$DIAG" | jq -r '.config.status')
+assert_eq "diagnose: config found" "ok" "$DIAG_CONFIG"
+
+# ─── Test group 11: Integration — script help ─────────────────────────────────
+echo ""
+echo "=== Test group 11: Integration — script help ==="
+HELP_OUTPUT=$(bash "$SCRIPT_DIR/../reddit.sh" 2>&1 || true)
+assert_contains "help shows fetch mode" "$HELP_OUTPUT" "fetch"
+assert_contains "help shows diagnose mode" "$HELP_OUTPUT" "diagnose"
+assert_contains "help shows all 14 modes" "$HELP_OUTPUT" "firehose"
+
+# ─── Test group 12: Integration — mode count ──────────────────────────────────
+echo ""
+echo "=== Test group 12: Integration — mode count ==="
+MODE_COUNT=$(grep -c '^mode_' "$SCRIPT_DIR/../reddit.sh" || grep -c 'mode_[a-z]' "$SCRIPT_DIR/../reddit.sh")
+# Should have at least 14 mode functions
+if [ "$MODE_COUNT" -ge 14 ]; then
+  echo "  PASS: Found $MODE_COUNT mode functions (>= 14)"
+  PASS=$((PASS + 1))
+else
+  echo "  FAIL: Found only $MODE_COUNT mode functions (expected >= 14)"
+  FAIL=$((FAIL + 1))
+fi
+
 # ─── Summary ──────────────────────────────────────────────────────────────────
 echo ""
 echo "=================================================="
