@@ -16,9 +16,14 @@ npx skills add sky-flux/skills --skill reddit -g
 
 ## Prerequisites
 
-- `bash` (included on macOS/Linux)
-- `curl` (included on macOS/Linux)
-- `jq` — install with `brew install jq`
+Install required dependencies:
+
+```bash
+brew install curl jq
+```
+
+- `curl` — HTTP client (macOS ships with an older version, `brew install curl` gets the latest)
+- `jq` — JSON processor, required for parsing Reddit API responses
 
 ## Quick Start
 
