@@ -1,21 +1,11 @@
 {
-  "name": "sky-flux-skills",
-  "owner": {
-    "name": "Sky Flux",
-    "email": ""
-  },
-  "metadata": {
-    "description": "Sky Flux agent skills",
-    "version": "4.0.0"
-  },
   "plugins": [
     {
-      "name": "elysia-skills",
-      "description": "One-stop ElysiaJS skills covering full website, all blog posts, and all GitHub repository insights",
+      "name": "sky-flux",
       "source": "./",
-      "strict": false,
       "skills": [
-        "./skills/elysiajs"
+        "./skills/elysiajs",
+        "./skills/michelangelo"
       ]
     }
   ]
