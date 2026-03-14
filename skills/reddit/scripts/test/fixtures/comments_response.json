@@ -1,0 +1,83 @@
+[
+  {
+    "kind": "Listing",
+    "data": {
+      "after": null,
+      "children": [
+        {
+          "kind": "t3",
+          "data": {
+            "id": "abc123",
+            "subreddit": "SaaS",
+            "title": "Anyone struggling to orchestrate multiple AI agents?",
+            "selftext": "I'm really frustrated with the current tooling. We're running a $5k MRR product built on supabase and next.js and our AI workflow is a mess. Looking for a tool that can coordinate agents without writing tons of glue code. Anyone found something that works?",
+            "author": "founder_mike",
+            "score": 12,
+            "num_comments": 8,
+            "upvote_ratio": 0.89,
+            "created_utc": 1710499000,
+            "permalink": "/r/SaaS/comments/abc123/anyone_struggling_to_orchestrate_multiple_ai_agents/",
+            "link_flair_text": "B2B SaaS",
+            "is_self": true,
+            "edited": false,
+            "removed_by_category": null,
+            "num_crossposts": 0,
+            "subreddit_subscribers": 85000,
+            "crosspost_parent": null
+          }
+        }
+      ]
+    }
+  },
+  {
+    "kind": "Listing",
+    "data": {
+      "after": null,
+      "children": [
+        {
+          "kind": "t1",
+          "data": {
+            "id": "c001",
+            "author": "helpful_dev",
+            "body": "Have you tried CrewAI? I switched from LangChain and it's much simpler. Willing to pay $50/mo for something that just works.",
+            "score": 8,
+            "created_utc": 1710500000,
+            "permalink": "/r/SaaS/comments/abc123/anyone_struggling_to_orchestrate_multiple_ai_agents/c001/",
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "after": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "id": "c002",
+                      "author": "real_user_42",
+                      "body": "Thanks! Budget for us is around $30/mo. Will check it out.",
+                      "score": 3,
+                      "created_utc": 1710501000,
+                      "permalink": "/r/SaaS/comments/abc123/anyone_struggling_to_orchestrate_multiple_ai_agents/c002/",
+                      "replies": ""
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "id": "c003",
+            "author": "ai_builder",
+            "body": "We built our own orchestration layer on top of AWS Step Functions. Took about 2 weeks but works great for our use case.",
+            "score": 5,
+            "created_utc": 1710500500,
+            "permalink": "/r/SaaS/comments/abc123/anyone_struggling_to_orchestrate_multiple_ai_agents/c003/",
+            "replies": ""
+          }
+        }
+      ]
+    }
+  }
+]

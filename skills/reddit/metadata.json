@@ -1,0 +1,11 @@
+{
+  "name": "reddit",
+  "version": "1.0.0",
+  "description": "Reddit Opportunity Hunter — discover niche product opportunities from global Reddit communities",
+  "author": "martinadamsdev",
+  "tags": ["reddit", "market-research", "product-opportunity", "saas", "niche-discovery"],
+  "compatibility": {
+    "requires": ["bash", "curl", "jq"],
+    "optional": ["WebSearch"]
+  }
+}
