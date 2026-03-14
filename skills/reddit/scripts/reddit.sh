@@ -159,7 +159,63 @@ mode_stickied()   { log "TODO: stickied"; }
 mode_firehose()   { log "TODO: firehose"; }
 mode_export()     { log "TODO: export"; }
 mode_cleanup()    { log "TODO: cleanup"; }
-mode_diagnose()   { log "TODO: diagnose"; }
+mode_diagnose() {
+  local results="{}"
+
+  # Check jq
+  if command -v jq &>/dev/null; then
+    results=$(echo "$results" | jq --arg v "$(jq --version 2>&1)" '.jq = {status: "ok", version: $v}')
+  else
+    results=$(echo "$results" | jq '.jq = {status: "missing", fix: "brew install jq"}')
+  fi
+
+  # Check curl
+  if command -v curl &>/dev/null; then
+    results=$(echo "$results" | jq --arg v "$(curl --version 2>&1 | head -1)" '.curl = {status: "ok", version: $v}')
+  else
+    results=$(echo "$results" | jq '.curl = {status: "missing"}')
+  fi
+
+  # Check network + rate limit
+  local header_file
+  header_file=$(mktemp)
+  trap "rm -f '$header_file'" RETURN
+  local http_code
+  http_code=$(curl -s -w "%{http_code}" -o /dev/null -D "$header_file" \
+    -H "User-Agent: $UA" \
+    "https://www.reddit.com/r/SaaS/new.json?limit=1" 2>/dev/null || echo "000")
+
+  if [ "$http_code" = "200" ]; then
+    local remaining reset
+    remaining=$(grep -i "x-ratelimit-remaining" "$header_file" 2>/dev/null | tr -d '\r' | awk '{print $2}' || echo "unknown")
+    reset=$(grep -i "x-ratelimit-reset" "$header_file" 2>/dev/null | tr -d '\r' | awk '{print $2}' || echo "unknown")
+    results=$(echo "$results" | jq --arg r "$remaining" --arg s "$reset" \
+      '.network = {status: "ok"} | .rate_limit = {remaining: $r, reset_seconds: $s}')
+  else
+    results=$(echo "$results" | jq --arg c "$http_code" '.network = {status: "error", http_code: $c}')
+  fi
+
+  # Check config
+  local config_file="$SKILL_DIR/references/subreddits.json"
+  if [ -f "$config_file" ]; then
+    local campaign_count
+    campaign_count=$(jq '.campaigns | keys | length' "$config_file" 2>/dev/null || echo "0")
+    results=$(echo "$results" | jq --arg c "$campaign_count" '.config = {status: "ok", campaigns: ($c | tonumber)}')
+  else
+    results=$(echo "$results" | jq '.config = {status: "missing", path: "references/subreddits.json"}')
+  fi
+
+  # Check data dir
+  if [ -d "$DATA_DIR" ]; then
+    local size
+    size=$(du -sk "$DATA_DIR" 2>/dev/null | awk '{print $1}')
+    results=$(echo "$results" | jq --arg s "$size" '.data_dir = {status: "ok", size_kb: ($s | tonumber)}')
+  else
+    results=$(echo "$results" | jq '.data_dir = {status: "not_initialized", fix: "run any reddit.sh command to auto-create"}')
+  fi
+
+  echo "$results" | jq .
+}
 mode_duplicates() { log "TODO: duplicates"; }
 mode_wiki()       { log "TODO: wiki"; }
 mode_stats()      { log "TODO: stats"; }
