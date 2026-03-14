@@ -30,6 +30,14 @@ Install globally (available across all projects):
 npx skills add sky-flux/skills -g
 ```
 
+## Contributing
+
+Contributions are welcome — new skills, improvements, and bug fixes alike. See [CONTRIBUTING.md](./CONTRIBUTING.md) to get started.
+
+## Support
+
+Open a [GitHub issue](../../issues) if something isn't working or you have a question. Check existing issues first to avoid duplicates.
+
 ## License
 
 MIT
