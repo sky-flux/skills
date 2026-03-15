@@ -220,8 +220,12 @@ Each high-scoring opportunity gets a detailed card:
 
 ## Scheduled Scanning
 
-```
-/loop 30m /reddit
+Use Claude Code's `/loop` command to run automated scans:
+
+```bash
+/loop 30m /reddit          # scan every 30 minutes (recommended)
+/loop 15m /reddit          # more frequent — good for time-sensitive opportunities
+/loop 1h /reddit           # hourly — lighter on API budget
 ```
 
 Each loop cycle:
@@ -237,6 +241,34 @@ Each loop cycle:
 
 **Weekly report:** Auto-generated on Sundays
 **Monthly report:** Auto-generated on last day of month
+
+### Tips & Tricks
+
+```bash
+# One-off scan without loop
+/reddit
+
+# Scan specific campaign only
+reddit.sh fetch --campaign dach --sort new --pages 2
+
+# Monitor a trending post for new comments
+reddit.sh comments <post_id> <subreddit>
+
+# Find new subreddits to add to your config
+reddit.sh discover "your niche keyword"
+
+# Check how many API requests you have left
+reddit.sh diagnose
+
+# Deep dive on a high-value user
+reddit.sh profile interesting_user --enrich
+
+# Export all discovered opportunities to CSV
+reddit.sh export --format csv
+
+# Clean up old data (run monthly)
+reddit.sh cleanup
+```
 
 ## Rate Limits
 
@@ -402,14 +434,44 @@ reddit.sh config reset                               # 恢复默认
 
 ## 定时扫描
 
-```
-/loop 30m /reddit
-```
+在 Claude Code 中使用 `/loop` 命令自动定时扫描：
 
-每 30 分钟自动扫描，自动去重，按层级优先扫描。
+```bash
+/loop 30m /reddit          # 每 30 分钟扫描一次（推荐）
+/loop 15m /reddit          # 更频繁 — 适合抓时效性机会
+/loop 1h /reddit           # 每小时 — 更省 API 配额
+```
 
 周报：每周日自动生成
 月报：每月最后一天自动生成
+
+### 使用技巧
+
+```bash
+# 单次扫描（不循环）
+/reddit
+
+# 只扫描特定 campaign
+reddit.sh fetch --campaign dach --sort new --pages 2
+
+# 监控某个热帖的新评论
+reddit.sh comments <帖子ID> <subreddit>
+
+# 发现新的高价值 subreddit
+reddit.sh discover "你的行业关键词"
+
+# 查看 API 剩余配额
+reddit.sh diagnose
+
+# 深入分析某个高价值用户
+reddit.sh profile 用户名 --enrich
+
+# 导出所有机会为 CSV
+reddit.sh export --format csv
+
+# 清理过期数据（建议每月执行）
+reddit.sh cleanup
+```
 
 ## 输出目录
 
