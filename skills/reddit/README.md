@@ -57,8 +57,30 @@ bash skills/reddit/scripts/reddit.sh fetch --campaign global_english --sort new 
 | `export` | `reddit.sh export [--format csv\|json]` | Export opportunities |
 | `cleanup` | `reddit.sh cleanup` | Purge expired data |
 | `diagnose` | `reddit.sh diagnose` | Health check |
+| `config` | `reddit.sh config [show\|set\|reset]` | User preferences |
 
 ## Configuration
+
+### User Preferences
+
+```bash
+reddit.sh config show                              # view current config
+reddit.sh config set output_language zh             # reports in Chinese
+reddit.sh config set focus_industries '["SaaS"]'    # focus on SaaS
+reddit.sh config set currency_display CNY           # revenue in CNY
+reddit.sh config reset                              # restore defaults
+```
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `output_language` | `en` | Report language (zh, en, ja, de, fr, ...) |
+| `focus_industries` | `[]` | Industries to prioritize (empty = all) |
+| `excluded_subreddits` | `[]` | Subreddits to skip |
+| `score_threshold` | `7` | Minimum score for reports |
+| `max_build_complexity` | `Heavy` | Filter out complex opportunities |
+| `currency_display` | `USD` | Currency for revenue estimates |
+
+### Campaigns & Keywords
 
 **Campaigns** — `references/subreddits.json` defines 17 campaigns across 50+ countries:
 - Tier S (every loop): global_english, english_developed, dach, france, nordics, east_asia, etc.
