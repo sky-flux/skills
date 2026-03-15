@@ -2474,7 +2474,7 @@ assert_eq "recent_post survives cleanup" "true" "$remaining"
 # --- discover method catch-all ---
 echo ""
 echo "--- discover unknown method ---"
-DISCOVER_ERR=$(bash "$REDDIT_SH" discover test --method nonexistent 2>&1 || true)
+DISCOVER_ERR=$(bash "$REDDIT_SH" discover test --nonexistent 2>&1 || true)
 assert_contains "unknown method shows error" "$DISCOVER_ERR" "Unknown method"
 
 # --- watch_check with no threads ---
@@ -2746,7 +2746,7 @@ probe_sample_posts() {
 }
 ```
 
-- [ ] **Step 3: Implement discover --method deep in mode_discover**
+- [ ] **Step 3: Implement discover --deep in mode_discover**
 
 Add to `mode_discover()` case statement:
 
@@ -2807,7 +2807,7 @@ Expected: All PASS (fixture-based tests pass, SKIP for unimplemented parts)
 
 ```bash
 git add skills/reddit/scripts/reddit.sh skills/reddit/scripts/test/test_discover_deep.sh
-git commit -m "feat: implement discover --method deep/from-sub/industry and probe_sample_posts"
+git commit -m "feat: implement discover --deep/from-sub/industry and probe_sample_posts"
 ```
 
 ### Task 21: Auto-Add to Discovered Subs + Expand Tests

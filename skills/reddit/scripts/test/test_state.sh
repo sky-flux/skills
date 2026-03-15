@@ -70,4 +70,23 @@ assert_eq "reports/ directory exists" "true" "$([ -d "$REDDIT_DATA_DIR/reports" 
 assert_eq "opportunities/ directory exists" "true" "$([ -d "$REDDIT_DATA_DIR/opportunities" ] && echo true || echo false)"
 assert_eq "archive/ directory exists" "true" "$([ -d "$REDDIT_DATA_DIR/archive" ] && echo true || echo false)"
 
+echo ""
+echo "=== Test group: update_sub_ema ==="
+# Source the function
+eval "$(SKILL_DIR="$SKILL_DIR" bash -c "source '$REDDIT_SH' 2>/dev/null; declare -f update_sub_ema update_state read_state")"
+
+# First EMA update (no history) — should set ema_score = raw value
+update_sub_ema "TestSub" 7.5
+ema=$(read_state '.subreddit_quality["TestSub"].ema_score')
+assert_eq "first EMA = raw value" "7.5" "$ema"
+weeks=$(read_state '.subreddit_quality["TestSub"].weeks_tracked')
+assert_eq "weeks_tracked = 1" "1" "$weeks"
+
+# Second update — EMA formula: 0.3*8.0 + 0.7*7.5 = 7.65
+update_sub_ema "TestSub" 8.0
+ema2=$(read_state '.subreddit_quality["TestSub"].ema_score')
+assert_eq "second EMA = 7.65" "7.65" "$ema2"
+peak=$(read_state '.subreddit_quality["TestSub"].peak_score')
+assert_eq "peak tracks max" "7.65" "$peak"
+
 test_summary

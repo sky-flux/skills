@@ -1,0 +1,8 @@
+{
+  "candidates": [
+    {"name": "Dentistry", "source": "keyword_search", "initial_subscribers": 161000},
+    {"name": "DentalHygienist", "source": "autocomplete", "initial_subscribers": 28000},
+    {"name": "OralSurgery", "source": "user_overlap", "initial_subscribers": 15000},
+    {"name": "SmallSubNoActivity", "source": "name_pattern", "initial_subscribers": 50}
+  ]
+}

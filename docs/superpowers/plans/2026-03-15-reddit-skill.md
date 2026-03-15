@@ -989,13 +989,13 @@ mode_discover() {
 
   while [ $# -gt 0 ]; do
     case "$1" in
-      --method) method="$2"; shift 2 ;;
+      --deep) method="deep"; shift ;;
       *) keyword="$1"; shift ;;
     esac
   done
 
   if [ -z "$keyword" ]; then
-    log "Usage: reddit.sh discover <keyword> [--method keyword|autocomplete|footprint|overlap]"
+    log "Usage: reddit.sh discover <keyword> [--deep|--autocomplete|--from-sub|--industry|--footprint]"
     return 1
   fi
 

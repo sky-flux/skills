@@ -128,7 +128,7 @@ Each opportunity is scored 1-10:
 
 | Mode | Usage | Purpose |
 |------|-------|---------|
-| `discover` | `reddit.sh discover <keyword> [--method keyword\|autocomplete]` | Find new high-value subreddits |
+| `discover` | `reddit.sh discover <keyword> [--deep\|--from-sub\|--industry\|--autocomplete\|--footprint]` | Find new high-value subreddits |
 | `profile` | `reddit.sh profile <username> [--enrich]` | Analyze a user's activity and expertise |
 | `crosspost` | `reddit.sh crosspost [--campaign X]` | Detect users posting across multiple subreddits |
 | `duplicates` | `reddit.sh duplicates <post_id>` | Track link propagation across subreddits |

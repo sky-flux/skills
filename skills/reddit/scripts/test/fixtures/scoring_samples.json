@@ -1,0 +1,16 @@
+{
+  "Dentistry": {
+    "sample_posts": 87, "pain_posts": 23, "avg_comments": 12.4, "avg_score": 18.7,
+    "posts_per_week": 45, "subscribers": 161000, "geo_tier_s_ratio": 0.7,
+    "budget_mention_rate": 0.15, "flesch_kincaid_avg": 10.2, "professional_title_rate": 0.8,
+    "competitor_posts": 12, "recent_post_rate": 50, "older_post_rate": 42,
+    "small_team_mentions": 0.3, "self_serve_signals": 0.4, "compliance_mentions": 0.1
+  },
+  "SmallSubNoActivity": {
+    "sample_posts": 5, "pain_posts": 0, "avg_comments": 1.2, "avg_score": 3.1,
+    "posts_per_week": 0.5, "subscribers": 50, "geo_tier_s_ratio": 0.0,
+    "budget_mention_rate": 0.0, "flesch_kincaid_avg": 5.0, "professional_title_rate": 0.0,
+    "competitor_posts": 0, "recent_post_rate": 1, "older_post_rate": 1,
+    "small_team_mentions": 0.0, "self_serve_signals": 0.0, "compliance_mentions": 0.0
+  }
+}
