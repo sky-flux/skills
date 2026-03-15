@@ -30,11 +30,42 @@ Product Opportunity Hunting, NOT Lead Hunting.
 4. Verify `.gitignore` includes `.reddit/` — the script warns if missing
 5. Review `references/subreddits.json` — confirm subreddits match the user's domain
 6. Review `references/intent_keywords.json` — adjust if the user targets a specific niche
-7. First scan:
+7. Configure preferences: `reddit.sh config show` — set language, industries, currency
+8. First scan:
    ```bash
    reddit.sh fetch --campaign global_english --sort new --pages 1
    ```
-8. Inspect the enriched JSON output, then proceed to Phase 2 (Analysis)
+9. Inspect the enriched JSON output, then proceed to Phase 2 (Analysis)
+
+## Configuration
+
+On first run, `.reddit/config.json` is auto-created with defaults. Check and customize it:
+
+```bash
+reddit.sh config show          # view current config
+reddit.sh config set <key> <value>   # change a setting
+reddit.sh config reset         # restore defaults
+```
+
+| Setting | Description | Default | Example |
+|---------|-------------|---------|---------|
+| `output_language` | Language for reports and analysis | `en` | `zh`, `ja`, `de` |
+| `focus_industries` | Only surface opportunities in these industries | `[]` (all) | `["SaaS","DevTools"]` |
+| `excluded_subreddits` | Skip these subreddits during scan | `[]` | `["Entrepreneur"]` |
+| `score_threshold` | Minimum score to include in reports | `7` | `8` |
+| `max_build_complexity` | Filter out opportunities above this level | `Heavy` | `Medium` |
+| `currency_display` | Currency for revenue estimates | `USD` | `CNY`, `EUR` |
+
+**First-run prompt:** If no `config.json` exists when the skill is triggered, ask the user:
+
+> "This is your first time using Reddit Opportunity Hunter. Quick setup:
+> 1. What language should reports be in? (default: en)
+> 2. Any industries to focus on? (default: all)
+> 3. What currency for revenue estimates? (default: USD)
+>
+> Or say 'use defaults' to skip."
+
+Save answers via `reddit.sh config set`.
 
 ## Core Workflow
 
@@ -56,6 +87,15 @@ Key details:
 - Fetch Tier S campaigns every loop, Tier A daily, Tier B weekly
 
 ### Phase 2: Analysis (Claude)
+
+**Before analyzing, read user config:**
+- `reddit.sh config show` — check `output_language`, `focus_industries`, `score_threshold`
+- Write ALL reports and analysis in the configured `output_language`
+- If `focus_industries` is set, prioritize opportunities matching those industries
+- If `excluded_subreddits` is set, skip posts from those subreddits
+- Use `currency_display` when estimating revenue (convert from USD)
+- Only include opportunities with `final_score >= score_threshold`
+- Only include opportunities with complexity ≤ `max_build_complexity`
 
 Read the enriched JSON from Phase 1. For each batch:
 
@@ -107,6 +147,7 @@ Before promoting an opportunity to "validated":
 | export | `reddit.sh export [--format csv\|json]` | CRM-ready export |
 | cleanup | `reddit.sh cleanup` | Purge expired data |
 | diagnose | `reddit.sh diagnose` | Health check (jq, dirs, state) |
+| config | `reddit.sh config [show\|set <key> <val>\|reset]` | User preferences |
 
 **Helper functions** (called during loop cycles, not directly by user):
 - `watch_check` — check watched threads for new comments since last check
@@ -254,15 +295,16 @@ Trigger with:
 ```
 
 Each cycle:
-1. Read `references/subreddits.json` (hot reload — picks up edits between cycles)
-2. Fetch per `scan_priority`: Tier S every loop, Tier A daily, Tier B weekly
-3. Deduplicate against `seen_posts` in `.reddit/.reddit.json`
-4. `watch_check` for watched threads with new activity
-5. `competitor_search` for configured campaigns
-6. Analyze, score, cluster new posts
-7. Output incremental report (append to daily scan file)
-8. Score >= 8 -> alert: `OPPORTUNITY: [title] (score X.X)`
-9. `update_subreddit_quality` with hit rates
+1. Read config: `reddit.sh config show` — load user preferences
+2. Read `references/subreddits.json` (hot reload — picks up edits between cycles)
+3. Fetch per `scan_priority`: Tier S every loop, Tier A daily, Tier B weekly
+4. Deduplicate against `seen_posts` in `.reddit/.reddit.json`
+5. `watch_check` for watched threads with new activity
+6. `competitor_search` for configured campaigns
+7. Analyze, score, cluster new posts
+8. Output incremental report (append to daily scan file)
+9. Score >= 8 -> alert: `OPPORTUNITY: [title] (score X.X)`
+10. `update_subreddit_quality` with hit rates
 
 **Scheduled reports:**
 - Weekly summary: trigger on Sundays (or first loop after Sunday midnight)
