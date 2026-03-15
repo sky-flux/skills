@@ -69,7 +69,7 @@ bash skills/reddit/scripts/reddit.sh fetch --campaign global_english --sort new 
 
 ## Output
 
-Results are saved to `.reddit-leads/` in your project:
+Results are saved to `.reddit/` in your project:
 - `.reddit.json` — State file (dedup, watched threads, opportunity tracking)
 - `YYYY-MM-DD-scan.md` — Daily scan reports
 - `reports/` — Weekly and monthly reports

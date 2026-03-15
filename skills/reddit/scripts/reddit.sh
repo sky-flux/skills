@@ -10,7 +10,7 @@ SLEEP_BETWEEN=3
 # ─── Paths ────────────────────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILL_DIR="$(dirname "$SCRIPT_DIR")"
-DATA_DIR="${REDDIT_DATA_DIR:-$PWD/.reddit-leads}"
+DATA_DIR="${REDDIT_DATA_DIR:-$PWD/.reddit}"
 STATE_FILE="$DATA_DIR/.reddit.json"
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -34,11 +34,11 @@ ensure_data_dir() {
 
   local gitignore="$PWD/.gitignore"
   if [[ -f "$gitignore" ]]; then
-    if ! grep -qF ".reddit-leads/" "$gitignore"; then
-      log "Warning: .reddit-leads/ is not in .gitignore — consider adding it to avoid committing local data"
+    if ! grep -qF ".reddit/" "$gitignore"; then
+      log "Warning: .reddit/ is not in .gitignore — consider adding it to avoid committing local data"
     fi
   else
-    log "Warning: No .gitignore found — consider creating one and adding .reddit-leads/"
+    log "Warning: No .gitignore found — consider creating one and adding .reddit/"
   fi
 }
 
