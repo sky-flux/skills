@@ -44,7 +44,7 @@ Three entry points, all output a unified candidate sub list for the probing laye
 ### a) Keyword Entry
 
 ```bash
-reddit.sh discover "bookkeeping" --method deep
+reddit.sh discover "bookkeeping" --deep
 ```
 
 - Keyword → Reddit subreddit search API
@@ -54,12 +54,12 @@ reddit.sh discover "bookkeeping" --method deep
   - Expansion source: scan `intent_keywords.json` + `market_keywords.json` for terms co-occurring in the same category/language group
   - Note: this is co-occurrence-based expansion, not NLP semantic analysis (no external dependencies)
 
-**Backward compatibility:** The existing `--method keyword|autocomplete|footprint|overlap` flags continue to work. `--method deep` is a new method that runs the full discovery pipeline (all probing methods). `--method keyword` and `--method autocomplete` remain as lightweight alternatives.
+**Backward compatibility:** The existing `--keyword|autocomplete|footprint|overlap` flags continue to work. `--deep` is a new method that runs the full discovery pipeline (all probing methods). `--keyword` and `--autocomplete` remain as lightweight alternatives.
 
 ### b) Sub Name Entry
 
 ```bash
-reddit.sh discover r/Dentistry --method from-sub
+reddit.sh discover r/Dentistry --from-sub
 ```
 
 - Input a known sub → skip search, go directly to deep probing
@@ -68,7 +68,7 @@ reddit.sh discover r/Dentistry --method from-sub
 ### c) Industry Description Entry
 
 ```bash
-reddit.sh discover "veterinary practice management software" --method industry
+reddit.sh discover "veterinary practice management software" --industry
 ```
 
 - Claude decomposes the description into keyword groups
@@ -153,7 +153,7 @@ Budget strategy:
 - 10 candidates × 15 avg calls = ~150 calls per discovery run
 - Rate limit: ~100 req/260s → split into 2 batches with cooldown
 - UCB1 Bandit dynamic allocation: score candidates after post sampling (cheapest probe), skip remaining probes for clearly low-quality candidates
-- `--method deep` warns the user about API cost before proceeding
+- `--deep` warns the user about API cost before proceeding
 
 ### Probing Output Format
 
@@ -352,7 +352,7 @@ Weekly quality change report (no auto-removal, report only):
 
 | Scenario | Command | Frequency |
 |----------|---------|-----------|
-| Cold start | `reddit.sh discover "keyword" --method deep` | Manual |
+| Cold start | `reddit.sh discover "keyword" --deep` | Manual |
 | Manual expand | `reddit.sh expand --campaign vertical_finance` | Manual |
 | Auto expand | Auto-triggered in loop | Weekly |
 | Decay report | Auto-generated in loop | Weekly |
@@ -543,9 +543,9 @@ skills/reddit/
 
 | Command | Purpose |
 |---------|---------|
-| `reddit.sh discover "<keyword>" --method deep` | Cold-start deep discovery from keyword |
-| `reddit.sh discover "<sub>" --method from-sub` | Discovery from known sub |
-| `reddit.sh discover "<description>" --method industry` | Discovery from industry description |
+| `reddit.sh discover "<keyword>" --deep` | Cold-start deep discovery from keyword |
+| `reddit.sh discover "<sub>" --from-sub` | Discovery from known sub |
+| `reddit.sh discover "<description>" --industry` | Discovery from industry description |
 | `reddit.sh expand --campaign <name>` | Manual expansion for existing campaign |
 | `reddit.sh quality [--report\|--history <sub>]` | Quality report and EMA history |
 | `reddit.sh promote <sub_name> --campaign <name>` | Move discovered sub from `.reddit/discovered_subs.json` to `references/subreddits.json` under specified campaign |
@@ -563,7 +563,7 @@ skills/reddit/
 5. Run scoring pipeline on candidates
 6. Auto-add qualifying subs to `.reddit/discovered_subs.json` under this campaign
 
-This is the same probing + scoring pipeline as `discover --method deep`, but scoped to a single campaign and seeded from existing high-performing subs rather than keywords.
+This is the same probing + scoring pipeline as `discover --deep`, but scoped to a single campaign and seeded from existing high-performing subs rather than keywords.
 
 ## Integration with Existing Workflow
 
@@ -646,7 +646,7 @@ Extend existing `run_tests.sh` to discover and run all `test_*.sh` files in the 
 
 - **No external dependencies** — all algorithms implemented in bash + jq + awk
 - **Rate limit compliant** — discovery probing respects ~100 req/260s budget
-- **Backward compatible** — existing `--method keyword|autocomplete|footprint|overlap` unchanged; new methods added alongside
+- **Backward compatible** — existing `--keyword|autocomplete|footprint|overlap` unchanged; new methods added alongside
 - **`.reddit/` stays in .gitignore** — all state/data/algo files are local only
 - **`references/` is read-only at runtime** — discovered subs go to `.reddit/discovered_subs.json`, merged at read time
 - **Dispatch table updated** — new modes (`expand`, `quality`, `promote`) added to the case statement in `reddit.sh`

@@ -1,0 +1,4 @@
+[
+  {"name": "dentist_pro", "link_karma": 5000, "comment_karma": 12000, "subreddits_active": ["Dentistry", "DentalHygienist", "OralSurgery", "smallbusiness"], "posts": 45},
+  {"name": "casual_user", "link_karma": 100, "comment_karma": 200, "subreddits_active": ["AskReddit", "funny"], "posts": 3}
+]

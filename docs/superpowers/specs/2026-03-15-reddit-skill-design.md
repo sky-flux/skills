@@ -54,7 +54,7 @@ skills/reddit/
 | 1 | **fetch** | `reddit.sh fetch [--sort new\|hot\|rising\|top\|controversial] [--pages N] [--campaign X]` | 抓取 subreddit 帖子列表 |
 | 2 | **comments** | `reddit.sh comments <post_id> <subreddit>` | 抓取帖子评论树（含嵌套回复） |
 | 3 | **profile** | `reddit.sh profile <username> [--enrich]` | 用户画像（overview + 发帖 + 评论历史） |
-| 4 | **discover** | `reddit.sh discover <keyword> [--method keyword\|autocomplete\|footprint\|overlap]` | 发现新 subreddit |
+| 4 | **discover** | `reddit.sh discover <keyword> [--deep|--autocomplete|--from-sub|--industry|--footprint]` | 发现新 subreddit |
 | 5 | **search** | `reddit.sh search <query> [--type post\|user\|subreddit] [--global] [--subreddit X]` | 全 Reddit 或指定 subreddit 内搜索（注：评论搜索不可用，用 firehose 替代） |
 | 6 | **crosspost** | `reddit.sh crosspost [--campaign X]` | 交叉发帖用户检测 |
 | 7 | **stickied** | `reddit.sh stickied [subreddit]` | 置顶/周期帖评论挖掘 |

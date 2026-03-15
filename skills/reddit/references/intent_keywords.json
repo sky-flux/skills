@@ -2,10 +2,10 @@
   "$schema": "intent-keywords-v1",
   "languages": {
     "en": {
-      "tier_1_purchase_intent": ["willing to pay", "budget for", "what's the pricing", "free trial", "need this ASAP", "urgent", "deadline", "where do I sign up", "take my money"],
-      "tier_2_solution_seeking": ["looking for a tool", "anyone know", "recommend a", "help me find", "switching from", "need alternative", "vs"],
-      "tier_3_pain_expression": ["frustrated with", "struggling with", "doesn't support", "too expensive", "broken", "can't figure out", "spent hours trying"],
-      "tier_4_research": ["what do you use for", "how do you handle", "best practices for", "thinking about", "considering", "evaluating"]
+      "tier_1_purchase_intent": ["willing to pay", "budget for", "what's the pricing", "free trial", "need this ASAP", "urgent", "deadline", "where do I sign up", "take my money", "shut up and take my money", "would pay for"],
+      "tier_2_solution_seeking": ["looking for a tool", "anyone know", "recommend a", "help me find", "switching from", "need alternative", "vs", "better than", "replacement for", "software recommendation", "what do you use", "anyone built", "looking for a self-hosted"],
+      "tier_3_pain_expression": ["frustrated with", "struggling with", "doesn't support", "too expensive", "broken", "can't figure out", "spent hours trying", "hate using", "nightmare", "waste hours", "waste time", "terrible", "manual process", "drives me crazy", "fed up with", "pricing insane", "fees too high"],
+      "tier_4_research": ["what do you use for", "how do you handle", "best practices for", "thinking about", "considering", "evaluating", "better way to", "anyone automated", "how do you manage"]
     },
     "de": {
       "pain": ["frustriert", "Problem mit", "Alternative zu", "zu teuer", "suche Tool"],

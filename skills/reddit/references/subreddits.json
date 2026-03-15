@@ -342,6 +342,239 @@
         "araç arıyorum",
         "öneri"
       ]
+    },
+    "vertical_finance": {
+      "tier": "S",
+      "language": "en",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "accounting", "subscribers": 1228000, "sort_modes": ["new"], "pages": 2},
+        {"name": "bookkeeping", "subscribers": 75000, "sort_modes": ["new"], "pages": 1},
+        {"name": "Insurance", "subscribers": 216000, "sort_modes": ["new"], "pages": 1},
+        {"name": "tax", "subscribers": 1050000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "FinancialPlanning", "subscribers": 974000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "personalfinance", "subscribers": 21600000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "hate QuickBooks",
+        "alternative to QuickBooks",
+        "spreadsheet nightmare",
+        "manual reconciliation",
+        "waste hours on invoices",
+        "bookkeeping software",
+        "tax software frustrating",
+        "looking for accounting tool"
+      ],
+      "competitors": ["QuickBooks", "Xero", "FreshBooks", "Wave"],
+      "competitor_queries": [
+        "{competitor} alternative",
+        "{competitor} frustrated",
+        "switching from {competitor}",
+        "{competitor} too expensive",
+        "{competitor} terrible"
+      ]
+    },
+    "vertical_devtools": {
+      "tier": "S",
+      "language": "en",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "sysadmin", "subscribers": 1242000, "sort_modes": ["new"], "pages": 2},
+        {"name": "selfhosted", "subscribers": 719000, "sort_modes": ["new"], "pages": 2},
+        {"name": "devops", "subscribers": 475000, "sort_modes": ["new"], "pages": 1},
+        {"name": "DataEngineering", "subscribers": 440000, "sort_modes": ["new"], "pages": 1},
+        {"name": "ExperiencedDevs", "subscribers": 372000, "sort_modes": ["new"], "pages": 1},
+        {"name": "webdev", "subscribers": 3205000, "sort_modes": ["new"], "pages": 2},
+        {"name": "homelab", "subscribers": 976000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "msp", "subscribers": 233000, "sort_modes": ["new"], "pages": 1},
+        {"name": "ITManagers", "subscribers": 64000, "sort_modes": ["new"], "pages": 1}
+      ],
+      "search_keywords": [
+        "alternative to",
+        "looking for a self-hosted",
+        "hate using",
+        "better than",
+        "anyone built",
+        "monitoring nightmare",
+        "deployment pain",
+        "frustrated with",
+        "too expensive for"
+      ],
+      "competitors": ["Datadog", "PagerDuty", "Jira", "Jenkins", "Splunk", "New Relic"],
+      "competitor_queries": [
+        "{competitor} alternative",
+        "{competitor} too expensive",
+        "self-hosted {competitor}",
+        "switching from {competitor}",
+        "{competitor} pricing insane"
+      ]
+    },
+    "vertical_marketing": {
+      "tier": "S",
+      "language": "en",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "digital_marketing", "subscribers": 332000, "sort_modes": ["new"], "pages": 1},
+        {"name": "SEO", "subscribers": 463000, "sort_modes": ["new"], "pages": 1},
+        {"name": "PPC", "subscribers": 254000, "sort_modes": ["new"], "pages": 1},
+        {"name": "ProductManagement", "subscribers": 255000, "sort_modes": ["new"], "pages": 1},
+        {"name": "CustomerSuccess", "subscribers": 45000, "sort_modes": ["new"], "pages": 1},
+        {"name": "marketing", "subscribers": 1920000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "reporting nightmare",
+        "waste hours on reports",
+        "looking for a tool",
+        "manual process",
+        "frustrated with",
+        "alternative to",
+        "too expensive",
+        "anyone automated"
+      ],
+      "competitors": ["HubSpot", "Semrush", "Ahrefs", "Mailchimp", "Hootsuite"],
+      "competitor_queries": [
+        "{competitor} alternative",
+        "{competitor} too expensive",
+        "switching from {competitor}",
+        "cheaper than {competitor}"
+      ]
+    },
+    "vertical_ecommerce": {
+      "tier": "S",
+      "language": "en",
+      "scan_frequency": "every_loop",
+      "subreddits": [
+        {"name": "ecommerce", "subscribers": 620000, "sort_modes": ["new"], "pages": 1},
+        {"name": "shopify", "subscribers": 342000, "sort_modes": ["new"], "pages": 1},
+        {"name": "Etsy", "subscribers": 299000, "sort_modes": ["new"], "pages": 1},
+        {"name": "Flipping", "subscribers": 475000, "sort_modes": ["new"], "pages": 1},
+        {"name": "FulfillmentByAmazon", "subscribers": 134000, "sort_modes": ["new"], "pages": 1},
+        {"name": "AmazonSeller", "subscribers": 91000, "sort_modes": ["new"], "pages": 1},
+        {"name": "dropship", "subscribers": 342000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "WooCommerce", "subscribers": 46000, "sort_modes": ["new"], "pages": 1}
+      ],
+      "search_keywords": [
+        "inventory nightmare",
+        "shipping frustration",
+        "listing management",
+        "hate the dashboard",
+        "manual process",
+        "looking for a tool",
+        "alternative to",
+        "waste hours"
+      ],
+      "competitors": ["Shopify", "WooCommerce", "BigCommerce", "Etsy"],
+      "competitor_queries": [
+        "{competitor} alternative",
+        "{competitor} fees too high",
+        "switching from {competitor}",
+        "leaving {competitor}"
+      ]
+    },
+    "vertical_creative": {
+      "tier": "A",
+      "language": "en",
+      "scan_frequency": "daily",
+      "subreddits": [
+        {"name": "graphic_design", "subscribers": 2868000, "sort_modes": ["new"], "pages": 2},
+        {"name": "photography", "subscribers": 5578000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "videography", "subscribers": 431000, "sort_modes": ["new"], "pages": 1},
+        {"name": "Filmmakers", "subscribers": 782000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "alternative to Adobe",
+        "subscription fatigue",
+        "hate Creative Cloud",
+        "looking for a tool",
+        "client management nightmare",
+        "invoicing clients",
+        "project management for",
+        "file management mess"
+      ],
+      "competitors": ["Adobe", "Canva", "Figma", "Lightroom"],
+      "competitor_queries": [
+        "{competitor} alternative",
+        "{competitor} too expensive",
+        "cancel {competitor} subscription",
+        "switching from {competitor}"
+      ]
+    },
+    "vertical_professional": {
+      "tier": "A",
+      "language": "en",
+      "scan_frequency": "daily",
+      "subreddits": [
+        {"name": "realestate", "subscribers": 2461000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "PropertyManagement", "subscribers": 58000, "sort_modes": ["new"], "pages": 1},
+        {"name": "LawFirm", "subscribers": 97000, "sort_modes": ["new"], "pages": 1},
+        {"name": "paralegal", "subscribers": 70000, "sort_modes": ["new"], "pages": 1},
+        {"name": "Construction", "subscribers": 553000, "sort_modes": ["new"], "pages": 1},
+        {"name": "HVAC", "subscribers": 231000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "electricians", "subscribers": 544000, "sort_modes": ["search_only"], "pages": 0},
+        {"name": "Plumbing", "subscribers": 514000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "software recommendation",
+        "looking for a tool",
+        "scheduling nightmare",
+        "client management",
+        "hate using",
+        "manual paperwork",
+        "waste time on",
+        "better way to"
+      ]
+    },
+    "vertical_education_health": {
+      "tier": "A",
+      "language": "en",
+      "scan_frequency": "daily",
+      "subreddits": [
+        {"name": "Teachers", "subscribers": 2280000, "sort_modes": ["new"], "pages": 2},
+        {"name": "Dentistry", "subscribers": 161000, "sort_modes": ["new"], "pages": 1},
+        {"name": "veterinary", "subscribers": 80000, "sort_modes": ["new"], "pages": 1},
+        {"name": "Chiropractic", "subscribers": 47000, "sort_modes": ["new"], "pages": 1},
+        {"name": "PharmacyTechnician", "subscribers": 66000, "sort_modes": ["new"], "pages": 1},
+        {"name": "OccupationalTherapy", "subscribers": 54000, "sort_modes": ["new"], "pages": 1}
+      ],
+      "search_keywords": [
+        "grading nightmare",
+        "scheduling software",
+        "practice management",
+        "EHR frustration",
+        "waste hours on paperwork",
+        "looking for a tool",
+        "hate the software",
+        "manual process"
+      ]
+    },
+    "vertical_sales_hr": {
+      "tier": "A",
+      "language": "en",
+      "scan_frequency": "daily",
+      "subreddits": [
+        {"name": "sales", "subscribers": 556000, "sort_modes": ["new"], "pages": 1},
+        {"name": "recruiting", "subscribers": 178000, "sort_modes": ["new"], "pages": 1},
+        {"name": "humanresources", "subscribers": 213000, "sort_modes": ["new"], "pages": 1},
+        {"name": "freelance", "subscribers": 656000, "sort_modes": ["new"], "pages": 1},
+        {"name": "consulting", "subscribers": 357000, "sort_modes": ["search_only"], "pages": 0}
+      ],
+      "search_keywords": [
+        "CRM nightmare",
+        "cold outreach tool",
+        "ATS frustration",
+        "resume screening",
+        "invoicing nightmare",
+        "client management",
+        "looking for a tool",
+        "alternative to",
+        "hate using"
+      ],
+      "competitors": ["Salesforce", "HubSpot", "LinkedIn Recruiter", "Greenhouse"],
+      "competitor_queries": [
+        "{competitor} alternative",
+        "{competitor} too expensive",
+        "switching from {competitor}"
+      ]
     }
   },
   "scan_priority": {

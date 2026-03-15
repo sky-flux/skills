@@ -128,7 +128,7 @@ Claude 会执行 4 阶段管线：采集 → 分析 → 验证 → 报告。
 
 | 模式 | 用法 | 用途 |
 |------|------|------|
-| `discover` | `reddit.sh discover <关键词> [--method keyword\|autocomplete]` | 发现新的高价值 subreddit |
+| `discover` | `reddit.sh discover <关键词> [--deep\|--from-sub\|--industry\|--autocomplete\|--footprint]` | 发现新的高价值 subreddit |
 | `profile` | `reddit.sh profile <用户名> [--enrich]` | 用户画像分析（活跃社区、发帖历史） |
 | `crosspost` | `reddit.sh crosspost [--campaign X]` | 交叉发帖用户检测 |
 | `duplicates` | `reddit.sh duplicates <帖子ID>` | 链接传播追踪 |

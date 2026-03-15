@@ -55,6 +55,7 @@ reddit.sh config reset         # restore defaults
 | `score_threshold` | Minimum score to include in reports | `7` | `8` |
 | `max_build_complexity` | Filter out opportunities above this level | `Heavy` | `Medium` |
 | `currency_display` | Currency for revenue estimates | `USD` | `CNY`, `EUR` |
+| `sub_quality_threshold` | Minimum quality score for auto-adding discovered subs | `7.0` | `6.0` |
 
 **First-run prompt:** If no `config.json` exists when the skill is triggered, ask the user:
 
@@ -136,7 +137,7 @@ Before promoting an opportunity to "validated":
 | fetch | `reddit.sh fetch --campaign X --sort new --pages 2` | Fetch & enrich posts |
 | comments | `reddit.sh comments <id> <sub>` | Comment tree for deep-dive |
 | search | `reddit.sh search "query" [--global] [--type post\|user\|subreddit]` | Reddit search |
-| discover | `reddit.sh discover <keyword> [--method keyword\|autocomplete]` | Find new subreddits |
+| discover | `reddit.sh discover <keyword> [--deep\|--from-sub\|--industry]` | Find new subreddits |
 | profile | `reddit.sh profile <user> [--enrich]` | User history analysis |
 | crosspost | `reddit.sh crosspost [--campaign X]` | Cross-poster detection |
 | stickied | `reddit.sh stickied [subreddit]` | Stickied post mining |
@@ -148,6 +149,9 @@ Before promoting an opportunity to "validated":
 | cleanup | `reddit.sh cleanup` | Purge expired data |
 | diagnose | `reddit.sh diagnose` | Health check (jq, dirs, state) |
 | config | `reddit.sh config [show\|set <key> <val>\|reset]` | User preferences |
+| expand | `reddit.sh expand --campaign X` | Targeted campaign expansion |
+| quality | `reddit.sh quality [--report\|--history <sub>]` | Sub quality report + EMA history |
+| promote | `reddit.sh promote <sub> --campaign X` | Move discovered sub to tracked config |
 
 **Helper functions** (called during loop cycles, not directly by user):
 - `watch_check` — check watched threads for new comments since last check

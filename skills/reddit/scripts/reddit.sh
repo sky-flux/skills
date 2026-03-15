@@ -14,6 +14,11 @@ DATA_DIR="${REDDIT_DATA_DIR:-$PWD/.reddit}"
 STATE_FILE="$DATA_DIR/.reddit.json"
 CONFIG_FILE="$DATA_DIR/config.json"
 
+# ─── Algorithm Modules ────────────────────────────────────────────────────────
+for _algo_module in "$SCRIPT_DIR"/algo_*.sh; do
+  [[ -f "$_algo_module" ]] && source "$_algo_module"
+done
+
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 
 log() {
@@ -51,7 +56,7 @@ ensure_data_dir() {
 init_state() {
   ensure_data_dir
   cat > "$STATE_FILE" <<'EOF'
-{"seen_posts":{},"watched_threads":{},"opportunities":{},"products_seen":{},"influencers":{},"community_overlap":{},"subreddit_quality":{}}
+{"seen_posts":{},"watched_threads":{},"opportunities":{},"products_seen":{},"influencers":{},"community_overlap":{},"subreddit_quality":{},"candidate_subs":[],"rejected_subs":[],"keyword_frequencies":{},"sub_clusters":[],"user_intent_timeline":{}}
 EOF
   log "State initialized at $STATE_FILE"
 }
@@ -65,7 +70,8 @@ init_config() {
   "excluded_subreddits": [],
   "score_threshold": 7,
   "max_build_complexity": "Heavy",
-  "currency_display": "USD"
+  "currency_display": "USD",
+  "sub_quality_threshold": 7.0
 }
 CONF
     log "Default config created at $CONFIG_FILE"
@@ -408,6 +414,88 @@ update_subreddit_quality() {
   "
 }
 
+# ─── EMA tracking ─────────────────────────────────────────────────────────────
+
+update_sub_ema() {
+  local sub="${1:?}" weekly_score="${2:?}"
+  if [ ! -f "$STATE_FILE" ]; then return 0; fi
+  local old_ema
+  old_ema=$(jq -r --arg s "$sub" '.subreddit_quality[$s].ema_score // empty' "$STATE_FILE")
+  local new_ema
+  if [[ -z "$old_ema" ]]; then
+    new_ema="$weekly_score"
+  else
+    new_ema=$(awk -v c="$weekly_score" -v old="$old_ema" 'BEGIN { printf "%.2f", 0.3 * c + 0.7 * old }')
+  fi
+  update_state "
+    .subreddit_quality[\"$sub\"].ema_score = $new_ema
+    | .subreddit_quality[\"$sub\"].ema_history = ((.subreddit_quality[\"$sub\"].ema_history // []) + [$new_ema] | .[-12:])
+    | .subreddit_quality[\"$sub\"].peak_score = ([.subreddit_quality[\"$sub\"].peak_score // 0, $new_ema] | max)
+    | .subreddit_quality[\"$sub\"].weeks_tracked = ((.subreddit_quality[\"$sub\"].weeks_tracked // 0) + 1)
+  "
+}
+
+# ─── Probing ──────────────────────────────────────────────────────────────────
+
+probe_sample_posts() {
+  local posts_file="${1:?}"
+  if [[ ! -f "$posts_file" ]]; then echo '{"error":"file not found"}'; return 1; fi
+  jq '
+    .data.children as $raw |
+    [$raw[] | select(
+      .data.score >= 0 and .data.author != "[deleted]" and
+      .data.selftext != "[removed]" and .data.removed_by_category == null
+    )] as $clean |
+    {
+      sample_posts: ($clean | length),
+      pain_posts: [$clean[] | select(
+        (.data.title + " " + .data.selftext) |
+        test("frustrat|disappoint|terrible|awful|waste|nightmare|hate|broken|struggling"; "i")
+      )] | length,
+      avg_comments: ([$clean[].data.num_comments] | if length == 0 then 0 else add / length end | . * 10 | round / 10),
+      avg_score: ([$clean[].data.score] | if length == 0 then 0 else add / length end | . * 10 | round / 10),
+      posts_per_week: ($clean | length),
+      competitor_posts: [$clean[] | select((.data.title + " " + .data.selftext) | test("QuickBooks|Notion|Jira|Salesforce|HubSpot|Shopify|Adobe"; "i"))] | length
+    }
+  ' "$posts_file"
+}
+
+# ─── Auto-add discovered subs ────────────────────────────────────────────────
+
+auto_add_discovered_sub() {
+  local sub_name="${1:?}" campaign="${2:?}" score="${3:?}" source="${4:-manual}"
+  local subscribers="${5:-0}"
+  ensure_data_dir
+  local discovered_file="$DATA_DIR/discovered_subs.json"
+  if [[ ! -f "$discovered_file" ]]; then
+    echo '{"discovered":{}}' > "$discovered_file"
+  fi
+  local tmp; tmp=$(mktemp)
+  jq --arg c "$campaign" --arg name "$sub_name" --argjson subs "$subscribers" \
+     --argjson score "$score" --arg src "$source" --arg date "$(date +%Y-%m-%d)" '
+    .discovered[$c] = ((.discovered[$c] // []) + [{
+      name: $name, subscribers: $subs, sort_modes: ["new"], pages: 1,
+      _auto_added: true, _added_date: $date, _discovery_score: $score, _source: $src
+    }]) | .discovered[$c] |= unique_by(.name)
+  ' "$discovered_file" > "$tmp" && mv "$tmp" "$discovered_file"
+}
+
+# ─── Merge discovered subs ───────────────────────────────────────────────────
+
+merge_discovered_subs() {
+  local campaign="${1:?}" config_file="${2:?}"
+  local discovered_file="$DATA_DIR/discovered_subs.json"
+  if [[ ! -f "$discovered_file" ]]; then
+    jq -r --arg c "$campaign" '.campaigns[$c].subreddits' "$config_file"
+    return 0
+  fi
+  jq -s --arg c "$campaign" '
+    (.[0].campaigns[$c].subreddits // []) as $orig |
+    (.[1].discovered[$c] // []) as $disc |
+    ($orig + $disc) | unique_by(.name)
+  ' "$config_file" "$discovered_file"
+}
+
 # ─── Mode stubs ───────────────────────────────────────────────────────────────
 
 mode_fetch() {
@@ -690,13 +778,17 @@ mode_discover() {
 
   while [ $# -gt 0 ]; do
     case "$1" in
-      --method) method="$2"; shift 2 ;;
+      --deep) method="deep"; shift ;;
+      --autocomplete) method="autocomplete"; shift ;;
+      --from-sub) method="from-sub"; shift ;;
+      --industry) method="industry"; shift ;;
+      --footprint|--overlap) method="footprint"; shift ;;
       *) keyword="$1"; shift ;;
     esac
   done
 
   if [ -z "$keyword" ]; then
-    log "Usage: reddit.sh discover <keyword> [--method keyword|autocomplete|footprint|overlap]"
+    log "Usage: reddit.sh discover <keyword> [--deep|--autocomplete|--from-sub|--industry|--footprint]"
     return 1
   fi
 
@@ -734,6 +826,60 @@ mode_discover() {
       else
         echo '{"error": "No state file — run fetch first to build overlap data"}'
       fi
+      ;;
+    deep)
+      log "Deep discovery for: $keyword"
+      local encoded
+      encoded=$(printf '%s' "$keyword" | jq -sRr @uri)
+      local response
+      response=$(reddit_curl "${BASE_URL}/subreddits/search.json?q=${encoded}&limit=25") || return 1
+      local subs
+      subs=$(echo "$response" | jq -r '[.data.children[].data.display_name] | .[]')
+      local results="[]"
+      for sub in $subs; do
+        log "Probing r/$sub..."
+        local probe_file
+        probe_file=$(mktemp)
+        if reddit_curl "${BASE_URL}/r/${sub}/new.json?limit=25" > "$probe_file" 2>/dev/null; then
+          local probe_data
+          probe_data=$(probe_sample_posts "$probe_file" 2>/dev/null || echo '{}')
+          results=$(echo "$results" | jq --arg name "$sub" --argjson data "$probe_data" '. + [{name: $name} + $data]')
+        fi
+        rm -f "$probe_file"
+      done
+      echo "$results" | jq --arg q "$keyword" '{query: $q, method: "deep", results: (. | sort_by(-.pain_posts))}'
+      ;;
+    from-sub)
+      log "Discovering from sidebar/related of r/$keyword"
+      local response
+      response=$(reddit_curl "${BASE_URL}/r/${keyword}/about.json") || return 1
+      echo "$response" | jq --arg sub "$keyword" '{
+        query: $sub, method: "from-sub",
+        subreddit: {name: .data.display_name, subscribers: .data.subscribers, description: .data.public_description},
+        suggestion: "Check sidebar and wiki for related subreddits"
+      }'
+      ;;
+    industry)
+      log "Industry discovery for: $keyword"
+      local encoded
+      encoded=$(printf '%s' "$keyword" | jq -sRr @uri)
+      local queries=("$keyword tool" "$keyword software" "$keyword alternative" "$keyword startup")
+      local results="[]"
+      for q in "${queries[@]}"; do
+        local eq
+        eq=$(printf '%s' "$q" | jq -sRr @uri)
+        local response
+        response=$(reddit_curl "${BASE_URL}/subreddits/search.json?q=${eq}&limit=10" 2>/dev/null) || continue
+        local subs
+        subs=$(echo "$response" | jq '[.data.children[].data | {name: .display_name, subscribers: .subscribers}]')
+        results=$(echo "$results $subs" | jq -s 'add | unique_by(.name)')
+      done
+      echo "$results" | jq --arg q "$keyword" '{query: $q, method: "industry", results: (. | sort_by(-.subscribers))}'
+      ;;
+    *)
+      log "Unknown method: $method (valid: keyword, autocomplete, deep, from-sub, industry, footprint)"
+      log "Usage: reddit.sh discover <keyword> [--deep|--autocomplete|--from-sub|--industry|--footprint]"
+      return 1
       ;;
   esac
 }
@@ -1053,16 +1199,123 @@ mode_config() {
   esac
 }
 
+mode_expand() {
+  local campaign=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in --campaign) campaign="$2"; shift 2 ;; *) shift ;; esac
+  done
+  if [[ -z "$campaign" ]]; then
+    log "Usage: reddit.sh expand --campaign <campaign_name>"
+    return 1
+  fi
+  ensure_jq; ensure_data_dir
+  local config_file="$SKILL_DIR/references/subreddits.json"
+  if [[ ! -f "$config_file" ]]; then log "No subreddits.json"; return 1; fi
+  local subs
+  subs=$(jq -r --arg c "$campaign" '.campaigns[$c].subreddits // [] | .[].name' "$config_file" 2>/dev/null)
+  if [[ -z "$subs" ]]; then log "Campaign $campaign not found or empty"; return 1; fi
+  log "Expanding campaign: $campaign"
+  local top_subs
+  if [[ -f "$STATE_FILE" ]]; then
+    top_subs=$(jq -r '.subreddit_quality // {} | to_entries | sort_by(-.value.ema_score // -.value.hit_rate // 0) | .[0:3] | .[].key' "$STATE_FILE" 2>/dev/null)
+  fi
+  if [[ -z "$top_subs" ]]; then top_subs=$(echo "$subs" | head -3); fi
+  echo "{\"campaign\":\"$campaign\",\"top_subs\":[$(echo "$top_subs" | jq -R . | paste -sd,)],\"status\":\"expansion_ready\"}"
+}
+
+mode_quality() {
+  local action="report" sub="" format="json"
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --report) action="report"; shift ;;
+      --history) action="history"; sub="$2"; shift 2 ;;
+      --format) format="$2"; shift 2 ;;
+      *) shift ;;
+    esac
+  done
+  ensure_jq
+  if [[ ! -f "$STATE_FILE" ]]; then log "No state file"; return 1; fi
+  case "$action" in
+    report)
+      jq '{
+        quality_report: {
+          date: (now | strftime("%Y-%m-%d")),
+          subs: [.subreddit_quality // {} | to_entries[] | {
+            sub: .key,
+            ema_score: (.value.ema_score // "N/A"),
+            peak_score: (.value.peak_score // "N/A"),
+            hit_rate: (.value.hit_rate // 0),
+            scanned: (.value.scanned // 0),
+            weeks_tracked: (.value.weeks_tracked // 0),
+            trend: (if (.value.ema_history // [] | length) >= 2 then
+              if (.value.ema_history[-1] // 0) > (.value.ema_history[-2] // 0) then "rising"
+              elif (.value.ema_history[-1] // 0) < (.value.ema_history[-2] // 0) then "declining"
+              else "stable" end
+            else "insufficient_data" end)
+          }] | sort_by(-.ema_score)
+        }
+      }' "$STATE_FILE"
+      ;;
+    history)
+      if [[ -z "$sub" ]]; then log "Usage: reddit.sh quality --history <subreddit>"; return 1; fi
+      jq --arg s "$sub" '.subreddit_quality[$s] // {error: "sub not found"}' "$STATE_FILE"
+      ;;
+  esac
+}
+
+mode_promote() {
+  local sub_name="" campaign=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --campaign) campaign="$2"; shift 2 ;;
+      *) sub_name="$1"; shift ;;
+    esac
+  done
+  if [[ -z "$sub_name" || -z "$campaign" ]]; then
+    log "Usage: reddit.sh promote <sub_name> --campaign <campaign_name>"
+    return 1
+  fi
+  ensure_jq; ensure_data_dir
+  local discovered_file="$DATA_DIR/discovered_subs.json"
+  local subs_file="${SUBREDDITS_FILE:-$SKILL_DIR/references/subreddits.json}"
+  if [[ ! -f "$discovered_file" ]]; then log "No discovered_subs.json"; return 1; fi
+  local sub_data
+  sub_data=$(jq -r --arg name "$sub_name" --arg c "$campaign" '.discovered[$c] // [] | map(select(.name == $name)) | .[0] // empty' "$discovered_file")
+  if [[ -z "$sub_data" ]]; then log "Sub $sub_name not found in discovered subs for campaign $campaign"; return 1; fi
+  local clean_sub
+  clean_sub=$(echo "$sub_data" | jq 'del(._auto_added, ._added_date, ._discovery_score, ._source)')
+  local tmp; tmp=$(mktemp)
+  jq --arg c "$campaign" --argjson sub "$clean_sub" '.campaigns[$c].subreddits += [$sub]' "$subs_file" > "$tmp" && mv "$tmp" "$subs_file"
+  tmp=$(mktemp)
+  jq --arg name "$sub_name" --arg c "$campaign" '.discovered[$c] = [.discovered[$c][] | select(.name != $name)]' "$discovered_file" > "$tmp" && mv "$tmp" "$discovered_file"
+  log "Promoted $sub_name to $subs_file under campaign $campaign"
+  echo "$clean_sub"
+}
+
+merge_discovered_subs() {
+  local campaign="${1:?}" subs_file="${2:?}"
+  local discovered_file="$DATA_DIR/discovered_subs.json"
+  local original
+  original=$(jq --arg c "$campaign" '.campaigns[$c].subreddits // []' "$subs_file")
+  if [[ -f "$discovered_file" ]]; then
+    local discovered
+    discovered=$(jq --arg c "$campaign" '.discovered[$c] // []' "$discovered_file")
+    echo "$original" "$discovered" | jq -s 'add | unique_by(.name)'
+  else
+    echo "$original"
+  fi
+}
+
 # ─── Main dispatch ────────────────────────────────────────────────────────────
 
 # Guard: only dispatch when executed directly (not sourced)
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   case "${1:-}" in
-    fetch|comments|search|discover|profile|crosspost|stickied|firehose|export|cleanup|diagnose|duplicates|wiki|stats|config)
+    fetch|comments|search|discover|profile|crosspost|stickied|firehose|export|cleanup|diagnose|duplicates|wiki|stats|config|expand|quality|promote)
       mode="$1"; shift; "mode_$mode" "$@" ;;
     *)
       echo "Usage: reddit.sh <mode> [options]"
-      echo "Modes: fetch comments search discover profile crosspost stickied firehose export cleanup diagnose duplicates wiki stats config"
+      echo "Modes: fetch comments search discover profile crosspost stickied firehose export cleanup diagnose duplicates wiki stats config expand quality promote"
       exit 1
       ;;
   esac
