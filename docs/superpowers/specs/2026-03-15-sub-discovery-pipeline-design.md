@@ -8,6 +8,8 @@ Enhance the Reddit Opportunity Hunter skill with an automated Sub Discovery Pipe
 - **Opportunity Score** (existing, in SKILL.md): rates individual product opportunities (1-10), threshold at 7/8. Config key: `score_threshold`.
 - **Sub Quality Score** (new, this spec): rates subreddit value for scanning (0-10), threshold at 7.0/5.0. Config key: `sub_quality_threshold`. These are independent scoring systems for different purposes.
 
+**Config additions:** `sub_quality_threshold` (default: `7.0`) must be added to `init_config()` defaults in `reddit.sh` and documented in SKILL.md's config table.
+
 ## Architecture
 
 ```
@@ -85,6 +87,7 @@ reddit.sh discover "veterinary practice management software" --method industry
 | `deep` | **New** | Full pipeline: search + autocomplete + expansion + all probing |
 | `from-sub` | **New** | Skip search, deep-probe a known sub |
 | `industry` | **New** | Claude decomposes description → multi-keyword deep discovery |
+| `*` (catch-all) | **Fix** | Unknown method → print error with valid methods list (currently silently ignored) |
 
 ### Unified Output Format
 
@@ -241,7 +244,7 @@ raw_score = Σ(dimension_score × weight)   # Range 0-10
 
 # Bayesian Average correction
 final_score = (C × global_avg + raw_score × sample_size) / (C + sample_size)
-C = 50  # Confidence coefficient
+C = 15  # Confidence coefficient (tuned for 50-100 post sample sizes)
 ```
 
 ### Auto-Add Thresholds
@@ -298,7 +301,7 @@ weekly_score = this_week_pain_hits / this_week_posts_scanned
 new_ema = 0.3 × weekly_score + 0.7 × old_ema
 ```
 
-State stored in `.reddit/.reddit.json`:
+State stored in `.reddit/.reddit.json`. New fields are **additive** to the existing `{scanned, opportunities, hit_rate}` schema — existing fields are preserved, new fields are appended:
 
 ```json
 {
@@ -306,6 +309,7 @@ State stored in `.reddit/.reddit.json`:
     "DentalHygienist": {
       "scanned": 340,
       "opportunities": 12,
+      "hit_rate": 3.53,
       "ema_score": 6.8,
       "ema_history": [7.2, 7.0, 6.9, 6.8],
       "peak_score": 7.8,
@@ -314,6 +318,8 @@ State stored in `.reddit/.reddit.json`:
   }
 }
 ```
+
+No migration needed — the existing `update_subreddit_quality()` function continues to update `scanned`, `opportunities`, `hit_rate`. New EMA fields are written by a separate `update_sub_ema()` function. Both write to the same object.
 
 ### c) Decay Report
 
@@ -346,7 +352,7 @@ Weekly quality change report (no auto-removal, report only):
 
 | Scenario | Command | Frequency |
 |----------|---------|-----------|
-| Cold start | `reddit.sh discover "keyword" --deep` | Manual |
+| Cold start | `reddit.sh discover "keyword" --method deep` | Manual |
 | Manual expand | `reddit.sh expand --campaign vertical_finance` | Manual |
 | Auto expand | Auto-triggered in loop | Weekly |
 | Decay report | Auto-generated in loop | Weekly |
@@ -542,7 +548,7 @@ skills/reddit/
 | `reddit.sh discover "<description>" --method industry` | Discovery from industry description |
 | `reddit.sh expand --campaign <name>` | Manual expansion for existing campaign |
 | `reddit.sh quality [--report\|--history <sub>]` | Quality report and EMA history |
-| `reddit.sh promote <sub_name>` | Move discovered sub from `.reddit/discovered_subs.json` to `references/subreddits.json` |
+| `reddit.sh promote <sub_name> --campaign <name>` | Move discovered sub from `.reddit/discovered_subs.json` to `references/subreddits.json` under specified campaign |
 
 ### `expand` Command Details
 
@@ -602,12 +608,17 @@ New keys in `.reddit/.reddit.json`:
 
 Before writing any new code, achieve full test coverage for all existing `reddit.sh` functionality. This creates a regression safety net:
 
-1. Write tests for all 14 existing modes: fetch, comments, search, discover, profile, crosspost, stickied, firehose, export, cleanup, diagnose, duplicates, wiki, stats, config
-2. Write tests for helper functions: watch_check, competitor_search, update_subreddit_quality
-3. Write tests for state management: init_state, read_state, update_state
-4. Write tests for enrichment pipeline: enrich_posts (extend existing test group 9)
-5. All tests use fixture data (no live API calls)
-6. Run full suite → all green before proceeding
+1. **Refactor existing `run_tests.sh`**: Split the current monolithic test file (12 test groups) into per-mode test files. Move existing test groups into the appropriate files. `run_tests.sh` becomes a test runner that discovers and executes all `test_*.sh` files.
+2. Write tests for all 14 existing modes: fetch, comments, search, discover, profile, crosspost, stickied, firehose, export, cleanup, diagnose, duplicates, wiki, stats, config
+3. Write tests for helper functions: watch_check, competitor_search, update_subreddit_quality
+4. Write tests for state management: init_state, read_state, update_state
+5. Write tests for enrichment pipeline: enrich_posts (extend existing test group 9)
+6. All tests use fixture data (no live API calls)
+7. Run full suite → all green before proceeding
+
+**Bloom filter sizing:** capacity 100K post IDs, false positive rate 0.1%, file size ~150KB, 7 hash functions (implemented in awk using djb2/sdbm variants).
+
+**Bayesian Average C=15:** Adjusted from C=50 to C=15. With post sampling capped at 50-100 posts, C=50 would over-regress to the mean. C=15 means a sub with ~15 sampled posts starts reflecting its true score. Rationale: we want subs to differentiate within 1-2 sampling cycles.
 
 ### Phase 1-4: New Feature Development (per algorithm module)
 
