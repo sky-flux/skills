@@ -31,7 +31,7 @@ skills/reddit/
 **用户项目中的输出目录：**
 
 ```
-.reddit-leads/
+.reddit/
 ├── .reddit.json                    # 状态文件（去重、监控、线索生命周期）
 ├── 2026-03-15-scan.md              # 每日扫描报告
 ├── reports/
@@ -168,7 +168,7 @@ Claude 分析初筛结果，核心任务：
 
 ### Phase 4: 产品机会报告
 
-输出到 `.reddit-leads/opportunities/` 目录：
+输出到 `.reddit/opportunities/` 目录：
 
 ```markdown
 ## 🎯 Product Opportunity: [Name]
@@ -846,7 +846,7 @@ Reddit 反感硬广。回复草稿遵循：
 - 只采集公开数据（Reddit 公开 JSON API）
 - 不存储 PII（仅 Reddit 用户名和公开内容）
 - 回复草稿永远不自动发送
-- `.reddit.json` 和 `.reddit-leads/` 应加入 `.gitignore`
+- `.reddit.json` 和 `.reddit/` 应加入 `.gitignore`
 - 控制请求频率，遵守 Reddit rate limit
 - 每天回复上限建议 5 条
 
@@ -1065,7 +1065,7 @@ firehose 模式是 **轮询** 而非流式（Reddit 未认证 API 不提供 WebS
 
 首次运行时：
 1. 检查 jq 是否已安装，未安装则提示 `brew install jq`
-2. 创建 `.reddit-leads/` 目录和 `.reddit-leads/.reddit.json`（空初始状态）
+2. 创建 `.reddit/` 目录和 `.reddit/.reddit.json`（空初始状态）
 3. 提示用户检查 `subreddits.json` 配置是否符合自己的产品领域
 4. 提示是否存在 `.agents/product-marketing-context.md`，如有则加载
 5. 执行一次小规模扫描（仅 Tier S 英语社区，1 页）验证连通性
@@ -1139,8 +1139,8 @@ Skill 首次运行时提示用户将以下内容加入项目 `.gitignore`：
 
 ```
 # Reddit Opportunity Hunter
-.reddit-leads/
-.reddit-leads/.reddit.json
+.reddit/
+.reddit/.reddit.json
 ```
 
 ---

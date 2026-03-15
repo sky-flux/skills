@@ -10,8 +10,9 @@ SLEEP_BETWEEN=3
 # ─── Paths ────────────────────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILL_DIR="$(dirname "$SCRIPT_DIR")"
-DATA_DIR="${REDDIT_DATA_DIR:-$PWD/.reddit-leads}"
+DATA_DIR="${REDDIT_DATA_DIR:-$PWD/.reddit}"
 STATE_FILE="$DATA_DIR/.reddit.json"
+CONFIG_FILE="$DATA_DIR/config.json"
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -34,11 +35,16 @@ ensure_data_dir() {
 
   local gitignore="$PWD/.gitignore"
   if [[ -f "$gitignore" ]]; then
-    if ! grep -qF ".reddit-leads/" "$gitignore"; then
-      log "Warning: .reddit-leads/ is not in .gitignore — consider adding it to avoid committing local data"
+    if ! grep -qF ".reddit/" "$gitignore"; then
+      log "Warning: .reddit/ is not in .gitignore — consider adding it to avoid committing local data"
     fi
   else
-    log "Warning: No .gitignore found — consider creating one and adding .reddit-leads/"
+    log "Warning: No .gitignore found — consider creating one and adding .reddit/"
+  fi
+
+  # Initialize config if missing
+  if [[ ! -f "${DATA_DIR}/config.json" ]]; then
+    init_config
   fi
 }
 
@@ -48,6 +54,42 @@ init_state() {
 {"seen_posts":{},"watched_threads":{},"opportunities":{},"products_seen":{},"influencers":{},"community_overlap":{},"subreddit_quality":{}}
 EOF
   log "State initialized at $STATE_FILE"
+}
+
+init_config() {
+  if [[ ! -f "$CONFIG_FILE" ]]; then
+    cat > "$CONFIG_FILE" <<'CONF'
+{
+  "output_language": "en",
+  "focus_industries": [],
+  "excluded_subreddits": [],
+  "score_threshold": 7,
+  "max_build_complexity": "Heavy",
+  "currency_display": "USD"
+}
+CONF
+    log "Default config created at $CONFIG_FILE"
+  fi
+}
+
+read_config() {
+  local key="$1"
+  local default="${2:-}"
+  if [[ -f "$CONFIG_FILE" ]]; then
+    local val
+    val=$(jq -r --arg k "$key" '.[$k] // empty' "$CONFIG_FILE" 2>/dev/null)
+    if [[ -n "$val" && "$val" != "null" ]]; then
+      echo "$val"
+      return
+    fi
+  fi
+  echo "$default"
+}
+
+update_config() {
+  local tmp
+  tmp=$(mktemp)
+  jq "$1" "$CONFIG_FILE" > "$tmp" && mv "$tmp" "$CONFIG_FILE"
 }
 
 reddit_curl() {
@@ -953,16 +995,74 @@ mode_stats() {
   }' "$STATE_FILE"
 }
 
+mode_config() {
+  ensure_jq
+  ensure_data_dir
+
+  local action="${1:-show}"
+
+  case "$action" in
+    show)
+      if [[ ! -f "$CONFIG_FILE" ]]; then
+        init_config
+      fi
+      echo "=== Reddit Opportunity Hunter Config ==="
+      echo "Location: $CONFIG_FILE"
+      echo ""
+      jq . "$CONFIG_FILE"
+      ;;
+    set)
+      local key="${2:?Usage: reddit.sh config set <key> <value>}"
+      local value="${3:?Usage: reddit.sh config set <key> <value>}"
+      if [[ ! -f "$CONFIG_FILE" ]]; then
+        init_config
+      fi
+      # Detect if value is a JSON array/object/number/boolean or a plain string
+      if echo "$value" | jq . &>/dev/null; then
+        update_config ".[\"$key\"] = $value"
+      else
+        update_config ".[\"$key\"] = \"$value\""
+      fi
+      log "Set $key = $value"
+      jq . "$CONFIG_FILE"
+      ;;
+    reset)
+      rm -f "$CONFIG_FILE"
+      init_config
+      log "Config reset to defaults"
+      jq . "$CONFIG_FILE"
+      ;;
+    *)
+      echo "Usage: reddit.sh config [show|set <key> <value>|reset]"
+      echo ""
+      echo "Keys:"
+      echo "  output_language       Report language (en, zh, ja, de, fr, ...)"
+      echo "  focus_industries      JSON array of industries to prioritize"
+      echo "  excluded_subreddits   JSON array of subreddits to skip"
+      echo "  score_threshold       Minimum score for reports (default: 7)"
+      echo "  max_build_complexity  Max complexity: Trivial|Light|Medium|Heavy"
+      echo "  currency_display      Currency for revenue estimates (USD, CNY, EUR, ...)"
+      echo ""
+      echo "Examples:"
+      echo "  reddit.sh config set output_language zh"
+      echo "  reddit.sh config set focus_industries '[\"SaaS\",\"DevTools\"]'"
+      echo "  reddit.sh config set currency_display CNY"
+      echo "  reddit.sh config reset"
+      return 1
+      ;;
+  esac
+}
+
 # ─── Main dispatch ────────────────────────────────────────────────────────────
 
 # Guard: only dispatch when executed directly (not sourced)
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   case "${1:-}" in
-    fetch|comments|search|discover|profile|crosspost|stickied|firehose|export|cleanup|diagnose|duplicates|wiki|stats)
+    fetch|comments|search|discover|profile|crosspost|stickied|firehose|export|cleanup|diagnose|duplicates|wiki|stats|config)
       mode="$1"; shift; "mode_$mode" "$@" ;;
     *)
       echo "Usage: reddit.sh <mode> [options]"
-      echo "Modes: fetch comments search discover profile crosspost stickied firehose export cleanup diagnose duplicates wiki stats"
+      echo "Modes: fetch comments search discover profile crosspost stickied firehose export cleanup diagnose duplicates wiki stats config"
       exit 1
       ;;
   esac

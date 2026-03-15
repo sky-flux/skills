@@ -232,12 +232,12 @@ Create `skills/reddit/scripts/reddit.sh` with:
 - Constants: `UA`, `BASE_URL`, `RATE_LIMIT_MIN=10`, `SLEEP_BETWEEN=3`
 - `SCRIPT_DIR` resolution (for finding config files)
 - `SKILL_DIR` (parent of scripts/)
-- `DATA_DIR` defaults to `$PWD/.reddit-leads/` (user's project root)
+- `DATA_DIR` defaults to `$PWD/.reddit/` (user's project root)
 - `STATE_FILE` defaults to `$DATA_DIR/.reddit.json`
 - Helper functions:
   - `log()` — stderr logger with timestamp
   - `ensure_jq()` — check jq is installed
-  - `ensure_data_dir()` — create `.reddit-leads/` structure if missing
+  - `ensure_data_dir()` — create `.reddit/` structure if missing
   - `init_state()` — create empty `.reddit.json` if missing
   - `reddit_curl()` — curl wrapper with UA, rate limit header reading, sleep, retry on 429/403/5xx
   - `read_state()` — jq read from state file
@@ -1644,11 +1644,11 @@ ensure_data_dir() {
 
     # Check .gitignore
     if [ -f ".gitignore" ]; then
-      if ! grep -q ".reddit-leads" ".gitignore" 2>/dev/null; then
-        log "⚠️  Add '.reddit-leads/' to your .gitignore to avoid committing scan data"
+      if ! grep -q ".reddit" ".gitignore" 2>/dev/null; then
+        log "⚠️  Add '.reddit/' to your .gitignore to avoid committing scan data"
       fi
     else
-      log "⚠️  No .gitignore found. Create one and add '.reddit-leads/' to avoid committing scan data"
+      log "⚠️  No .gitignore found. Create one and add '.reddit/' to avoid committing scan data"
     fi
   fi
 }

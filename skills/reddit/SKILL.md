@@ -26,8 +26,8 @@ Product Opportunity Hunting, NOT Lead Hunting.
 
 1. Install dependencies: `brew install curl jq`
 2. Run health check: `reddit.sh diagnose` — verifies curl, jq, network connectivity
-3. The script auto-creates `.reddit-leads/` with `reports/`, `opportunities/`, `archive/`
-4. Verify `.gitignore` includes `.reddit-leads/` — the script warns if missing
+3. The script auto-creates `.reddit/` with `reports/`, `opportunities/`, `archive/`
+4. Verify `.gitignore` includes `.reddit/` — the script warns if missing
 5. Review `references/subreddits.json` — confirm subreddits match the user's domain
 6. Review `references/intent_keywords.json` — adjust if the user targets a specific niche
 7. First scan:
@@ -64,7 +64,7 @@ Read the enriched JSON from Phase 1. For each batch:
 3. **Intensity assessment** — use `intent_keywords_matched` and `negative_signals` from the enriched data
 4. **Market validation signals** — look for: budget mentions, team size, `already_tried` products, willingness to pay
 5. **Score each opportunity** using the scoring algorithm below
-6. **Deduplicate** against `seen_posts` in `.reddit-leads/.reddit.json`
+6. **Deduplicate** against `seen_posts` in `.reddit/.reddit.json`
 
 ### Phase 3: Deep Verification (score >= 8)
 
@@ -85,8 +85,8 @@ Before promoting an opportunity to "validated":
 
 ### Phase 4: Report
 
-- **Daily scan report** -> `.reddit-leads/reports/YYYY-MM-DD-scan.md`
-- **High-value opportunities** -> `.reddit-leads/opportunities/<slug>.md`
+- **Daily scan report** -> `.reddit/reports/YYYY-MM-DD-scan.md`
+- **High-value opportunities** -> `.reddit/opportunities/<slug>.md`
 - Use the templates defined below
 
 ## reddit.sh Reference
@@ -256,7 +256,7 @@ Trigger with:
 Each cycle:
 1. Read `references/subreddits.json` (hot reload — picks up edits between cycles)
 2. Fetch per `scan_priority`: Tier S every loop, Tier A daily, Tier B weekly
-3. Deduplicate against `seen_posts` in `.reddit-leads/.reddit.json`
+3. Deduplicate against `seen_posts` in `.reddit/.reddit.json`
 4. `watch_check` for watched threads with new activity
 5. `competitor_search` for configured campaigns
 6. Analyze, score, cluster new posts
@@ -271,7 +271,7 @@ Each cycle:
 
 ## State Management
 
-`.reddit-leads/.reddit.json` tracks:
+`.reddit/.reddit.json` tracks:
 
 | Key | Purpose | TTL |
 |-----|---------|-----|
@@ -289,7 +289,7 @@ Opportunity lifecycle: `discovered -> investigating -> validated -> building -> 
 
 - **Public data only** — no PII beyond Reddit usernames
 - **Rate limit compliant** — respect the ~100 req/260s budget
-- `.reddit-leads/` must be in `.gitignore` — never commit user data
+- `.reddit/` must be in `.gitignore` — never commit user data
 - Reply drafts always marked **[REVIEW BEFORE POSTING]**
 - Suggest max 5 replies per day to avoid spam patterns
 
