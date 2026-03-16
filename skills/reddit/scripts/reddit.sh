@@ -192,7 +192,7 @@ read_state() {
 update_state() {
   local tmp
   tmp=$(mktemp)
-  jq "$1" "$STATE_FILE" > "$tmp" && mv "$tmp" "$STATE_FILE"
+  jq "${@}" "$STATE_FILE" > "$tmp" && mv "$tmp" "$STATE_FILE"
 }
 
 # ─── Enrichment pipeline ──────────────────────────────────────────────────────
