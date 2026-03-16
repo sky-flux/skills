@@ -7,6 +7,14 @@ description: >-
   mentions Reddit, product opportunities, pain point hunting, market research, niche
   discovery, subreddit monitoring, or wants to find SaaS/product ideas from real user
   discussions. Also use for /reddit commands and /loop /reddit scheduled scans.
+  This skill MUST be consulted when the user wants to: scan Reddit for product ideas,
+  find pain points in subreddit communities, discover new subreddits, check subreddit
+  quality scores, run a Reddit monitoring loop, deep-dive a specific vertical on Reddit,
+  or find what frustrated users are complaining about. Even without explicitly saying
+  "Reddit," mentions of "pain points," "product opportunities," "micro-SaaS ideas,"
+  "niche discovery," or "market research from user discussions" should trigger this skill.
+  It provides reddit.sh — a specialized tool for fetching live Reddit data that raw
+  curl/web search cannot access reliably.
 ---
 
 # Reddit Opportunity Hunter
@@ -70,6 +78,17 @@ Save answers via `reddit.sh config set`.
 
 ## Core Workflow
 
+**Two modes:** broad scan (default loop) or focused investigation (user asks about a specific topic).
+
+For **focused investigation** (e.g., "deep-dive QuickBooks pain points"):
+1. Identify the most relevant campaign(s) — match user's topic to campaigns in `subreddits.json`
+2. Fetch those campaigns + `global_english` for cross-market signal
+3. Run targeted searches: `reddit.sh search "<topic> frustrated" --global`, `reddit.sh search "<topic> alternative" --global`
+4. Skip straight to Phase 2-3 analysis on the focused data set
+5. Produce detailed opportunity reports for the specific vertical
+
+For **broad scan** (loop cycle or general scan):
+
 ### Phase 1: Data Collection
 
 Run `reddit.sh fetch` for each campaign defined in `references/subreddits.json`, ordered by `scan_priority`:
@@ -86,6 +105,7 @@ Key details:
 - **Do NOT re-compute** what jq already provides; read the enriched fields directly
 - Rate limit budget: ~100 requests per ~260 seconds; a single fetch loop uses ~40-45
 - Fetch Tier S campaigns every loop, Tier A daily, Tier B weekly
+- **Campaign selection:** when the user specifies a domain (e.g., "DevTools and marketing"), fetch matching vertical campaigns + `global_english`. Don't fetch all campaigns — respect the user's focus.
 
 ### Phase 2: Analysis (Claude)
 
@@ -107,9 +127,14 @@ Read the enriched JSON from Phase 1. For each batch:
 5. **Score each opportunity** using the scoring algorithm below
 6. **Deduplicate** against `seen_posts` in `.reddit/.reddit.json`
 
-### Phase 3: Deep Verification (score >= 8)
+### Phase 3: Deep Verification (score >= 8, or high-engagement posts)
 
-For opportunities scoring 8 or above:
+Fetch comment trees for posts that meet **any** of these triggers:
+- Opportunity score >= 8
+- High engagement: >= 20 comments or >= 30 upvotes on a niche subreddit
+- Tier 1-2 intent signals with specific budget mentions
+
+For each triggered post:
 
 1. Fetch comment trees: `reddit.sh comments <post_id> <subreddit>`
 2. Search competitive landscape: `reddit.sh search "competitor alternative" --global`
@@ -128,6 +153,7 @@ Before promoting an opportunity to "validated":
 
 - **Daily scan report** -> `.reddit/reports/YYYY-MM-DD-scan.md`
 - **High-value opportunities** -> `.reddit/opportunities/<slug>.md`
+- **Scoring breakdown** -> include a `scoring-breakdown.md` when producing >= 3 opportunities, showing per-dimension scores so the user can see why each opportunity ranked where it did
 - Use the templates defined below
 
 ## reddit.sh Reference
@@ -157,6 +183,18 @@ Before promoting an opportunity to "validated":
 - `watch_check` — check watched threads for new comments since last check
 - `competitor_search <campaign>` — expand competitor query templates from config
 - `update_subreddit_quality <sub> <scanned> [opportunities]` — track hit rates per subreddit
+
+### Discovery → Promote Pipeline
+
+When finding new subreddits for a campaign:
+
+1. `reddit.sh discover "<keyword>" --deep` — probes candidate subs (15-25 API calls per query)
+2. Review discovery results — check pain_posts, avg_comments, competitor_posts
+3. Quality-score each candidate using the multi-dimension algorithm (pain density, engagement, competitor mentions, growth rate, etc.)
+4. For subs scoring >= `sub_quality_threshold`: `reddit.sh promote <sub> --campaign <campaign>`
+5. For borderline subs (threshold - 1.0 to threshold): flag as "monitor" for re-evaluation next week
+
+**Rate limit caution:** `--deep` discovery uses 15-25 requests per query. Run at most 2-3 discovery queries per session. If you hit 429 rate limits, stop discovery and resume in the next cycle.
 
 ## Scoring Algorithm
 
@@ -298,18 +336,16 @@ Trigger with:
 /loop 30m /reddit
 ```
 
-Each cycle:
-1. Read config: `reddit.sh config show` — load `output_language` and all preferences
-2. **Enforce `output_language` for ALL output in this cycle** — every report line, header, and commentary must use the configured language
-3. Read `references/subreddits.json` (hot reload — picks up edits between cycles)
-4. Fetch per `scan_priority`: Tier S every loop, Tier A daily, Tier B weekly
-5. Deduplicate against `seen_posts` in `.reddit/.reddit.json`
-6. `watch_check` for watched threads with new activity
-7. `competitor_search` for configured campaigns
-8. Analyze, score, cluster new posts
-9. Output incremental report (append to daily scan file) — **in `output_language`**
-10. Score >= 8 -> alert: `OPPORTUNITY: [title] (score X.X)`
-11. `update_subreddit_quality` with hit rates
+Each cycle follows Phases 1-4 above, with these loop-specific additions:
+1. Read config first: `reddit.sh config show` — enforce `output_language` for ALL output this cycle
+2. Hot-reload `references/subreddits.json` (picks up edits and newly promoted subs between cycles)
+3. Fetch per `scan_priority`: Tier S every loop, Tier A daily, Tier B weekly
+4. Deduplicate against `seen_posts` in `.reddit/.reddit.json`
+5. `watch_check` for watched threads with new activity
+6. `competitor_search` for configured campaigns
+7. Analyze, score, cluster → Phase 2-4 as normal
+8. Score >= 8 → alert: `OPPORTUNITY: [title] (score X.X)`
+9. `update_subreddit_quality` with hit rates
 
 **Scheduled reports:**
 - Weekly summary: trigger on Sundays (or first loop after Sunday midnight)
