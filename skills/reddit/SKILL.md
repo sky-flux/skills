@@ -91,7 +91,7 @@ Key details:
 
 **Before analyzing, read user config:**
 - `reddit.sh config show` — check `output_language`, `focus_industries`, `score_threshold`
-- Write ALL reports and analysis in the configured `output_language`
+- **CRITICAL: Write ALL reports, analysis, section headers, and commentary in the configured `output_language`.** If `output_language` is `zh`, every line of output must be Chinese (keep only numbers, scores, URLs, subreddit names, product names, and technical terms in English). This applies to every loop cycle — not just the first one.
 - If `focus_industries` is set, prioritize opportunities matching those industries
 - If `excluded_subreddits` is set, skip posts from those subreddits
 - Use `currency_display` when estimating revenue (convert from USD)
@@ -299,16 +299,17 @@ Trigger with:
 ```
 
 Each cycle:
-1. Read config: `reddit.sh config show` — load user preferences
-2. Read `references/subreddits.json` (hot reload — picks up edits between cycles)
-3. Fetch per `scan_priority`: Tier S every loop, Tier A daily, Tier B weekly
-4. Deduplicate against `seen_posts` in `.reddit/.reddit.json`
-5. `watch_check` for watched threads with new activity
-6. `competitor_search` for configured campaigns
-7. Analyze, score, cluster new posts
-8. Output incremental report (append to daily scan file)
-9. Score >= 8 -> alert: `OPPORTUNITY: [title] (score X.X)`
-10. `update_subreddit_quality` with hit rates
+1. Read config: `reddit.sh config show` — load `output_language` and all preferences
+2. **Enforce `output_language` for ALL output in this cycle** — every report line, header, and commentary must use the configured language
+3. Read `references/subreddits.json` (hot reload — picks up edits between cycles)
+4. Fetch per `scan_priority`: Tier S every loop, Tier A daily, Tier B weekly
+5. Deduplicate against `seen_posts` in `.reddit/.reddit.json`
+6. `watch_check` for watched threads with new activity
+7. `competitor_search` for configured campaigns
+8. Analyze, score, cluster new posts
+9. Output incremental report (append to daily scan file) — **in `output_language`**
+10. Score >= 8 -> alert: `OPPORTUNITY: [title] (score X.X)`
+11. `update_subreddit_quality` with hit rates
 
 **Scheduled reports:**
 - Weekly summary: trigger on Sundays (or first loop after Sunday midnight)
