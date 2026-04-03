@@ -6,20 +6,132 @@
       "language": "en",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "SaaS", "subscribers": 620000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "startups", "subscribers": 2000000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "Entrepreneur", "subscribers": 5100000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "smallbusiness", "subscribers": 2400000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "SideProject", "subscribers": 651000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "microsaas", "subscribers": 169000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "indiehackers", "subscribers": 156000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "buildinpublic", "subscribers": 69000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "growmybusiness", "subscribers": 90000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "NoCodeSaaS", "subscribers": 39000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "SaasDevelopers", "subscribers": 24000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "SaaSSales", "subscribers": 28000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "SaaSMarketing", "subscribers": 25000, "sort_modes": ["new", "hot"], "pages": 2},
-        {"name": "saasbuild", "subscribers": 17000, "sort_modes": ["new", "hot"], "pages": 2}
+        {
+          "name": "SaaS",
+          "subscribers": 620000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "startups",
+          "subscribers": 2000000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "Entrepreneur",
+          "subscribers": 5100000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "smallbusiness",
+          "subscribers": 2400000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "SideProject",
+          "subscribers": 651000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "microsaas",
+          "subscribers": 169000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "indiehackers",
+          "subscribers": 156000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "buildinpublic",
+          "subscribers": 69000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "growmybusiness",
+          "subscribers": 90000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "NoCodeSaaS",
+          "subscribers": 39000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "SaasDevelopers",
+          "subscribers": 24000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "SaaSSales",
+          "subscribers": 28000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "SaaSMarketing",
+          "subscribers": 25000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "saasbuild",
+          "subscribers": 17000,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 2
+        }
       ],
       "search_keywords": [
         "looking for a tool",
@@ -29,7 +141,11 @@
         "anyone know",
         "recommend a"
       ],
-      "competitors": ["Notion", "Airtable", "Monday.com"],
+      "competitors": [
+        "Notion",
+        "Airtable",
+        "Monday.com"
+      ],
       "competitor_queries": [
         "{competitor} alternative",
         "{competitor} frustrated",
@@ -43,14 +159,70 @@
       "language": "en",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "unitedkingdom", "subscribers": 5400000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "BusinessBritain", "subscribers": 2600, "sort_modes": ["new"], "pages": 1},
-        {"name": "canada", "subscribers": 4300000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "canadianbusiness", "subscribers": 5100, "sort_modes": ["new"], "pages": 1},
-        {"name": "australia", "subscribers": 2800000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "newzealand", "subscribers": 836000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "nz_sme", "subscribers": 326, "sort_modes": ["new"], "pages": 1},
-        {"name": "ireland", "subscribers": 1250000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "unitedkingdom",
+          "subscribers": 5400000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "BusinessBritain",
+          "subscribers": 2600,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "canada",
+          "subscribers": 4300000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "canadianbusiness",
+          "subscribers": 5100,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "australia",
+          "subscribers": 2800000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "newzealand",
+          "subscribers": 836000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "nz_sme",
+          "subscribers": 326,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "ireland",
+          "subscribers": 1250000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "looking for a tool",
@@ -66,15 +238,44 @@
       "language": "de",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "StartupDACH", "subscribers": 14900, "sort_modes": ["new", "hot"], "pages": 1},
-        {"name": "de", "subscribers": 3170000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Switzerland", "subscribers": 584000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Austria", "subscribers": 655000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "StartupDACH",
+          "subscribers": 14900,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "de",
+          "subscribers": 3170000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Switzerland",
+          "subscribers": 584000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Austria",
+          "subscribers": 655000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "Startup",
         "SaaS",
-        "Gründung",
+        "Gr\u00fcndung",
         "Alternative zu",
         "Tool gesucht",
         "frustriert"
@@ -85,16 +286,39 @@
       "language": "fr",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "FrenchTech", "subscribers": 3900, "sort_modes": ["new", "hot"], "pages": 1},
-        {"name": "entrepreneurfrance", "subscribers": 1300, "sort_modes": ["new", "hot"], "pages": 1},
-        {"name": "france", "subscribers": 2540000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "FrenchTech",
+          "subscribers": 3900,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "entrepreneurfrance",
+          "subscribers": 1300,
+          "sort_modes": [
+            "new",
+            "hot"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "france",
+          "subscribers": 2540000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
         "SaaS",
-        "alternative à",
+        "alternative \u00e0",
         "cherche outil",
-        "frustré"
+        "frustr\u00e9"
       ]
     },
     "nordics": {
@@ -102,12 +326,54 @@
       "language": "en",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "sweden", "subscribers": 1020000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Norway", "subscribers": 574000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Denmark", "subscribers": 847000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Finland", "subscribers": 298000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Suomi", "subscribers": 635000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Iceland", "subscribers": 100000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "sweden",
+          "subscribers": 1020000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Norway",
+          "subscribers": 574000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Denmark",
+          "subscribers": 847000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Finland",
+          "subscribers": 298000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Suomi",
+          "subscribers": 635000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Iceland",
+          "subscribers": 100000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
@@ -123,12 +389,54 @@
       "language": "en",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "Netherlands", "subscribers": 479000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "belgium", "subscribers": 391000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "italy", "subscribers": 1120000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "spain", "subscribers": 1050000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "portugal", "subscribers": 767000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "greece", "subscribers": 270000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "Netherlands",
+          "subscribers": 479000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "belgium",
+          "subscribers": 391000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "italy",
+          "subscribers": 1120000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "spain",
+          "subscribers": 1050000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "portugal",
+          "subscribers": 767000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "greece",
+          "subscribers": 270000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
@@ -144,12 +452,54 @@
       "language": "en",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "japan", "subscribers": 1770000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "JapanBusiness", "subscribers": 552, "sort_modes": ["new"], "pages": 1},
-        {"name": "korea", "subscribers": 1400000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "taiwan", "subscribers": 756000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "HongKong", "subscribers": 700000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "smeSingapore", "subscribers": 2200, "sort_modes": ["new"], "pages": 1}
+        {
+          "name": "japan",
+          "subscribers": 1770000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "JapanBusiness",
+          "subscribers": 552,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "korea",
+          "subscribers": 1400000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "taiwan",
+          "subscribers": 756000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "HongKong",
+          "subscribers": 700000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "smeSingapore",
+          "subscribers": 2200,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        }
       ],
       "search_keywords": [
         "startup",
@@ -165,9 +515,30 @@
       "language": "en",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "dubai", "subscribers": 527000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "UAE", "subscribers": 268000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "BusinessownersUAE", "subscribers": 654, "sort_modes": ["new"], "pages": 1}
+        {
+          "name": "dubai",
+          "subscribers": 527000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "UAE",
+          "subscribers": 268000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "BusinessownersUAE",
+          "subscribers": 654,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        }
       ],
       "search_keywords": [
         "startup",
@@ -183,9 +554,30 @@
       "language": "en",
       "scan_frequency": "daily",
       "subreddits": [
-        {"name": "IndianEntrepreneur", "subscribers": 25400, "sort_modes": ["new"], "pages": 1},
-        {"name": "StartUpIndia", "subscribers": 404000, "sort_modes": ["new"], "pages": 1},
-        {"name": "india", "subscribers": 3400000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "IndianEntrepreneur",
+          "subscribers": 25400,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "StartUpIndia",
+          "subscribers": 404000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "india",
+          "subscribers": 3400000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
@@ -200,8 +592,22 @@
       "language": "pt",
       "scan_frequency": "daily",
       "subreddits": [
-        {"name": "empreendedorismo", "subscribers": 133000, "sort_modes": ["new"], "pages": 1},
-        {"name": "brasil", "subscribers": 3290000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "empreendedorismo",
+          "subscribers": 133000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "brasil",
+          "subscribers": 3290000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
@@ -216,13 +622,62 @@
       "language": "en",
       "scan_frequency": "daily",
       "subreddits": [
-        {"name": "Philippines", "subscribers": 3540000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "PhStartups", "subscribers": 26500, "sort_modes": ["new"], "pages": 1},
-        {"name": "indonesia", "subscribers": 944000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "VietNam", "subscribers": 1480000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Thailand", "subscribers": 926000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "StartupsThailand", "subscribers": 780, "sort_modes": ["new"], "pages": 1},
-        {"name": "malaysia", "subscribers": 1320000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "Philippines",
+          "subscribers": 3540000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "PhStartups",
+          "subscribers": 26500,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "indonesia",
+          "subscribers": 944000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "VietNam",
+          "subscribers": 1480000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Thailand",
+          "subscribers": 926000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "StartupsThailand",
+          "subscribers": 780,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "malaysia",
+          "subscribers": 1320000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
@@ -237,11 +692,46 @@
       "language": "es",
       "scan_frequency": "daily",
       "subreddits": [
-        {"name": "mexico", "subscribers": 3160000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "argentina", "subscribers": 1510000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Colombia", "subscribers": 931000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "chile", "subscribers": 895000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "startupsmexico", "subscribers": 152, "sort_modes": ["new"], "pages": 1}
+        {
+          "name": "mexico",
+          "subscribers": 3160000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "argentina",
+          "subscribers": 1510000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Colombia",
+          "subscribers": 931000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "chile",
+          "subscribers": 895000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "startupsmexico",
+          "subscribers": 152,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        }
       ],
       "search_keywords": [
         "startup",
@@ -256,12 +746,54 @@
       "language": "en",
       "scan_frequency": "daily",
       "subreddits": [
-        {"name": "poland", "subscribers": 1170000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Romania", "subscribers": 1120000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "ukraine", "subscribers": 937000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "hungary", "subscribers": 689000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "croatia", "subscribers": 428000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "serbia", "subscribers": 460000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "poland",
+          "subscribers": 1170000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Romania",
+          "subscribers": 1120000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "ukraine",
+          "subscribers": 937000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "hungary",
+          "subscribers": 689000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "croatia",
+          "subscribers": 428000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "serbia",
+          "subscribers": 460000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
@@ -276,9 +808,30 @@
       "language": "en",
       "scan_frequency": "daily",
       "subreddits": [
-        {"name": "estonia", "subscribers": 3800, "sort_modes": ["new"], "pages": 1},
-        {"name": "latvia", "subscribers": 77000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "lithuania", "subscribers": 134000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "estonia",
+          "subscribers": 3800,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "latvia",
+          "subscribers": 77000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "lithuania",
+          "subscribers": 134000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
@@ -293,15 +846,78 @@
       "language": "en",
       "scan_frequency": "weekly",
       "subreddits": [
-        {"name": "Kenya", "subscribers": 272000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "KenyaStartups", "subscribers": 4100, "sort_modes": ["new"], "pages": 1},
-        {"name": "Nigeria", "subscribers": 236000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "southafrica", "subscribers": 395000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Egypt", "subscribers": 350000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Morocco", "subscribers": 394000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "ghana", "subscribers": 110000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Rwanda", "subscribers": 23000, "sort_modes": ["new"], "pages": 1},
-        {"name": "Ethiopia", "subscribers": 54000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "Kenya",
+          "subscribers": 272000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "KenyaStartups",
+          "subscribers": 4100,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "Nigeria",
+          "subscribers": 236000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "southafrica",
+          "subscribers": 395000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Egypt",
+          "subscribers": 350000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Morocco",
+          "subscribers": 394000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "ghana",
+          "subscribers": 110000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Rwanda",
+          "subscribers": 23000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "Ethiopia",
+          "subscribers": 54000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
@@ -316,9 +932,30 @@
       "language": "en",
       "scan_frequency": "weekly",
       "subreddits": [
-        {"name": "pakistan", "subscribers": 657000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "bangladesh", "subscribers": 97000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "srilanka", "subscribers": 162000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "pakistan",
+          "subscribers": 657000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "bangladesh",
+          "subscribers": 97000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "srilanka",
+          "subscribers": 162000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
@@ -333,14 +970,21 @@
       "language": "tr",
       "scan_frequency": "weekly",
       "subreddits": [
-        {"name": "Turkey", "subscribers": 1700000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "Turkey",
+          "subscribers": 1700000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "startup",
         "SaaS",
         "alternatif",
-        "araç arıyorum",
-        "öneri"
+        "ara\u00e7 ar\u0131yorum",
+        "\u00f6neri"
       ]
     },
     "vertical_finance": {
@@ -348,12 +992,54 @@
       "language": "en",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "accounting", "subscribers": 1228000, "sort_modes": ["new"], "pages": 2},
-        {"name": "bookkeeping", "subscribers": 75000, "sort_modes": ["new"], "pages": 1},
-        {"name": "Insurance", "subscribers": 216000, "sort_modes": ["new"], "pages": 1},
-        {"name": "tax", "subscribers": 1050000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "FinancialPlanning", "subscribers": 974000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "personalfinance", "subscribers": 21600000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "accounting",
+          "subscribers": 1228000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "bookkeeping",
+          "subscribers": 75000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "Insurance",
+          "subscribers": 216000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "tax",
+          "subscribers": 1050000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "FinancialPlanning",
+          "subscribers": 974000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "personalfinance",
+          "subscribers": 21600000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "hate QuickBooks",
@@ -365,7 +1051,12 @@
         "tax software frustrating",
         "looking for accounting tool"
       ],
-      "competitors": ["QuickBooks", "Xero", "FreshBooks", "Wave"],
+      "competitors": [
+        "QuickBooks",
+        "Xero",
+        "FreshBooks",
+        "Wave"
+      ],
       "competitor_queries": [
         "{competitor} alternative",
         "{competitor} frustrated",
@@ -379,15 +1070,78 @@
       "language": "en",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "sysadmin", "subscribers": 1242000, "sort_modes": ["new"], "pages": 2},
-        {"name": "selfhosted", "subscribers": 719000, "sort_modes": ["new"], "pages": 2},
-        {"name": "devops", "subscribers": 475000, "sort_modes": ["new"], "pages": 1},
-        {"name": "DataEngineering", "subscribers": 440000, "sort_modes": ["new"], "pages": 1},
-        {"name": "ExperiencedDevs", "subscribers": 372000, "sort_modes": ["new"], "pages": 1},
-        {"name": "webdev", "subscribers": 3205000, "sort_modes": ["new"], "pages": 2},
-        {"name": "homelab", "subscribers": 976000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "msp", "subscribers": 233000, "sort_modes": ["new"], "pages": 1},
-        {"name": "ITManagers", "subscribers": 64000, "sort_modes": ["new"], "pages": 1}
+        {
+          "name": "sysadmin",
+          "subscribers": 1242000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "selfhosted",
+          "subscribers": 719000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "devops",
+          "subscribers": 475000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "DataEngineering",
+          "subscribers": 440000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "ExperiencedDevs",
+          "subscribers": 372000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "webdev",
+          "subscribers": 3205000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "homelab",
+          "subscribers": 976000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "msp",
+          "subscribers": 233000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "ITManagers",
+          "subscribers": 64000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        }
       ],
       "search_keywords": [
         "alternative to",
@@ -400,7 +1154,14 @@
         "frustrated with",
         "too expensive for"
       ],
-      "competitors": ["Datadog", "PagerDuty", "Jira", "Jenkins", "Splunk", "New Relic"],
+      "competitors": [
+        "Datadog",
+        "PagerDuty",
+        "Jira",
+        "Jenkins",
+        "Splunk",
+        "New Relic"
+      ],
       "competitor_queries": [
         "{competitor} alternative",
         "{competitor} too expensive",
@@ -414,12 +1175,81 @@
       "language": "en",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "digital_marketing", "subscribers": 332000, "sort_modes": ["new"], "pages": 1},
-        {"name": "SEO", "subscribers": 463000, "sort_modes": ["new"], "pages": 1},
-        {"name": "PPC", "subscribers": 254000, "sort_modes": ["new"], "pages": 1},
-        {"name": "ProductManagement", "subscribers": 255000, "sort_modes": ["new"], "pages": 1},
-        {"name": "CustomerSuccess", "subscribers": 45000, "sort_modes": ["new"], "pages": 1},
-        {"name": "marketing", "subscribers": 1920000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "digital_marketing",
+          "subscribers": 332000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "SEO",
+          "subscribers": 463000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "PPC",
+          "subscribers": 254000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "ProductManagement",
+          "subscribers": 255000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "CustomerSuccess",
+          "subscribers": 45000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "marketing",
+          "subscribers": 1920000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "AISearchOptimizers",
+          "subscribers": 2000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1,
+          "notes": "AI search visibility / GEO optimization community. Auto-promoted 2026-03-18."
+        },
+        {
+          "name": "TechSEO",
+          "subscribers": 45000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1,
+          "notes": "Technical SEO community. High engagement on AI citation/visibility topics."
+        },
+        {
+          "name": "DigitalMarketingHack",
+          "subscribers": 30000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1,
+          "notes": "Practical digital marketing. AI search visibility discussion active."
+        }
       ],
       "search_keywords": [
         "reporting nightmare",
@@ -431,7 +1261,13 @@
         "too expensive",
         "anyone automated"
       ],
-      "competitors": ["HubSpot", "Semrush", "Ahrefs", "Mailchimp", "Hootsuite"],
+      "competitors": [
+        "HubSpot",
+        "Semrush",
+        "Ahrefs",
+        "Mailchimp",
+        "Hootsuite"
+      ],
       "competitor_queries": [
         "{competitor} alternative",
         "{competitor} too expensive",
@@ -444,14 +1280,70 @@
       "language": "en",
       "scan_frequency": "every_loop",
       "subreddits": [
-        {"name": "ecommerce", "subscribers": 620000, "sort_modes": ["new"], "pages": 1},
-        {"name": "shopify", "subscribers": 342000, "sort_modes": ["new"], "pages": 1},
-        {"name": "Etsy", "subscribers": 299000, "sort_modes": ["new"], "pages": 1},
-        {"name": "Flipping", "subscribers": 475000, "sort_modes": ["new"], "pages": 1},
-        {"name": "FulfillmentByAmazon", "subscribers": 134000, "sort_modes": ["new"], "pages": 1},
-        {"name": "AmazonSeller", "subscribers": 91000, "sort_modes": ["new"], "pages": 1},
-        {"name": "dropship", "subscribers": 342000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "WooCommerce", "subscribers": 46000, "sort_modes": ["new"], "pages": 1}
+        {
+          "name": "ecommerce",
+          "subscribers": 620000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "shopify",
+          "subscribers": 342000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "Etsy",
+          "subscribers": 299000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "Flipping",
+          "subscribers": 475000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "FulfillmentByAmazon",
+          "subscribers": 134000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "AmazonSeller",
+          "subscribers": 91000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "dropship",
+          "subscribers": 342000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "WooCommerce",
+          "subscribers": 46000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        }
       ],
       "search_keywords": [
         "inventory nightmare",
@@ -463,7 +1355,12 @@
         "alternative to",
         "waste hours"
       ],
-      "competitors": ["Shopify", "WooCommerce", "BigCommerce", "Etsy"],
+      "competitors": [
+        "Shopify",
+        "WooCommerce",
+        "BigCommerce",
+        "Etsy"
+      ],
       "competitor_queries": [
         "{competitor} alternative",
         "{competitor} fees too high",
@@ -476,10 +1373,38 @@
       "language": "en",
       "scan_frequency": "daily",
       "subreddits": [
-        {"name": "graphic_design", "subscribers": 2868000, "sort_modes": ["new"], "pages": 2},
-        {"name": "photography", "subscribers": 5578000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "videography", "subscribers": 431000, "sort_modes": ["new"], "pages": 1},
-        {"name": "Filmmakers", "subscribers": 782000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "graphic_design",
+          "subscribers": 2868000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "photography",
+          "subscribers": 5578000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "videography",
+          "subscribers": 431000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "Filmmakers",
+          "subscribers": 782000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "alternative to Adobe",
@@ -491,7 +1416,12 @@
         "project management for",
         "file management mess"
       ],
-      "competitors": ["Adobe", "Canva", "Figma", "Lightroom"],
+      "competitors": [
+        "Adobe",
+        "Canva",
+        "Figma",
+        "Lightroom"
+      ],
       "competitor_queries": [
         "{competitor} alternative",
         "{competitor} too expensive",
@@ -504,14 +1434,70 @@
       "language": "en",
       "scan_frequency": "daily",
       "subreddits": [
-        {"name": "realestate", "subscribers": 2461000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "PropertyManagement", "subscribers": 58000, "sort_modes": ["new"], "pages": 1},
-        {"name": "LawFirm", "subscribers": 97000, "sort_modes": ["new"], "pages": 1},
-        {"name": "paralegal", "subscribers": 70000, "sort_modes": ["new"], "pages": 1},
-        {"name": "Construction", "subscribers": 553000, "sort_modes": ["new"], "pages": 1},
-        {"name": "HVAC", "subscribers": 231000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "electricians", "subscribers": 544000, "sort_modes": ["search_only"], "pages": 0},
-        {"name": "Plumbing", "subscribers": 514000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "realestate",
+          "subscribers": 2461000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "PropertyManagement",
+          "subscribers": 58000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "LawFirm",
+          "subscribers": 97000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "paralegal",
+          "subscribers": 70000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "Construction",
+          "subscribers": 553000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "HVAC",
+          "subscribers": 231000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "electricians",
+          "subscribers": 544000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        },
+        {
+          "name": "Plumbing",
+          "subscribers": 514000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "software recommendation",
@@ -529,12 +1515,54 @@
       "language": "en",
       "scan_frequency": "daily",
       "subreddits": [
-        {"name": "Teachers", "subscribers": 2280000, "sort_modes": ["new"], "pages": 2},
-        {"name": "Dentistry", "subscribers": 161000, "sort_modes": ["new"], "pages": 1},
-        {"name": "veterinary", "subscribers": 80000, "sort_modes": ["new"], "pages": 1},
-        {"name": "Chiropractic", "subscribers": 47000, "sort_modes": ["new"], "pages": 1},
-        {"name": "PharmacyTechnician", "subscribers": 66000, "sort_modes": ["new"], "pages": 1},
-        {"name": "OccupationalTherapy", "subscribers": 54000, "sort_modes": ["new"], "pages": 1}
+        {
+          "name": "Teachers",
+          "subscribers": 2280000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 2
+        },
+        {
+          "name": "Dentistry",
+          "subscribers": 161000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "veterinary",
+          "subscribers": 80000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "Chiropractic",
+          "subscribers": 47000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "PharmacyTechnician",
+          "subscribers": 66000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "OccupationalTherapy",
+          "subscribers": 54000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        }
       ],
       "search_keywords": [
         "grading nightmare",
@@ -552,11 +1580,46 @@
       "language": "en",
       "scan_frequency": "daily",
       "subreddits": [
-        {"name": "sales", "subscribers": 556000, "sort_modes": ["new"], "pages": 1},
-        {"name": "recruiting", "subscribers": 178000, "sort_modes": ["new"], "pages": 1},
-        {"name": "humanresources", "subscribers": 213000, "sort_modes": ["new"], "pages": 1},
-        {"name": "freelance", "subscribers": 656000, "sort_modes": ["new"], "pages": 1},
-        {"name": "consulting", "subscribers": 357000, "sort_modes": ["search_only"], "pages": 0}
+        {
+          "name": "sales",
+          "subscribers": 556000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "recruiting",
+          "subscribers": 178000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "humanresources",
+          "subscribers": 213000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "freelance",
+          "subscribers": 656000,
+          "sort_modes": [
+            "new"
+          ],
+          "pages": 1
+        },
+        {
+          "name": "consulting",
+          "subscribers": 357000,
+          "sort_modes": [
+            "search_only"
+          ],
+          "pages": 0
+        }
       ],
       "search_keywords": [
         "CRM nightmare",
@@ -569,7 +1632,12 @@
         "alternative to",
         "hate using"
       ],
-      "competitors": ["Salesforce", "HubSpot", "LinkedIn Recruiter", "Greenhouse"],
+      "competitors": [
+        "Salesforce",
+        "HubSpot",
+        "LinkedIn Recruiter",
+        "Greenhouse"
+      ],
       "competitor_queries": [
         "{competitor} alternative",
         "{competitor} too expensive",
@@ -578,8 +1646,26 @@
     }
   },
   "scan_priority": {
-    "every_loop": {"tiers": ["S"], "depth": "full", "comment_fetch": true},
-    "daily": {"tiers": ["A"], "depth": "standard", "comment_fetch": "high_score_only"},
-    "weekly": {"tiers": ["B"], "depth": "light", "comment_fetch": false}
+    "every_loop": {
+      "tiers": [
+        "S"
+      ],
+      "depth": "full",
+      "comment_fetch": true
+    },
+    "daily": {
+      "tiers": [
+        "A"
+      ],
+      "depth": "standard",
+      "comment_fetch": "high_score_only"
+    },
+    "weekly": {
+      "tiers": [
+        "B"
+      ],
+      "depth": "light",
+      "comment_fetch": false
+    }
   }
 }
