@@ -1,5 +1,7 @@
 # Michelangelo
 
+**English** | [中文](./README.zh-CN.md)
+
 Generate beautiful UI prototypes and production-ready React projects from natural language.
 
 ---

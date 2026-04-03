@@ -1,5 +1,7 @@
 # ElysiaJS Skill
 
+**English** | [中文](./README.zh-CN.md)
+
 A comprehensive Claude Code skill for building type-safe, high-performance backends with [ElysiaJS](https://elysiajs.com).
 
 ## What it does

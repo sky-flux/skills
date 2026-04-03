@@ -1,5 +1,7 @@
 # Sky Flux Skills
 
+**English** | [中文](./README.zh-CN.md)
+
 Agent skills for Claude Code by [Sky Flux](https://github.com/sky-flux).
 
 ## Skills
