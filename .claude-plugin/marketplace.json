@@ -4,6 +4,7 @@
       "name": "sky-flux",
       "source": "./",
       "skills": [
+        "./skills/1688",
         "./skills/elysiajs",
         "./skills/michelangelo",
         "./skills/reddit"
