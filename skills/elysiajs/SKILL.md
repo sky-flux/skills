@@ -1,6 +1,11 @@
 ---
 name: elysiajs
-description: Create backend with ElysiaJS, a type-safe, high-performance framework.
+description: >
+  Build backends with ElysiaJS — a type-safe, high-performance Bun-first framework.
+  Use when the user mentions Elysia, Bun server, TypeBox validation, Eden Treaty,
+  JWT auth, WebSocket, or wants to create routes/handlers/plugins with ElysiaJS.
+  Also triggers on TypeScript backend, Bun API server, schema validation,
+  tRPC alternative, or migrating from Express/Fastify/Hono to Elysia.
 ---
 
 # ElysiaJS Development Skill
