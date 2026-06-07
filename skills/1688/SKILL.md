@@ -1,5 +1,5 @@
 ---
-name: supplier-1688
+name: 1688
 description: Use when the user wants to find 1688.com suppliers, factories, or manufacturers and extract their contact information (phone, mobile, address, contact person). Triggers on mentions of 1688, Alibaba wholesale China, 1688 suppliers, 1688 factories, contact info from 1688, finding manufacturers on 1688, or sourcing from 1688.
 ---
 
