@@ -26,6 +26,7 @@ npx skills add sky-flux/skills
 Install a single skill:
 
 ```bash
+npx skills add sky-flux/skills --skill 1688
 npx skills add sky-flux/skills --skill elysiajs
 npx skills add sky-flux/skills --skill michelangelo
 npx skills add sky-flux/skills --skill reddit
