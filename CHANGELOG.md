@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [3.1.0] - 2026-06-07
+
+### Added
+- `1688` skill — find Alibaba China wholesale suppliers and extract complete contact information
+  - 8-step workflow: Google `site:1688.com/factory` search → factory page → subdomain extraction → contactinfo page → contact info
+  - Accessibility tree (`snapshot` + `@e` ref) for stable subdomain extraction
+  - Fallback工商 search when contact person is missing
+  - Kimi WebBridge integration for browser automation
+
 ## [3.0.0] - 2026-03-15
 
 ### Added

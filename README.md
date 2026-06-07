@@ -4,10 +4,13 @@
 
 Agent skills for Claude Code by [Sky Flux](https://github.com/sky-flux).
 
+[![skills](https://skills.sh/sky-flux/skills)](https://skills.sh/sky-flux/skills)
+
 ## Skills
 
 | Skill | Description |
 |-------|-------------|
+| [1688](./skills/1688/) | Find Alibaba China (1688.com) wholesale suppliers and extract complete contact information via Google Search + Kimi WebBridge |
 | [elysiajs](./skills/elysiajs/) | One-stop ElysiaJS skills covering full website, all blog posts, and all GitHub repository insights |
 | [michelangelo](./skills/michelangelo/) | Generate beautiful UI prototypes and production-ready React projects from natural language |
 | [reddit](./skills/reddit/) | Monitor global Reddit communities to discover niche product opportunities — pain points, unmet needs, market gaps |

@@ -8,6 +8,7 @@
 
 | 技能 | 说明 |
 |------|------|
+| [1688](./skills/1688/) | 搜索阿里巴巴中国站（1688.com）批发供应商，通过 Google 搜索 + Kimi WebBridge 提取完整联系方式 |
 | [elysiajs](./skills/elysiajs/) | 一站式 ElysiaJS 技能 — 覆盖官网全部文档、博客文章、GitHub 仓库源码洞察 |
 | [michelangelo](./skills/michelangelo/) | 用自然语言生成精美 UI 原型和生产级 React 项目 |
 | [reddit](./skills/reddit/) | 监控全球 Reddit 社区，发现 niche 产品机会 — 痛点、未被满足的需求、市场空白 |
@@ -23,6 +24,7 @@ npx skills add sky-flux/skills
 安装单个技能：
 
 ```bash
+npx skills add sky-flux/skills --skill 1688
 npx skills add sky-flux/skills --skill elysiajs
 npx skills add sky-flux/skills --skill michelangelo
 npx skills add sky-flux/skills --skill reddit
