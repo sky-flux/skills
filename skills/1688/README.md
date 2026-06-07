@@ -1,4 +1,4 @@
-# 1688 Supplier Search
+# 1688
 
 **English** | [中文](./README.zh-CN.md)
 

@@ -1,7 +1,7 @@
 {
   "name": "1688",
   "version": "1.0.0",
-  "description": "1688 Supplier Search — find Alibaba China wholesale suppliers and extract contact information via Google Search + Kimi WebBridge",
+  "description": "1688 — find Alibaba China wholesale suppliers and extract contact information via Google Search + Kimi WebBridge",
   "author": "martinadamsdev",
   "tags": ["1688", "alibaba", "supplier", "wholesale", "contact-info", "sourcing", "manufacturer"],
   "compatibility": {
