@@ -9,7 +9,7 @@ function buildArgs(extra: string[] = []): string[] {
   return args;
 }
 
-export async function runWacli(extra: string[], input?: string): Promise<string> {
+export async function runWacli(extra: string[], input?: string, silent = false): Promise<string> {
   const args = buildArgs(extra);
   logger.debug("Running wacli:", config.wacliPath, args.join(" "));
 
@@ -26,7 +26,9 @@ export async function runWacli(extra: string[], input?: string): Promise<string>
 
   const exitCode = await proc.exited;
   if (exitCode !== 0) {
-    logger.error(`wacli failed (${exitCode}):`, stderr || stdout);
+    if (!silent) {
+      logger.error(`wacli failed (${exitCode}):`, stderr || stdout);
+    }
     throw new Error(`wacli failed: ${stderr || stdout}`);
   }
 
@@ -67,7 +69,7 @@ export async function listMessagesFromThem(chatJid: string, limit: number): Prom
 
 export async function getContactName(jid: string): Promise<string | undefined> {
   try {
-    const output = await runWacli(["--read-only", "contacts", "show", "--jid", jid]);
+    const output = await runWacli(["--read-only", "contacts", "show", "--jid", jid], undefined, true);
     const data = JSON.parse(output) as { name?: string; pushName?: string };
     return data.name || data.pushName;
   } catch {
