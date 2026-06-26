@@ -48,7 +48,7 @@
 
 ## 全局标志顺序
 
-```
+```bash
 wacli [--json] [--read-only] [--account NAME] [--store DIR] [--timeout DURATION] [--full] [--events] <subcommand> ...
 ```
 
