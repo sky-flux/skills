@@ -1,94 +1,155 @@
-# Factory 页面 — 店铺子域名提取
+# Factory 黄页信息提取
 
-从 `www.1688.com/factory/b2b-xxx.html` 页面提取店铺子域名（如 `jtn1688.1688.com`）。
+## 页面特征
 
-## 方案 A：链接选择器（推荐）
+1688 factory 黄页 URL 格式：
 
-提取页面中所有指向店铺子域名的链接：
+```
+https://www.1688.com/factory/b2b-<id>.html
+```
+
+示例：
+- `https://www.1688.com/factory/b2b-2206824085.html`
+
+## 访问前检查
+
+```bash
+~/.kimi-webbridge/bin/kimi-webbridge status
+```
+
+## 提取店铺子域名
+
+Factory 页面本身通常不直接展示完整联系方式，但可以提取店铺子域名，然后跳转到 `contactinfo.htm`。
+
+### 方案 1：语义文本匹配（推荐）
+
+1688 工厂黄页的标准入口文案是 **"进旺铺"**，基于 accessibility 语义定位比 DOM 结构路径更稳定。
 
 ```javascript
 (() => {
+  const link = Array.from(document.querySelectorAll("a"))
+    .find(a => a.innerText.trim().includes("旺铺"));
+
+  return JSON.stringify({
+    found: !!link,
+    href: link ? link.href : null,
+    text: link ? link.innerText.trim() : null
+  });
+})()
+```
+
+典型结果：
+
+```json
+{
+  "found": true,
+  "href": "https://shop47qv684964q21.1688.com/?spm=...",
+  "text": "进旺铺"
+}
+```
+
+### 方案 2：子域名链接筛选
+
+```javascript
+(() => {
+  const officialDomains = [
+    "www.1688.com",
+    "s.1688.com",
+    "detail.1688.com",
+    "sale.1688.com",
+    "r.1688.com",
+    "cx.1688.com",
+    "auth.1688.com",
+    "login.1688.com"
+  ];
+
   const links = Array.from(document.querySelectorAll("a[href]"))
     .map(a => a.href)
     .filter(h => {
       const isSubdomain = /[a-zA-Z0-9_-]+\.1688\.com/.test(h);
-      const isNotOfficial = !h.includes("www.1688.com")
-        && !h.includes("s.1688.com")
-        && !h.includes("detail.1688.com")
-        && !h.includes("sale.1688.com")
-        && !h.includes("r.1688.com")
-        && !h.includes("cx.1688.com");
+      const isNotOfficial = !officialDomains.some(d => h.includes(d));
       return isSubdomain && isNotOfficial;
     });
+
   const unique = [...new Set(links)];
   return JSON.stringify(unique.slice(0, 5));
 })()
 ```
 
-## 方案 B：正则匹配 HTML 源码
-
-从完整 HTML 中匹配子域名模式：
+### 方案 3：HTML 源码正则兜底
 
 ```javascript
 (() => {
+  const officialDomains = [
+    "www.1688.com",
+    "s.1688.com",
+    "detail.1688.com",
+    "sale.1688.com",
+    "r.1688.com",
+    "cx.1688.com",
+    "auth.1688.com",
+    "login.1688.com"
+  ];
+
   const html = document.documentElement.innerHTML;
   const matches = html.match(/[a-zA-Z0-9_-]+\.1688\.com/g);
-  const exclude = [
-    "www.1688.com", "s.1688.com", "detail.1688.com",
-    "sale.1688.com", "r.1688.com", "cx.1688.com",
-    "auth.1688.com", "login.1688.com"
-  ];
   const unique = [...new Set(matches || [])]
-    .filter(d => !exclude.includes(d));
+    .filter(d => !officialDomains.includes(d));
+
   return JSON.stringify(unique.slice(0, 5));
 })()
 ```
 
-## 方案 C：提取公司基本信息
+## 提取公司公开信息
 
-同时提取公司名和子域名：
-
-```javascript
-(() => {
-  const html = document.documentElement.innerHTML;
-  const domainMatches = html.match(/[a-zA-Z0-9_-]+\.1688\.com/g);
-  const exclude = [
-    "www.1688.com", "s.1688.com", "detail.1688.com",
-    "sale.1688.com", "r.1688.com", "cx.1688.com"
-  ];
-  const domains = [...new Set(domainMatches || [])]
-    .filter(d => !exclude.includes(d));
-
-  const titleEl = document.querySelector("h1, title");
-  const title = titleEl ? titleEl.innerText.trim() : "";
-  const companyMatch = title.match(/^(.+?)-企业信息查询黄页/);
-  const company = companyMatch ? companyMatch[1] : title;
-
-  return JSON.stringify({ company, domains });
-})()
-```
-
-## 输出示例
-
-```json
-{
-  "company": "广州金铁牛货架有限公司",
-  "domains": ["jtn1688.1688.com"]
-}
-```
-
-## 备选：从询价表单提取手机号
-
-部分 factory 页面的"立即询价"右侧表单会预填联系人手机号：
+如果无法获取子域名，尝试从 factory 页面右侧"立即询价"表单提取公开手机号：
 
 ```javascript
 (() => {
-  const inputs = Array.from(document.querySelectorAll("input"));
-  const phoneInput = inputs.find(i =>
-    i.value && /^1[3-9]\d{9}$/.test(i.value.trim())
-  );
+  const text = document.body.innerText;
+  const lines = text.split(String.fromCharCode(10))
+    .map(l => l.trim())
+    .filter(l => l.length > 0);
+
+  const phoneRegex = /1[3-9]\d{9}/g;
+  const phones = [];
+  for (const line of lines) {
+    const matches = line.match(phoneRegex);
+    if (matches) phones.push(...matches);
+  }
+
+  const unique = [...new Set(phones)];
   return JSON.stringify({
-    mobile: phoneInput ? phoneInput.value.trim() : null
+    url: window.location.href,
+    mobileFromPage: unique.slice(0, 3)
   });
 })()
 ```
+
+## 构造 Contactinfo URL
+
+从子域名构造联系方式页面 URL：
+
+```
+https://<子域名>/page/contactinfo.htm
+```
+
+例如子域名为 `jtn1688.1688.com`，则：
+
+```
+https://jtn1688.1688.com/page/contactinfo.htm
+```
+
+## 常见问题
+
+### 页面无法打开或 tab 被关闭
+部分 1688 页面会触发弹窗或重定向，导致 session tab 被关闭。如遇 `session tab was closed` 错误，重新执行一次 `navigate` 即可（建议使用新的 session 名）。
+
+### 找不到"旺铺"链接
+- 该 factory 可能没有独立旺铺
+- 使用方案 2 或方案 3 从所有链接/源码中匹配
+- 仍失败则跳过该 factory
+
+### 页面被重定向到登录
+- 跳过该 factory
+- 继续处理下一个
