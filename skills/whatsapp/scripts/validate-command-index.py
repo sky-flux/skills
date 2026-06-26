@@ -2,7 +2,6 @@
 """Validate references/command-index.md integrity rules."""
 
 import json
-import re
 import sys
 from pathlib import Path
 

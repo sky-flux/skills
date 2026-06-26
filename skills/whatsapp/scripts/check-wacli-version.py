@@ -5,7 +5,6 @@ import json
 import re
 import subprocess
 import sys
-from pathlib import Path
 
 TARGET_MAJOR = 0
 TARGET_MINOR = 11
@@ -44,4 +43,4 @@ if __name__ == "__main__":
     wacli_bin = sys.argv[1] if len(sys.argv) > 1 else "wacli"
     result = check(wacli_bin)
     print(json.dumps(result, indent=2))
-    sys.exit(0 if result.get("supported") else 0)
+    sys.exit(0 if result.get("supported") else 1)
