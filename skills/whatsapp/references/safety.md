@@ -6,8 +6,11 @@
 |------|------|------|
 | `auth` | 写 | QR/电话码配对，禁止 `--read-only` |
 | `auth status` | 读 | 必须 `--read-only` |
-| `accounts add/remove/use <NAME>` | 写 | 禁止 `--read-only`；`NAME` 为位置参数 |
-| `accounts list/show <NAME>` | 读 | 必须 `--read-only`；`NAME` 为位置参数 |
+| `accounts add <NAME> [--store <DIR>]` | 写 | `NAME` 为位置参数 |
+| `accounts remove <NAME>` | 写 | `NAME` 为位置参数 |
+| `accounts use <NAME>` | 写 | `NAME` 为位置参数 |
+| `accounts list` | 读 | 必须 `--read-only` |
+| `accounts show <NAME>` | 读 | 必须 `--read-only`；`NAME` 为位置参数 |
 | `sync` 及所有变体 | 写 | 包括 `--follow`, `--once`, `--refresh-*`, `--download-media`, `--webhook` |
 | `history coverage` | 读 | 必须 `--read-only` |
 | `history fill --dry-run` | 读 | 必须 `--read-only` |
