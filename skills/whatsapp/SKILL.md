@@ -88,3 +88,38 @@ wacli --json --read-only media download --chat <CHAT> --id <MSG_ID> --output <PA
 ```
 
 完整命令列表见 `references/command-index.md`。
+
+## 7. 自动化与 Webhook
+
+如需实现全自动/半自动消息回复、监听 incoming messages、与 AI Agent CLI 集成，参考 `references/automation.md`。
+
+**推荐：** 使用 `services/agent-bridge/` 下已实现的 Bun daemon，它自动管理 `wacli sync --webhook`、AI 回复生成、首次消息判断、草稿队列和 SQLite 持久化，并支持编译为独立二进制。
+
+```bash
+cd services/agent-bridge
+bun install
+export WAB_AI_PROVIDER=claude   # 或 kimi / codex / opcode / api / mock
+export WAB_MODE=manual          # manual 半自动，auto 全自动
+bun run dev
+```
+
+编译为二进制：
+
+```bash
+bun run build:bin
+./bin/whatsapp-agent-bridge
+```
+
+核心命令（手动集成时）：
+
+```bash
+wacli --json sync --webhook http://127.0.0.1:8787/whatsapp-webhook
+```
+
+## 参考资料
+
+- `references/safety.md` — 读/写命令分类
+- `references/install.md` — wacli 安装指南
+- `references/command-index.md` — 完整命令索引
+- `references/error-handling.md` — 错误码与恢复
+- `references/automation.md` — Webhook 自动化、自动回复、AI Agent CLI 集成

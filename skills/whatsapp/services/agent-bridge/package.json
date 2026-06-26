@@ -1,0 +1,20 @@
+{
+  "name": "whatsapp-agent-bridge",
+  "version": "1.0.0",
+  "description": "WhatsApp webhook bridge for AI agent auto-reply and draft review",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "start": "bun run dist/index.js",
+    "build": "bun build src/index.ts --compile --outfile dist/whatsapp-agent-bridge",
+    "build:bin": "bun build src/index.ts --compile --outfile bin/whatsapp-agent-bridge"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

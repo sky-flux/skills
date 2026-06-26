@@ -4,7 +4,7 @@
 
 Send messages, search chats, sync history, manage contacts/groups/channels, and download media through the WhatsApp CLI via [`wacli`](https://github.com/openclaw/wacli).
 
-**Core idea:** Natural-language WhatsApp tasks are translated into safe `wacli` invocations, with clear read/write separation and recipient disambiguation.
+**Core idea:** Natural-language WhatsApp tasks are translated into safe `wacli` invocations, with clear read/write separation and recipient disambiguation. For automation, `wacli sync --webhook` can push incoming messages to a local server for auto-reply or AI-agent-assisted review.
 
 ---
 
@@ -70,9 +70,36 @@ wacli --json sync --once
 wacli --json --read-only media download --chat "+1234567890" --id "<MSG_ID>" --output ./downloads
 ```
 
+## Automation
+
+Build a fully or semi-automated WhatsApp assistant using the included Bun daemon:
+
+```bash
+cd services/agent-bridge
+bun install
+export WAB_AI_PROVIDER=claude  # or kimi / codex / opcode / api / mock
+export WAB_MODE=manual         # manual = draft review, auto = auto-send
+bun run dev
+```
+
+Compile to a standalone binary:
+
+```bash
+bun run build:bin
+./bin/whatsapp-agent-bridge
+```
+
+The daemon:
+- Starts `wacli sync --webhook` automatically.
+- Detects first-time messages.
+- Calls your chosen AI Agent CLI to generate replies.
+- Runs in `manual` mode by default (drafts queued for review).
+- Supports `auto` mode for trusted contacts.
+
 ## References
 
 - `references/safety.md` — Read/write command classification
 - `references/install.md` — wacli installation guide
 - `references/command-index.md` — Full command reference
 - `references/error-handling.md` — Error codes and recovery
+- `references/automation.md` — Webhook automation, auto-reply, AI Agent CLI integration
