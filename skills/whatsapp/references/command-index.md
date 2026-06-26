@@ -34,22 +34,22 @@
 | `send file --to <RECIPIENT> --file <PATH>` | 写 | `send.md` | 发送前验证文件 |
 | `send sticker --to <RECIPIENT> --file <PATH>` | 写 | `send.md` | |
 | `send voice --to <RECIPIENT> --file <PATH>` | 写 | `send.md` | |
-| `send react --to <RECIPIENT> --id <ID> --reaction <EMOJI>` | 写 | `send.md` | |
+| `send react --to <RECIPIENT> --id <MSG_ID> --reaction <EMOJI>` | 写 | `send.md` | |
 | `send poll --to <RECIPIENT> --question <QUESTION> --option <OPTION>...` | 写 | `send.md` | 重复 `--option` |
 | `send status --text <TEXT>` / `--file <PATH>` | 写 | `send.md` | |
-| `send select --to <RECIPIENT> --id <ID> --label <TEXT>` | 写 | `send.md` | 也可用 `--button-id` 或 `--index` |
-| `poll vote --to <CHAT> --id <ID> --option <OPTION>` | 写 | `send.md` | |
+| `send select --to <RECIPIENT> --id <MSG_ID> --label <TEXT>` | 写 | `send.md` | 也可用 `--button-id` 或 `--index` |
+| `poll vote --to <CHAT> --id <MSG_ID> --option <OPTION>` | 写 | `send.md` | |
 | `polls list` | 读 | `send.md` | `--read-only`；无 `--to` |
 | `messages search <QUERY>` | 读 | `messages.md` | `--read-only` |
 | `messages list` | 读 | `messages.md` | `--read-only` |
-| `messages show --chat <CHAT> --id <ID>` | 读 | `messages.md` | `--read-only` |
-| `messages context --chat <CHAT> --id <ID>` | 读 | `messages.md` | `--read-only` |
+| `messages show --chat <CHAT> --id <MSG_ID>` | 读 | `messages.md` | `--read-only` |
+| `messages context --chat <CHAT> --id <MSG_ID>` | 读 | `messages.md` | `--read-only` |
 | `messages export [--chat <CHAT>] --output <PATH>` | 读 | `messages.md` | `--read-only` |
 | `messages starred` | 读 | `messages.md` | `--read-only` |
-| `messages edit --chat <CHAT> --id <ID> --message <TEXT>` | 写 | `messages-mutate.md` | |
-| `messages delete --chat <CHAT> --id <ID>` | 写 | `messages-mutate.md` | |
-| `messages revoke --chat <CHAT> --id <ID>` | 写 | `messages-mutate.md` | |
-| `messages forward --chat <CHAT> --id <ID> --to <RECIPIENT>` | 写 | `messages-mutate.md` | |
+| `messages edit --chat <CHAT> --id <MSG_ID> --message <TEXT>` | 写 | `messages-mutate.md` | |
+| `messages delete --chat <CHAT> --id <MSG_ID>` | 写 | `messages-mutate.md` | |
+| `messages revoke --chat <CHAT> --id <MSG_ID>` | 写 | `messages-mutate.md` | |
+| `messages forward --chat <CHAT> --id <MSG_ID> --to <RECIPIENT>` | 写 | `messages-mutate.md` | |
 | `contacts search <QUERY>` | 读 | `addressbook.md` | `--read-only` |
 | `contacts show --jid <JID>` | 读 | `addressbook.md` | `--read-only` |
 | `contacts alias set/rm --jid <JID>` | 写 | `addressbook.md` | |
@@ -72,8 +72,8 @@
 | `groups join/leave/prune/refresh/info` | 写 | `addressbook.md` | `--jid` |
 | `channels list/info/join/leave` | 写 | `addressbook.md` | `--jid` |
 | `calls list` | 读 | `calls.md` | `--read-only` |
-| `media download --chat <CHAT> --id <ID> --output <PATH>` | 读 | `send.md` / `messages.md` | 显式 `--output` 外部路径为读 |
-| `media download --chat <CHAT> --id <ID>` | 写 | `send.md` / `messages.md` | 默认 store media 目录输出 |
+| `media download --chat <CHAT> --id <MSG_ID> --output <PATH>` | 读 | `send.md` / `messages.md` | 显式 `--output` 外部路径为读 |
+| `media download --chat <CHAT> --id <MSG_ID>` | 写 | `send.md` / `messages.md` | 默认 store media 目录输出 |
 | `profile business/get-about/picture-info --jid <JID>` | 写 | `profile-presence.md` | 禁止 `--read-only` |
 | `profile remove-picture` | 写 | `profile-presence.md` | |
 | `profile set-about --about <TEXT>` | 写 | `profile-presence.md` | |

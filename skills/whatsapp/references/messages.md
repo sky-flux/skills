@@ -56,3 +56,19 @@ wacli --json --read-only messages export [--chat <CHAT>] --output <PATH> [--limi
 ```bash
 wacli --json --read-only messages starred [--chat <CHAT>] [--limit <N>]
 ```
+
+## 媒体下载
+
+`media download` 默认将媒体写入 store media 目录（写操作）。若指定 store 外部的 `--output <PATH>`，则可作为读操作并追加 `--read-only`。
+
+### 默认输出（写操作）
+
+```bash
+wacli --json media download --chat <CHAT> --id <MSG_ID>
+```
+
+### 指定外部路径（读操作）
+
+```bash
+wacli --json --read-only media download --chat <CHAT> --id <MSG_ID> --output <PATH>
+```
