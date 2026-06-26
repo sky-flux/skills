@@ -2,9 +2,9 @@
 
 **English** | [中文](./README.zh-CN.md)
 
-Find Alibaba China (1688.com) wholesale suppliers and extract complete contact information via Google Search + Kimi WebBridge.
+Find Alibaba China (1688.com) wholesale suppliers and extract complete contact information via Bing/Google Search + Kimi WebBridge.
 
-**Core idea:** Search Google for 1688 factory pages → extract shop subdomains → visit contactinfo pages → get phone, mobile, address, and contact person.
+**Core idea:** Search Bing/Google for 1688 factory pages → extract shop subdomains → visit contactinfo pages → get phone, mobile, address, and contact person; supplement missing contact info via Tianyancha (Kimi) or Bing/Google search.
 
 ---
 
@@ -43,13 +43,13 @@ Search 1688 for warehouse shelf manufacturers, get 3 suppliers' phone numbers
 
 ## How It Works
 
-1. **Google Search** — `site:1688.com/factory <product>` finds factory pages without triggering reCAPTCHA
+1. **Google/Bing Search** — `site:1688.com/factory <product>` finds factory pages; Bing is preferred to avoid CAPTCHA
 2. **Extract URLs** — Parse search results for `www.1688.com/factory/...` links
 3. **Visit Factory Pages** — Load each factory yellow page
 4. **Extract Subdomains** — Find shop links (e.g., `xxx.1688.com`) via accessibility tree or text matching
 5. **Visit Contactinfo** — Navigate to `https://<subdomain>.1688.com/page/contactinfo.htm`
 6. **Extract Contacts** — Parse phone, mobile, address, contact person from the page
-7. **Supplement (Optional)** — If contact person is missing, search Google for business registration info
+7. **Supplement (Optional)** — If contact person is missing, query Tianyancha first when using Kimi; otherwise fall back to Bing/Google search for business registration info
 
 ## Output Format
 
