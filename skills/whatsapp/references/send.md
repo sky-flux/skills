@@ -43,6 +43,12 @@ wacli --json send poll --to <RECIPIENT> --question "<QUESTION>" --option "opt1" 
 wacli --json poll vote --to <CHAT> --id <MSG_ID> --option "<OPTION>" [--sender <JID>]
 ```
 
+## 投票列表（只读）
+
+```bash
+wacli --json --read-only polls list
+```
+
 ## 状态广播
 
 ```bash

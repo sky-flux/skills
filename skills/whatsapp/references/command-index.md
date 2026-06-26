@@ -73,7 +73,10 @@
 | `calls list` | 读 | `calls.md` | `--read-only` |
 | `media download --chat <CHAT> --id <ID> --output <PATH>` | 读 | `send.md` / `messages.md` | 显式 `--output` 外部路径为读 |
 | `profile business/get-about/picture-info --jid <JID>` | 写 | `profile-presence.md` | 禁止 `--read-only` |
-| `profile remove-picture/set-about/set-name/set-picture` | 写 | `profile-presence.md` | |
+| `profile remove-picture` | 写 | `profile-presence.md` | |
+| `profile set-about --about <TEXT>` | 写 | `profile-presence.md` | |
+| `profile set-name --name <NAME>` | 写 | `profile-presence.md` | |
+| `profile set-picture <PATH>` | 写 | `profile-presence.md` | `<PATH>` 位置参数 |
 | `presence typing/paused --to <R>` | 写 | `profile-presence.md` | |
 | `doctor` | 读 | `profile-presence.md` | `--read-only` |
 | `doctor --connect` | 写 | `profile-presence.md` | |
