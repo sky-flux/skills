@@ -66,7 +66,12 @@
 | `chats cleanup --chat <CHAT>` | 写 | `addressbook.md` | |
 | `groups list` | 读 | `addressbook.md` | `--read-only` |
 | `groups requests list --jid <GID>` | 读 | `addressbook.md` | `--read-only` |
-| `groups create/rename/topic/description/announce-only/locked` | 写 | `addressbook.md` | |
+| `groups create --name <NAME> --user <JID>...` | 写 | `addressbook.md` | |
+| `groups rename --jid <GID> --name <NEW_NAME>` | 写 | `addressbook.md` | |
+| `groups topic --jid <GID> --text <TOPIC>` | 写 | `addressbook.md` | |
+| `groups description --jid <GID> --description <DESC>` | 写 | `addressbook.md` | |
+| `groups announce-only --jid <GID> [--enable\|--disable]` | 写 | `addressbook.md` | |
+| `groups locked --jid <GID> [--enable\|--disable]` | 写 | `addressbook.md` | |
 | `groups participants add/remove/promote/demote --jid <GID> --user <JID>` | 写 | `addressbook.md` | `--user` singular |
 | `groups requests approve/reject --jid <GID> --user <JID>` | 写 | `addressbook.md` | |
 | `groups invite link get/revoke --jid <GID>` | 写 | `addressbook.md` | |
