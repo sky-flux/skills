@@ -52,7 +52,8 @@
 | `messages forward --chat <CHAT> --id <MSG_ID> --to <RECIPIENT>` | 写 | `messages-mutate.md` | |
 | `contacts search <QUERY>` | 读 | `addressbook.md` | `--read-only` |
 | `contacts show --jid <JID>` | 读 | `addressbook.md` | `--read-only` |
-| `contacts alias set/rm --jid <JID>` | 写 | `addressbook.md` | |
+| `contacts alias set --jid <JID> --alias <ALIAS>` | 写 | `addressbook.md` | |
+| `contacts alias rm --jid <JID>` | 写 | `addressbook.md` | |
 | `contacts tags add/rm --jid <JID> --tag <TAG>` | 写 | `addressbook.md` | `--tag` singular |
 | `contacts import-system` | 写 | `addressbook.md` | |
 | `contacts refresh` | 写 | `addressbook.md` | |
@@ -69,8 +70,15 @@
 | `groups participants add/remove/promote/demote --jid <GID> --user <JID>` | 写 | `addressbook.md` | `--user` singular |
 | `groups requests approve/reject --jid <GID> --user <JID>` | 写 | `addressbook.md` | |
 | `groups invite link get/revoke --jid <GID>` | 写 | `addressbook.md` | |
-| `groups join/leave/prune/refresh/info` | 写 | `addressbook.md` | `--jid` |
-| `channels list/info/join/leave` | 写 | `addressbook.md` | `--jid` |
+| `groups info --jid <GID>` | 写 | `addressbook.md` | |
+| `groups refresh --jid <GID>` | 写 | `addressbook.md` | |
+| `groups join --link <INVITE_LINK>` | 写 | `addressbook.md` | |
+| `groups leave --jid <GID>` | 写 | `addressbook.md` | |
+| `groups prune --jid <GID>` | 写 | `addressbook.md` | |
+| `channels list` | 写 | `addressbook.md` | |
+| `channels info --jid <NEWSLETTER_JID>` | 写 | `addressbook.md` | |
+| `channels join --jid <NEWSLETTER_JID>` | 写 | `addressbook.md` | |
+| `channels leave --jid <NEWSLETTER_JID>` | 写 | `addressbook.md` | |
 | `calls list` | 读 | `calls.md` | `--read-only` |
 | `media download --chat <CHAT> --id <MSG_ID> --output <PATH>` | 读 | `messages.md` | 显式 `--output` 外部路径为读 |
 | `media download --chat <CHAT> --id <MSG_ID>` | 写 | `messages.md` | 默认 store media 目录输出 |
