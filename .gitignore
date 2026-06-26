@@ -6,3 +6,9 @@
 reddit-workspace/
 .claude/worktrees/
 .worktrees/
+
+# Python test/build artifacts
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
