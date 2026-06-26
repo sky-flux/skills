@@ -100,6 +100,81 @@ Factory 页面本身通常不直接展示完整联系方式，但可以提取店
 })()
 ```
 
+## 提取主营产品
+
+在 factory 黄页或旺铺首页提取 `mainProducts`，用于产品匹配评分和供应商数据库建设。
+
+### 方案 1：页面文本匹配（推荐）
+
+```javascript
+(() => {
+  const text = document.body.innerText;
+  const lines = text.split(String.fromCharCode(10))
+    .map(l => l.trim())
+    .filter(l => l.length > 0 && l.length < 100);
+
+  const patterns = [
+    /主营产品[：:]\s*(.+)/,
+    /主营[：:]\s*(.+)/,
+    /主营行业[：:]\s*(.+)/,
+    /产品分类[：:]\s*(.+)/,
+    /主要产品[：:]\s*(.+)/
+  ];
+
+  const products = [];
+  for (const p of patterns) {
+    for (const line of lines) {
+      const m = line.match(p);
+      if (m && m[1]) {
+        products.push(...m[1].split(/[,，、;；]/).map(s => s.trim()).filter(s => s.length > 1));
+      }
+    }
+  }
+
+  const unique = [...new Set(products)].slice(0, 20);
+  return JSON.stringify({ url: window.location.href, mainProducts: unique });
+})()
+```
+
+### 方案 2：从分类/标签区提取
+
+```javascript
+(() => {
+  const selectors = [
+    '[class*="category"]',
+    '[class*="fenlei"]',
+    '[class*="product-type"]',
+    '[class*="main-product"]'
+  ];
+  const products = [];
+  for (const s of selectors) {
+    document.querySelectorAll(s).forEach(el => {
+      const t = el.innerText.trim();
+      if (t && t.length < 50) products.push(t);
+    });
+  }
+
+  const links = Array.from(document.querySelectorAll('a'))
+    .map(a => a.innerText.trim())
+    .filter(t => /主营|产品|分类/.test(t) && t.length < 50);
+  products.push(...links);
+
+  const unique = [...new Set(products)].slice(0, 20);
+  return JSON.stringify({ url: window.location.href, mainProducts: unique });
+})()
+```
+
+**输出示例：**
+
+```json
+{
+  "url": "https://www.1688.com/factory/b2b-xxx.html",
+  "mainProducts": ["轴承", "深沟球轴承", "圆锥滚子轴承", "汽车轴承"]
+}
+```
+
+提取到的 `mainProducts` 需持久化到供应商数据库，作为后续检索、分类和二次筛选字段。
+
 ## 提取公司公开信息
 
 如果无法获取子域名，尝试从 factory 页面右侧"立即询价"表单提取公开手机号：

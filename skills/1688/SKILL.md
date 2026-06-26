@@ -17,6 +17,7 @@ description: Use when the user wants to find 1688.com suppliers, factories, or m
 - `references/logistics-seaports.md` — 主要海运口岸（港口海关）
 - `references/logistics-land-ports.md` — 主要陆运口岸（边境/跨境关口）
 - `references/logistics-scoring.md` — 基于口岸距离的工厂物流评分
+- `references/factory-scoring.md` — 工厂综合评分与排序指南（信息完整度、工商可信度、规模、成立年限、产品匹配度、活跃度、合作伙伴、资质、风险）
 
 ## 前置检查
 
@@ -52,7 +53,7 @@ Step 4: 提取结果中的 factory 页面 URL 列表
     ↓
 Step 5: 逐个访问 factory 页面
     ↓
-Step 6: 从页面提取公司名 + 店铺子域名链接
+Step 6: 提取公司名 + 店铺子域名链接 + 主营产品
     ↓
 Step 7: 构造 contactinfo URL
     ↓
@@ -65,6 +66,8 @@ Step 10: 提取联系方式 或 执行 fallback/人工验证
 Step 11: 补充工商信息（天眼查优先，Bing/Google 备选）
     ↓
 Step 12: 物流评分（计算到最近空/海/陆口岸距离）
+    ↓
+Step 13: 综合评分与排序（多维度打分，按总分降序）
 ```
 
 ## Step 1 & 2: 搜索引擎选择与搜索
@@ -194,9 +197,15 @@ curl -s -X POST http://127.0.0.1:10086/command \
 
 > **注意**：部分 1688 页面可能触发弹窗或重定向，导致 session tab 被关闭。如遇 `session tab was closed` 错误，重新执行一次 `navigate` 即可（使用新的 session 名如 `1688-test-2`）。
 
-## Step 6: 提取店铺子域名
+## Step 6: 提取店铺子域名与主营产品
 
-从 factory 页面提取店铺子域名链接（格式：`xxx.1688.com`）。**1688 工厂黄页的标准入口文案是"进旺铺"**，基于 accessibility 语义定位比 DOM 结构路径更稳定。
+从 factory 页面提取两部分信息：
+1. **店铺子域名链接**（格式：`xxx.1688.com`），用于构造 contactinfo URL。
+2. **主营产品列表**，用于后续产品匹配评分和供应商数据库建设。
+
+### 6.1 提取店铺子域名
+
+**1688 工厂黄页的标准入口文案是"进旺铺"**，基于 accessibility 语义定位比 DOM 结构路径更稳定。
 
 ### 方案 1（推荐）：Evaluate 语义文本匹配
 
@@ -243,6 +252,49 @@ curl -s -X POST http://127.0.0.1:10086/command \
     "session": "1688-supplier-search"
   }'
 ```
+
+### 6.2 提取主营产品
+
+在 factory 黄页或旺铺首页提取主营产品/主营类目，用于产品匹配评分和供应商数据库归档。
+
+**方案 1：页面文本匹配（推荐）**
+
+```bash
+curl -s -X POST http://127.0.0.1:10086/command \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "action": "evaluate",
+    "args": {
+      "code": "(() => { const text = document.body.innerText; const lines = text.split(String.fromCharCode(10)).map(l => l.trim()).filter(l => l.length > 0 && l.length < 100); const patterns = [/主营产品[：:]\s*(.+)/, /主营[：:]\s*(.+)/, /主营行业[：:]\s*(.+)/, /产品分类[：:]\s*(.+)/, /主要产品[：:]\s*(.+)/]; const products = []; for (const p of patterns) { for (const line of lines) { const m = line.match(p); if (m && m[1]) { products.push(...m[1].split(/[,，、;；]/).map(s => s.trim()).filter(s => s.length > 1)); } } } const unique = [...new Set(products)].slice(0, 20); return JSON.stringify({url: window.location.href, mainProducts: unique}); })()"
+    },
+    "session": "1688-supplier-search"
+  }'
+```
+
+**方案 2：从分类/标签区提取**
+
+```bash
+curl -s -X POST http://127.0.0.1:10086/command \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "action": "evaluate",
+    "args": {
+      "code": "(() => { const selectors = ['[class*=\"category\"]', '[class*=\"fenlei\"]', '[class*=\"product-type\"]', '[class*=\"main-product\"]']; const products = []; for (const s of selectors) { document.querySelectorAll(s).forEach(el => { const t = el.innerText.trim(); if (t && t.length < 50) products.push(t); }); } const links = Array.from(document.querySelectorAll('a')).map(a => a.innerText.trim()).filter(t => /主营|产品|分类/.test(t) && t.length < 50); products.push(...links); const unique = [...new Set(products)].slice(0, 20); return JSON.stringify({url: window.location.href, mainProducts: unique}); })()"
+    },
+    "session": "1688-supplier-search"
+  }'
+```
+
+**输出示例：**
+
+```json
+{
+  "url": "https://www.1688.com/factory/b2b-xxx.html",
+  "mainProducts": ["轴承", "深沟球轴承", "圆锥滚子轴承", "汽车轴承"]
+}
+```
+
+提取到的 `mainProducts` 需持久化到供应商数据库，作为后续检索、分类和二次筛选字段。
 
 ## Step 7: 构造 Contactinfo URL
 
@@ -449,19 +501,70 @@ https://www.google.com/search?q=<url_encode(公司名称)>+电话+联系人
 | `物流距离分` | 0-10 |
 | `物流优先级` | 高（8-10）/ 中（4-7）/ 低（0-3） |
 
-### 12.6 融入总评分
+### 12.6 物流分的用途
 
-建议工厂总评分结构：
+物流距离分（0-10）作为工厂综合评分的一个维度输入，详见 Step 13。
 
-| 维度 | 权重 |
+## Step 13: 综合评分与排序
+
+对每家工厂按 `references/factory-scoring.md` 进行多维度打分，最终按总分降序输出。
+
+### 13.1 评分维度与默认权重
+
+| 维度 | 权重 | 关键数据来源 |
+|------|------|-------------|
+| 信息完整度 | 18.5% | 1688 contactinfo / 店铺页（电话、手机、地址、联系人、邮箱等） |
+| 企业官网 | 1.5% | 1688 店铺页 / 搜索引擎 / 天眼查（独立官网、可访问性、内容丰富度） |
+| 域名注册时间 | 1% | WHOIS / 域名注册信息 |
+| 工商可信度 | 15% | 天眼查（Kimi）/ Google / Bing（存续状态、注册资本、法人、参保人数、交叉验证） |
+| 公司规模与实力 | 15% | 天眼查 / 1688 店铺页（参保人数、注册资本、厂房面积、年营业额） |
+| 工厂成立时长 | 10% | 天眼查成立日期 |
+| 1688 店铺开店时长 | 5% | 1688 店铺页开店时间 |
+| 产品匹配度 | 15% | 1688 factory 页与搜索关键词匹配程度 |
+| 物流距离 | 15% | Step 12 计算的口岸距离分 |
+| 1688 活跃度 | 5% | 店铺等级、响应率、近 90 天成交、回头率 |
+| 合作伙伴/客户背书 | 3% | 是否给大牌代工、自主品牌、出口经验、客户案例 |
+| 资质认证 | 1% | ISO、CE、FDA、SGS 等证书 |
+| 风险扣分 | - | 经营异常、司法诉讼、行政处罚、失信记录、交叉验证矛盾等 |
+
+### 13.2 关键区别
+
+- **工厂成立时长**：企业工商注册成立时间，反映公司历史和稳定性。
+- **1688 店铺开店时长**：在 1688 平台开店的年限，反映线上运营经验和平台信誉。
+- **域名注册时间**：官网域名注册年限，反映线上品牌沉淀时间。
+- **企业官网**：是否有独立官网、官网质量，用于判断企业实力和正规程度。
+- **合作伙伴关系**：给大牌代工、有自主品牌、出口大客户经验等，均属于客户背书。
+- **Google/Bing 交叉验证**：通过搜索引擎验证公司名、电话、地址、官网是否一致，发现矛盾信息则降权。
+
+### 13.3 最终排序规则
+
+1. 按 **最终总分降序**。
+2. 总分相同：
+   - 产品匹配度高的优先
+   - 物流距离分高的优先
+   - 信息完整度高的优先
+   - 工厂成立时间长的优先
+3. 用户明确偏好时，按 `references/factory-scoring.md` 调整权重后再排序。
+
+### 13.4 输出字段
+
+在结果表格中增加：
+
+| 列名 | 说明 |
 |------|------|
-| 信息完整度 | 30% |
-| 工商信息可信度 | 20% |
-| 物流距离 | 25% |
-| 响应/活跃度 | 15% |
-| 产能/规模 | 10% |
-
-**物流距离分越高，总评分越高，排序越靠前。**
+| `产品匹配` | 0-10 |
+| `工商可信` | 0-10 |
+| `规模` | 0-10 |
+| `成立` | 0-10 |
+| `1688店龄` | 0-10 |
+| `物流` | 0-10 |
+| `活跃` | 0-10 |
+| `合作背书` | 0-10 |
+| `官网` | 0-10 |
+| `域名` | 0-10 |
+| `风险扣分` | 负分 |
+| `总分` | 0-10 |
+| `优先级` | 高 / 中 / 低 |
 
 ## Fallback 策略
 
@@ -487,10 +590,10 @@ https://www.google.com/search?q=<url_encode(公司名称)>+电话+联系人
 
 ### 基础信息表
 
-| 公司 | 电话 | 手机 | 地址 | 联系人 | 店铺 | 最近口岸 | 运输方式 | 物流分 | 状态 |
-|------|------|------|------|--------|------|---------|---------|--------|------|
-| 邢台博扬轴承制造有限公司 | 86 0319 8568899 | 13739693628 | 河北省邢台市... | 柏天顺先生 | xybyzz.1688.com | 天津港 | 海运 | 6 | 成功 |
-| 永康市国一轴承有限公司 | — | — | — | — | shop970622u5n31i0.1688.com | — | — | 0 | Slider 验证待完成 |
+| 公司 | 主营产品 | 电话 | 手机 | 地址 | 联系人 | 店铺 | 最近口岸 | 运输方式 | 物流分 | 状态 |
+|------|---------|------|------|------|--------|------|---------|---------|--------|------|
+| 邢台博扬轴承制造有限公司 | 轴承、深沟球轴承 | 86 0319 8568899 | 13739693628 | 河北省邢台市... | 柏天顺先生 | xybyzz.1688.com | 天津港 | 海运 | 6 | 成功 |
+| 永康市国一轴承有限公司 | 滚子轴承 | — | — | — | — | shop970622u5n31i0.1688.com | — | — | 0 | Slider 验证待完成 |
 
 ## 常见问题
 
