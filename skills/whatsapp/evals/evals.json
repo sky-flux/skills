@@ -1,0 +1,147 @@
+{
+  "skill_name": "whatsapp",
+  "evals": [
+    {
+      "id": 1,
+      "name": "send-text-by-jid",
+      "prompt": "Send a WhatsApp text message to 12025550123@s.whatsapp.net saying 'Running late'.",
+      "expected_command": "wacli --json send text --to 12025550123@s.whatsapp.net --message \"Running late\"",
+      "type": "happy-path"
+    },
+    {
+      "id": 2,
+      "name": "search-messages-filtered",
+      "prompt": "Search my WhatsApp messages for 'hello' from +12025550123 and only show text messages.",
+      "expected_command": "wacli --json --read-only messages search \"hello\" --from +12025550123 --type text",
+      "type": "happy-path"
+    },
+    {
+      "id": 3,
+      "name": "list-messages-from-me",
+      "prompt": "List my 50 most recent WhatsApp messages sent by me.",
+      "expected_command": "wacli --json --read-only messages list --from-me --limit 50",
+      "type": "happy-path"
+    },
+    {
+      "id": 4,
+      "name": "contact-show-and-alias",
+      "prompt": "Show contact details for 12025550123@s.whatsapp.net and set their alias to 'Mom'.",
+      "expected_commands": [
+        "wacli --json --read-only contacts show --jid 12025550123@s.whatsapp.net",
+        "wacli --json contacts alias set --jid 12025550123@s.whatsapp.net --alias \"Mom\""
+      ],
+      "type": "happy-path"
+    },
+    {
+      "id": 5,
+      "name": "groups-list-and-info",
+      "prompt": "List all my WhatsApp groups and fetch full info for the group with JID 1234567890@g.us.",
+      "expected_commands": [
+        "wacli --json --read-only groups list",
+        "wacli --json groups info --jid 1234567890@g.us"
+      ],
+      "type": "happy-path"
+    },
+    {
+      "id": 6,
+      "name": "group-invite-link-get-and-revoke",
+      "prompt": "Get the current invite link for group 1234567890@g.us, then revoke it.",
+      "expected_commands": [
+        "wacli --json groups invite link get --jid 1234567890@g.us",
+        "wacli --json groups invite link revoke --jid 1234567890@g.us"
+      ],
+      "type": "happy-path"
+    },
+    {
+      "id": 7,
+      "name": "first-trigger-missing-wacli",
+      "prompt": "Send a WhatsApp message to Mom saying hi. Assume wacli is not installed.",
+      "expected_behavior": "Provide one of the documented install methods and do not silently install.",
+      "type": "happy-path"
+    },
+    {
+      "id": 8,
+      "name": "ambiguous-recipient-pick",
+      "prompt": "Send a WhatsApp message to 'John' saying 'see you soon'. There are two matching contacts: John Smith and John Doe.",
+      "expected_behavior": "Use --pick 1 or --pick 2, or ask the user which John. Must not guess.",
+      "type": "happy-path"
+    },
+    {
+      "id": 9,
+      "name": "send-file-with-caption",
+      "prompt": "Send the file /tmp/photo.jpg to 12025550123@s.whatsapp.net with caption 'Look at this'.",
+      "expected_command": "wacli --json send file --to 12025550123@s.whatsapp.net --file /tmp/photo.jpg --caption \"Look at this\"",
+      "precondition": "file_exists",
+      "type": "happy-path"
+    },
+    {
+      "id": 10,
+      "name": "sync-once-and-backfill",
+      "prompt": "Sync WhatsApp once until idle, then backfill history for chat 12025550123@s.whatsapp.net.",
+      "expected_commands": [
+        "wacli --json sync --once",
+        "wacli --json history backfill --chat 12025550123@s.whatsapp.net"
+      ],
+      "type": "happy-path"
+    },
+    {
+      "id": 11,
+      "name": "media-download-readonly-output",
+      "prompt": "Download the media file for message id MSG_001 in chat 12025550123@s.whatsapp.net to /tmp/media.jpg.",
+      "expected_command": "wacli --json --read-only media download --chat 12025550123@s.whatsapp.net --id MSG_001 --output /tmp/media.jpg",
+      "type": "happy-path"
+    },
+    {
+      "id": 12,
+      "name": "poll-vote-in-group",
+      "prompt": "Vote for option 'Yes' on poll message POLL_001 in group 1234567890@g.us. I am the sender.",
+      "expected_command": "wacli --json poll vote --to 1234567890@g.us --id POLL_001 --option \"Yes\"",
+      "type": "happy-path"
+    },
+    {
+      "id": 13,
+      "name": "profile-business-live",
+      "prompt": "Fetch the business profile for 12025550123@s.whatsapp.net.",
+      "expected_command": "wacli --json profile business --jid 12025550123@s.whatsapp.net",
+      "expected_behavior": "Must NOT include --read-only because profile business is a write operation.",
+      "type": "happy-path"
+    },
+    {
+      "id": 14,
+      "name": "plain-text-output-request",
+      "prompt": "List my WhatsApp chats in plain text, not JSON.",
+      "expected_command": "wacli --read-only chats list",
+      "expected_behavior": "Omit --json because user explicitly requested plain text.",
+      "type": "negative"
+    },
+    {
+      "id": 15,
+      "name": "delete-message-no-readonly",
+      "prompt": "Delete WhatsApp message MSG_001 in chat 12025550123@s.whatsapp.net for everyone.",
+      "expected_command": "wacli --json messages delete --chat 12025550123@s.whatsapp.net --id MSG_001 --for-everyone",
+      "expected_behavior": "Must not include --read-only because delete is a write operation.",
+      "type": "negative"
+    },
+    {
+      "id": 16,
+      "name": "show-messages-no-recipient",
+      "prompt": "Show my WhatsApp messages.",
+      "expected_behavior": "Resolve recipient or ask for it; must not fabricate a recipient.",
+      "type": "negative"
+    },
+    {
+      "id": 17,
+      "name": "error-not-authenticated",
+      "prompt": "Send a WhatsApp text to 12025550123@s.whatsapp.net saying hi. wacli responds with error 'not authenticated'.",
+      "expected_behavior": "Run 'wacli auth' or ask the user to authenticate.",
+      "type": "negative"
+    },
+    {
+      "id": 18,
+      "name": "error-store-locked",
+      "prompt": "Send a WhatsApp text to 12025550123@s.whatsapp.net saying hi. The first attempt fails with 'store is locked'.",
+      "expected_behavior": "Retry once with --lock-wait 30s, or ask user to stop wacli sync.",
+      "type": "negative"
+    }
+  ]
+}
