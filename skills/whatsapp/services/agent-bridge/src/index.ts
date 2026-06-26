@@ -107,7 +107,7 @@ async function queueDraft(
   reply: string
 ): Promise<void> {
   await saveDraft({
-    id: `draft-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    id: Bun.randomUUIDv7(),
     chatJid,
     senderJid,
     originalMessageId,
