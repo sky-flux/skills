@@ -6,6 +6,7 @@ Usage:
 """
 import argparse
 import json
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -26,7 +27,7 @@ def run_case(case, mock_path):
     for cmd in expected:
         # Run the command through the mock shim.
         proc = subprocess.run(
-            [str(mock_path)] + cmd.split()[1:],  # strip leading 'wacli'
+            [str(mock_path)] + shlex.split(cmd)[1:],  # strip leading 'wacli'
             capture_output=True,
             text=True,
         )

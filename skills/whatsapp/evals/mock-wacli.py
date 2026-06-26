@@ -22,12 +22,14 @@ READONLY_OK = {
     "history coverage", "history fill --dry-run",
     "auth status", "accounts list", "accounts show", "version",
     "doctor", "store stats", "store cleanup --dry-run",
+    "media download --output",
 }
 WRITE_NEVER_READONLY = {
     "send", "poll vote",
     "messages edit", "messages delete", "messages revoke", "messages forward",
-    "contacts alias set", "contacts alias rm", "contacts tags add", "contacts tags rm",
+    "contacts alias set", "contacts alias rm", "contacts tags",
     "contacts import-system", "contacts refresh",
+    "media download",
     "chats archive", "chats unarchive", "chats pin", "chats unpin", "chats mute", "chats unmute",
     "chats mark-read", "chats mark-unread", "chats cleanup",
     "groups info", "groups refresh", "groups create", "groups rename", "groups topic",
@@ -76,7 +78,7 @@ def parse_args(argv):
             globals_flags.append(arg)
             i += 1
         elif arg == "--version":
-            print("wacli version 0.11.0")
+            success({"version": "0.11.0"})
             sys.exit(0)
         elif not arg.startswith("-"):
             subcommand_parts = argv[i:]
@@ -94,7 +96,12 @@ def classify(parts):
     if base == "messages" and len(parts) > 1:
         base = f"messages {parts[1]}"
     elif base == "contacts" and len(parts) > 1:
-        base = f"contacts {parts[1]}"
+        if parts[1] == "tags" and len(parts) > 2:
+            base = f"contacts tags {parts[2]}"
+        elif parts[1] == "alias" and len(parts) > 2:
+            base = f"contacts alias {parts[2]}"
+        else:
+            base = f"contacts {parts[1]}"
     elif base == "chats" and len(parts) > 1:
         base = f"chats {parts[1]}"
     elif base == "groups" and len(parts) > 1:
@@ -126,6 +133,10 @@ def classify(parts):
             base += " --dry-run"
     elif base == "doctor" and "--connect" in parts:
         base = "doctor --connect"
+    elif base == "media" and len(parts) > 1:
+        base = f"media {parts[1]}"
+        if "--output" in parts:
+            base += " --output"
     if base in READONLY_OK:
         return "read"
     if base in WRITE_NEVER_READONLY:
