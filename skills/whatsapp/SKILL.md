@@ -30,7 +30,7 @@ scope: project
 2. 读操作追加 `--read-only`；写操作确保 `--read-only` 不存在。
 3. 默认追加 `--json`，除非用户明确要求人类可读输出或命令是交互式（如 QR 码 `wacli auth`）。
 4. 如果用户指定或之前使用过 `--account NAME` 或 `--store DIR`，则加上。
-5. 所有全局标志放在 `wacli` 之后、子命令之前：顺序为 `wacli [--store DIR] [--account NAME] [--json] [--read-only] [--timeout DURATION] [--full] [--events] <subcommand> ...`。
+5. 所有全局标志放在 `wacli` 之后、子命令之前：顺序为 `wacli [--json] [--read-only] [--account NAME] [--store DIR] [--timeout DURATION] [--full] [--events] <subcommand> ...`。
 6. 接收方是否明确？如不明确，使用 `--pick N`（N 从 1 开始）或询问用户。
 7. 文件路径参数是否存在？发送前用 `ls` / `test -f` 验证。
 8. `media download` 与 `--read-only` 一起使用时，必须提供 `--output <PATH>` 且路径在 store media 目录之外。
@@ -46,7 +46,7 @@ scope: project
 - `--read-only`：读操作必须，写操作禁止。
 - `--account NAME`：多账号选择。
 - `--store DIR`：自定义 store 目录。
-- `--timeout DURATION`：非同步命令默认 `5m`。
+- `--timeout DURATION`：默认 `5m`；轻量写入命令可显式使用 `--timeout 1m`。
 - `--full`：人类可读表格时禁用截断。
 - `--events`：仅在用户明确要求事件流时开启，向 stderr 输出 NDJSON 生命周期事件。
 
@@ -68,7 +68,7 @@ scope: project
 
 ## 5. 首次使用工作流
 
-1. `which wacli || wacli --version` 检查安装。
+1. `which wacli && wacli --version` 检查安装。
 2. 未安装则按 `references/install.md` 指引安装（brew → go install → source），不得静默安装。
 3. 运行 `wacli auth` 进行 QR 配对，或 `wacli auth --phone <number>` 进行电话码配对。非 TTY 环境优先电话码。
 4. 持续后台同步运行 `wacli sync`（默认 `--follow`）；一次性同步运行 `wacli sync --once`。
