@@ -27,7 +27,8 @@ READONLY_OK = {
 WRITE_NEVER_READONLY = {
     "send", "poll vote",
     "messages edit", "messages delete", "messages revoke", "messages forward",
-    "contacts alias set", "contacts alias rm", "contacts tags",
+    "contacts alias set", "contacts alias rm",
+    "contacts tags add", "contacts tags rm",
     "contacts import-system", "contacts refresh",
     "media download",
     "chats archive", "chats unarchive", "chats pin", "chats unpin", "chats mute", "chats unmute",
