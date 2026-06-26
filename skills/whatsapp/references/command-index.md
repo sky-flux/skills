@@ -72,8 +72,8 @@
 | `groups join/leave/prune/refresh/info` | 写 | `addressbook.md` | `--jid` |
 | `channels list/info/join/leave` | 写 | `addressbook.md` | `--jid` |
 | `calls list` | 读 | `calls.md` | `--read-only` |
-| `media download --chat <CHAT> --id <MSG_ID> --output <PATH>` | 读 | `send.md` / `messages.md` | 显式 `--output` 外部路径为读 |
-| `media download --chat <CHAT> --id <MSG_ID>` | 写 | `send.md` / `messages.md` | 默认 store media 目录输出 |
+| `media download --chat <CHAT> --id <MSG_ID> --output <PATH>` | 读 | `messages.md` | 显式 `--output` 外部路径为读 |
+| `media download --chat <CHAT> --id <MSG_ID>` | 写 | `messages.md` | 默认 store media 目录输出 |
 | `profile business/get-about/picture-info --jid <JID>` | 写 | `profile-presence.md` | 禁止 `--read-only` |
 | `profile remove-picture` | 写 | `profile-presence.md` | |
 | `profile set-about --about <TEXT>` | 写 | `profile-presence.md` | |

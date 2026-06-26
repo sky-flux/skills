@@ -60,6 +60,6 @@ wacli --json send status --file <PATH> [--caption "<CAPTION>"]
 
 ```bash
 wacli --json send select --to <RECIPIENT> --id <MSG_ID> --label "<TEXT>"
-wacli --json send select --to <RECIPIENT> --id <MSG_ID> --button-id "<ID>"
+wacli --json send select --to <RECIPIENT> --id <MSG_ID> --button-id "<BUTTON_ID>"
 wacli --json send select --to <RECIPIENT> --id <MSG_ID> --index <N>
 ```
