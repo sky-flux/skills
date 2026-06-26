@@ -30,7 +30,7 @@ CGO_ENABLED=1 CGO_CFLAGS="-Wno-error=missing-braces" go install -tags sqlite_fts
 ```bash
 git clone https://github.com/openclaw/wacli.git
 cd wacli
-# 按仓库 README 执行 pnpm build 或等价的 Go build 命令
+# 按仓库 README 执行构建命令
 ```
 
 ## 版本兼容性
