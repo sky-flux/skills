@@ -103,7 +103,13 @@ export WAB_MODE=manual          # manual 半自动，auto 全自动
 bun run dev
 ```
 
-编译为二进制：
+直接运行（需要 Bun）：
+
+```bash
+./bin/whatsapp-agent-bridge
+```
+
+或编译为独立二进制（约 60MB，可选）：
 
 ```bash
 bun run build:bin

@@ -121,19 +121,33 @@ bun run src/index.ts
 bun run dev
 ```
 
-### 编译为二进制
+### 直接运行（需要 Bun）
+
+仓库已提供一个启动脚本 `bin/whatsapp-agent-bridge`，它会在本地调用 `bun run src/index.ts`：
+
+```bash
+./bin/whatsapp-agent-bridge
+```
+
+**注意：** 此脚本依赖 Bun 运行时，不需要每次重新编译。
+
+### 编译为独立二进制（可选，约 60MB）
+
+如果你需要一台没有安装 Bun 的机器也能运行，可以编译成独立二进制：
 
 ```bash
 bun run build:bin
 ```
 
-输出：`bin/whatsapp-agent-bridge`
+输出：`bin/whatsapp-agent-bridge`（会被 `.gitignore` 忽略，不建议提交到 git）
 
 直接运行：
 
 ```bash
 ./bin/whatsapp-agent-bridge
 ```
+
+> 独立二进制大小约 60MB，因为它内嵌了整个 Bun Runtime。`--minify` 对体积影响极小。
 
 ### 后台运行（macOS / Linux）
 

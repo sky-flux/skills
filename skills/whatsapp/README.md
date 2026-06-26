@@ -82,7 +82,13 @@ export WAB_MODE=manual         # manual = draft review, auto = auto-send
 bun run dev
 ```
 
-Compile to a standalone binary:
+Run directly using the included Bun launcher script:
+
+```bash
+./bin/whatsapp-agent-bridge
+```
+
+Or compile to a standalone binary (~60MB, optional):
 
 ```bash
 bun run build:bin

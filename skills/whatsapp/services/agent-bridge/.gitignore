@@ -2,6 +2,7 @@ node_modules/
 dist/
 bin/*
 !bin/whatsapp-agent-bridge
+!bin/.gitkeep
 *.log
 .DS_Store
 .env
