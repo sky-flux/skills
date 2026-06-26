@@ -7,6 +7,9 @@ reddit-workspace/
 .claude/worktrees/
 .worktrees/
 
+# WIP skill — not ready for release
+/skills/gmaps/
+
 # Python test/build artifacts
 __pycache__/
 .pytest_cache/
