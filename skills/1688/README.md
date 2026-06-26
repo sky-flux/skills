@@ -2,9 +2,9 @@
 
 **English** | [中文](./README.zh-CN.md)
 
-Find Alibaba China (1688.com) wholesale suppliers and extract complete contact information via Bing/Google Search + Kimi WebBridge.
+Find Alibaba China (1688.com) wholesale suppliers, extract complete contact information, and score them by logistics proximity to air/sea/land customs ports via Bing/Google Search + Kimi WebBridge.
 
-**Core idea:** Search Bing/Google for 1688 factory pages → extract shop subdomains → visit contactinfo pages → get phone, mobile, address, and contact person; supplement missing contact info via Tianyancha (Kimi) or Bing/Google search.
+**Core idea:** Search Bing/Google for 1688 factory pages → extract shop subdomains → visit contactinfo pages → get phone, mobile, address, and contact person → supplement missing contact info via Tianyancha (Kimi) or Bing/Google search → score factories by distance to the nearest air/sea/land customs port to reduce inland transport costs.
 
 ---
 
@@ -50,17 +50,22 @@ Search 1688 for warehouse shelf manufacturers, get 3 suppliers' phone numbers
 5. **Visit Contactinfo** — Navigate to `https://<subdomain>.1688.com/page/contactinfo.htm`
 6. **Extract Contacts** — Parse phone, mobile, address, contact person from the page
 7. **Supplement (Optional)** — If contact person is missing, query Tianyancha first when using Kimi; otherwise fall back to Bing/Google search for business registration info
+8. **Logistics Scoring** — Calculate the distance from the factory address to the nearest air/sea/land customs port; closer factories get higher priority to lower transport costs
 
 ## Output Format
 
 Results are returned as Markdown tables:
 
-| Company | Phone | Mobile | Address | Contact | Shop |
-|---------|-------|--------|---------|---------|------|
-| Example Bearing Co. | 86 010 12345678 | 13800138000 | Beijing... | Mr. Zhang | example.1688.com |
+| Company | Phone | Mobile | Address | Contact | Shop | Nearest Port | Mode | Logistics Score |
+|---------|-------|--------|---------|---------|------|--------------|------|-----------------|
+| Example Bearing Co. | 86 010 12345678 | 13800138000 | Beijing... | Mr. Zhang | example.1688.com | Tianjin Port | sea | 8 |
 
 ## References
 
-- `references/google-search.md` — Google search result extraction scripts
+- `references/search-engines.md` — Bing/Google search result extraction and block detection
 - `references/factory.md` — Factory page subdomain extraction scripts
 - `references/contact.md` — Contactinfo page contact extraction scripts
+- `references/logistics-airports.md` — Major air freight customs airports
+- `references/logistics-seaports.md` — Major sea freight customs ports
+- `references/logistics-land-ports.md` — Major land border crossings
+- `references/logistics-scoring.md` — Distance-based factory logistics scoring
