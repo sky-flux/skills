@@ -1,0 +1,11 @@
+{
+  "name": "whatsapp",
+  "version": "1.0.0",
+  "description": "WhatsApp CLI skill — send messages, search chats, sync history, manage contacts/groups/channels, and download media via wacli.",
+  "author": "martinadamsdev",
+  "tags": ["whatsapp", "wacli", "messaging", "chat", "cli", "contacts", "groups", "media"],
+  "compatibility": {
+    "requires": ["bash"],
+    "optional": ["wacli"]
+  }
+}
