@@ -8,7 +8,8 @@
         "./skills/elysiajs",
         "./skills/michelangelo",
         "./skills/reddit",
-        "./skills/whatsapp"
+        "./skills/whatsapp",
+        "./skills/gmaps"
       ]
     }
   ]
